@@ -1,0 +1,407 @@
+<examples>
+
+
+<example>
+
+<user_query>
+* Tình huống : Gồm 3 câu hỏi, không có thông tin phụ như mô tả đề thi, tiêu đề phần hay ngữ liệu chung
+
+Các tình huống cụ thể:
+Câu 1: Là câu tự luận gồm hai ý nhỏ a, b, không có stem
+Câu 2: Là một câu tự luận đơn, chỉ có stem, không có ý nhỏ
+Câu 3: Gồm một phần stem và hai ý nhỏ a, b
+
+@mml_start@Câu 1 (2,0 điểm).  
+a) Giải hệ phương trình:  
+$\begin{cases}  
+x + y + z = 3 \\  
+x^2 + y^2 + z^2 = 5 \\  
+xy + yz + zx = 3  
+\end{cases}$
+
+b) Cho $a, b, c > 0$ thỏa mãn $a + b + c = 3$.  
+Chứng minh rằng: $\frac{1}{a^2 + 1} + \frac{1}{b^2 + 1} + \frac{1}{c^2 + 1} \leq \frac{3}{2}$
+
+Câu 2 (1,0 điểm).  
+Tính giá trị nhỏ nhất của biểu thức $P = x^2 + 4y^2 + z^2 - 2xy + 2yz$ với $x + y + z = 0$
+
+Câu 3 (2,0 điểm).  
+Cho hàm số $f(x) = x^4 - 2(m+1)x^2 + m^2 + 1$  
+a) Tìm $m$ để hàm số đạt cực tiểu tại $x = 1$  
+b) Với $m = 1$, xét dấu tam thức $f(x)$@mml_end@
+</user_query>
+
+
+<assistant_response>
+@slurp_start@qs:
+>dnum: 1
+>type: essay
+>labels:
+>>a: Giải hệ phương trình: \(\begin{cases} x + y + z = 3 \\ x^2 + y^2 + z^2 = 5 \\ xy + yz + zx = 3 \end{cases}\)
+>>b: Cho \(a, b, c > 0\) thỏa mãn \(a + b + c = 3\). Chứng minh rằng: \(\frac{1}{a^2 + 1} + \frac{1}{b^2 + 1} + \frac{1}{c^2 + 1} \leq \frac{3}{2}\)
+
+qs:
+>dnum: 2
+>type: essay
+>qt: Tính giá trị nhỏ nhất của biểu thức \(P = x^2 + 4y^2 + z^2 - 2xy + 2yz\) với \(x + y + z = 0\)
+
+qs:
+>dnum: 3
+>type: essay
+>qt: Cho hàm số \(f(x) = x^4 - 2(m+1)x^2 + m^2 + 1\)
+>labels:
+>>a: Tìm \(m\) để hàm số đạt cực tiểu tại \(x = 1\)
+>>b: Với \(m = 1\), xét dấu tam thức \(f(x)\)@slurp_end@
+</assistant_response>
+</example>
+
+
+
+<example>
+
+
+
+<user_query>
+* Tình huống: Đề thi tiếng anh có thông tin xuất xứ cụ thể, có hai câu hỏi và bài đọc liên quan các câu đó. Ngoài ra còn có một sectionHeader
+@mml_start@ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025  
+MÔN: Anh  
+ĐỀ 15 Thời gian làm bài 50 phút  
+(Đề thi có 04 trang)  
+Họ và tên thí sinh:...  
+Số báo danh:...
+
+Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions.
+
+Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
+
+Question 1. The word boost in the passage is closest in meaning to _______.
+A. reduce
+B. improve
+C. question
+D. replace
+Question 2. According to the passage, what is the main reason farmers use technology?
+A. To reduce the number of workers
+B. To improve productivity
+C. To replace traditional tools
+D. To experiment with new crops@mml_end@
+</user_query>
+
+
+<assistant_response>
+@slurp_start@meta:
+>name: ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025
+>subject: Anh
+>code: ĐỀ 15
+>duration: 50 phút
+
+sectionHeader: Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions.
+
+shareinfo:
+>id: baidoc-01
+>info: Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
+
+qs:
+>dnum: 1
+>type: mcq
+>shared-info: baidoc-01
+>qt: The word boost in the passage is closest in meaning to _______.
+>labels:
+>>a: reduce
+>>b: improve
+>>c: question
+>>d: replace
+
+qs:
+>dnum: 2
+>type: mcq
+>shared-info: baidoc-01
+>qt: According to the passage, what is the main reason farmers use technology?
+>labels:
+>>a: To reduce the number of workers
+>>b: To improve productivity
+>>c: To replace traditional tools
+>>d: To experiment with new crops@slurp_end@
+</assistant_response>
+</example>
+
+
+
+<example>
+
+
+
+<user_query>
+* Tình huống: Đề tiếng anh Gồm một sectionHeader và hai câu hỏi trắc nghiệm yêu cầu sắp xếp các mệnh đề cần xử lý khéo
+@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
+Question 15.
+a. I had to burn the midnight oil to make engaging lesson plans, expecting to capture my students’ attention.
+b. The reality, however, was not what I had expected when I completely failed to keep the class under control despite shouting loudly.
+c. This valuable experience was indeed memorable and made me more confident in my career of choice.
+d. Working as an intern at a local high school encouraged me to pursue a teaching career, a demanding yet rewarding one.
+e. Instead of giving up, I reflected on what I had done and made improvements in the following lessons.
+A. c – b – e – a – d B. c – a – e – d – b C. d – a – b – e – c   D. d – b – e – c – a Question 16.
+a. David: I used to, but now I use social media and news apps.
+b. Lisa: Same here! It’s more convenient, but I think traditional newspapers have their own charm.
+c. Lisa: Do you still read newspapers?
+d. Lisa: I believe each type has its own value that we can make full use of.
+e. David: You’re right. They fill us with nostalgia that’s hard to replace.
+A. d – a – c – e – b
+B. c – a – b – e – d C. d – e – b – a – c D. c – e – d – a – b@mml_end@
+</user_query>
+
+
+
+<assistant_response>
+@slurp_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
+
+qs:
+>dnum: 15
+>type: mcq
+>qt: |
+a. I had to burn the midnight oil to make engaging lesson plans, expecting to capture my students’ attention.
+b. The reality, however, was not what I had expected when I completely failed to keep the class under control despite shouting loudly.
+c. This valuable experience was indeed memorable and made me more confident in my career of choice.
+d. Working as an intern at a local high school encouraged me to pursue a teaching career, a demanding yet rewarding one.
+e. Instead of giving up, I reflected on what I had done and made improvements in the following lessons.
+>labels:
+>>a: c – b – e – a – d
+>>b: c – a – e – d – b
+>>c: d – a – b – e – c
+>>d: d – b – e – c – a
+
+qs:
+>dnum: 16
+>type: mcq
+>qt: |
+a. David: I used to, but now I use social media and news apps.
+b. Lisa: Same here! It’s more convenient, but I think traditional newspapers have their own charm.
+c. Lisa: Do you still read newspapers?
+d. Lisa: I believe each type has its own value that we can make full use of.
+e. David: You’re right. They fill us with nostalgia that’s hard to replace.
+>labels:
+>>a: d – a – c – e – b
+>>b: c – a – b – e – d
+>>c: d – e – b – a – c
+>>d: c – e – d – a – b@slurp_end@
+</assistant_response>
+
+
+</example>
+
+<example>
+<user_query>
+@mml_start@Câu 5. Xét các đồ thị sau:
+<figure id="graph1" />
+<figure id="graph2" />
+<figure id="graph3" />
+<figure id="graph4" />
+Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
+A. Hình 1
+B. Hình 2
+C. Hình 3
+D. Hình 4@mml_end@
+
+</user_query>
+
+<assistant_response>
+@slurp_start@qs:
+>dnum: 5
+>type: mcq
+>qt: Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
+>figures: graph1, graph2, graph3, graph4
+>labels:
+>>a: Hình 1
+>>b: Hình 2
+>>c: Hình 3
+>>d: Hình 4@slurp_end@
+</assistant_response>
+
+</example>
+
+<user_query>
+* Tình huống: Đề thi vật lý với câu trúc tiêu chuẩn 3 phần Trắc Nghiệm - Đúng Sai - Trả lời ngắn với các tiêu đề phần tương ứng.
+Còn có các đối tượng minh họa gắn với các câu hỏi tương ứng.
+
+@mml_start@PHẦN Trắc nghiệm khách quan (3 điểm)
+
+Chọn phương án đúng nhất cho mỗi câu sau:
+
+Dùng thông tin sau cho Câu 1 và 2: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base).  
+
+
+Câu 1: Trong mạch khuếch đại trên, vai trò của điện trở $R_C$ là  
+A. Tăng độ lợi điện áp đầu ra  B. Giữ ổn định dòng cực gốc C. Hạn chế dòng qua transistor  D. Nối mass cho mạch
+<figure id="im0"/>
+Câu 2: Đặc điểm nào sau đây đúng với mạch khuếch đại mắc cực bazơ chung?  
+A. Tín hiệu vào và ra ngược pha  
+B. Có trở kháng vào lớn  
+C. Không khuếch đại được dòng  
+D. Tín hiệu vào và ra cùng pha
+
+Câu 3:  
+Dựa vào bảng sau, hãy trả lời câu hỏi:
+<mdtable>
+| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
+| ----------------- | ----------------- | ------------- |
+| 1                 | H                 | Hydro         |
+| 2                 | He                | Helium        |
+| 7                 | N                 | Nitơ          |
+| 8                 | O                 | Oxy           |
+</mdtable>
+Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:  
+A. H    B. He    C. O    D. N
+
+PHẦN II. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
+<figure id="img_cx1" />
+Câu 5. Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ:
+<figure id="img_cx2" />
+a) Khi nam châm di chuyển lại gần cuộn dây, ampe kế phát hiện dòng điện cảm ứng.  
+b) Nếu nam châm đứng yên, không có dòng điện cảm ứng xuất hiện.  
+c) Cường độ dòng điện cảm ứng không phụ thuộc vào tốc độ di chuyển của nam châm.  
+
+Câu 6. Dựa vào bảng thông tin về một số loại vật liệu:
+
+<mdtable>
+| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
+|------------------|--------------------------|--------------------|
+| Đồng             | 401                      | Rắn                |
+| Nhôm             | 237                      | Rắn                |
+| Nước             | 0.6                      | Lỏng               |
+| Không khí        | 0.024                    | Khí                |
+</mdtable>
+
+a) Đồng dẫn nhiệt tốt hơn nhôm.  
+b) Nước dẫn nhiệt tốt hơn không khí.  
+c) Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.  
+d) Nhôm dẫn nhiệt kém hơn nước.
+
+PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
+
+Câu 1 và 2: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng $E = 10{,}8 \times 10^3 \, \text{J}$ (tương đương 3000 mAh ở 3.6V).
+
+Câu 1: Tính lượng năng lượng cần từ Mặt Trời để sạc đầy pin, biết hiệu suất hệ thống là 30%. Đáp án có dạng $x \cdot 10^4 \, \text{J}$. Tìm $x$ (làm tròn đến hàng phần trăm).
+
+Câu 2: Với cường độ bức xạ Mặt Trời $I = 1000 \, \text{W} \cdot \text{m}^{-2}$, diện tích tấm pin $S = 0{,}01 \, \text{m}^2$, công suất thu được là $P = I \cdot S$. Tính thời gian $t$ (phút) để sạc đầy pin. Làm tròn $t$ đến hàng đơn vị.
+
+Câu 3. Quan sát hai hình sau:
+
+<figure id="fig1" />
+<figure id="fig2" />
+
+Dựa vào các hình, hãy tính tổng công mà hai lực \( \vec{F}_1 \) và \( \vec{F}_2 \) thực hiện khi di chuyển vật từ vị trí A đến B.@mml_end@
+</user_query>
+
+
+
+<assistant_response>
+@slurp_start@sectionHeader: |
+PHẦN Trắc nghiệm khách quan (3 điểm)
+
+Chọn phương án đúng nhất cho mỗi câu sau:
+
+shareinfo:
+>id: sodo-c4c5
+>info: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base).
+>figures: im0
+
+qs:
+>dnum: 1
+>type: mcq
+>shared-info: sodo-c4c5
+>qt: Trong mạch khuếch đại trên, vai trò của điện trở \(R_C\) là
+>labels:
+>>a: Tăng độ lợi điện áp đầu ra
+>>b: Giữ ổn định dòng cực gốc
+>>c: Hạn chế dòng qua transistor
+>>d: Nối mass cho mạch
+
+qs:
+>dnum: 2
+>type: mcq
+>shared-info: sodo-c4c5
+>qt: Đặc điểm nào sau đây đúng với mạch khuếch đại mắc cực bazơ chung?
+>labels:
+>>a: Tín hiệu vào và ra ngược pha
+>>b: Có trở kháng vào lớn
+>>c: Không khuếch đại được dòng
+>>d: Tín hiệu vào và ra cùng pha
+
+qs:
+>dnum: 3
+>type: mcq
+>qt: |
+Dựa vào bảng sau, hãy trả lời câu hỏi:
+<mdtable>
+| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
+| ----------------- | ----------------- | ------------- |
+| 1                 | H                 | Hydro         |
+| 2                 | He                | Helium        |
+| 7                 | N                 | Nitơ          |
+| 8                 | O                 | Oxy           |
+</mdtable>
+Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:
+>labels:
+>>a: H
+>>b: He
+>>c: O
+>>d: N
+
+sectionHeader: PHẦN II. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
+
+qs:
+>dnum: 5
+>type: mtf-2018
+>qt: Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ:
+>figures: img_cx1, img_cx2
+>labels:
+>>a: Khi nam châm di chuyển lại gần cuộn dây, ampe kế phát hiện dòng điện cảm ứng.
+>>b: Nếu nam châm đứng yên, không có dòng điện cảm ứng xuất hiện.
+>>c: Cường độ dòng điện cảm ứng không phụ thuộc vào tốc độ di chuyển của nam châm.
+
+qs:
+>dnum: 6
+>type: mtf-2018
+>qt: |
+Dựa vào bảng thông tin về một số loại vật liệu:
+<mdtable>
+| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
+|------------------|--------------------------|--------------------|
+| Đồng             | 401                      | Rắn                |
+| Nhôm             | 237                      | Rắn                |
+| Nước             | 0.6                      | Lỏng               |
+| Không khí        | 0.024                    | Khí                |
+</mdtable>
+>labels:
+>>a: Đồng dẫn nhiệt tốt hơn nhôm.
+>>b: Nước dẫn nhiệt tốt hơn không khí.
+>>c: Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.
+>>d: Nhôm dẫn nhiệt kém hơn nước.
+
+sectionHeader: PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
+
+shareinfo:
+>id: 12-tln
+>info: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng \(E = 10{,}8 \times 10^3 \, \text{J}\) (tương đương 3000 mAh ở 3.6V).
+
+qs:
+>dnum: 1
+>type: short-2018
+>shared-info: 12-tln
+>qt: Tính lượng năng lượng cần từ Mặt Trời để sạc đầy pin, biết hiệu suất hệ thống là 30%. Đáp án có dạng \(x \cdot 10^4 \, \text{J}\). Tìm \(x\) (làm tròn đến hàng phần trăm).
+
+qs:
+>dnum: 2
+>type: short-2018
+>shared-info: 12-tln
+>qt: Với cường độ bức xạ Mặt Trời \(I = 1000 \, \text{W} \cdot \text{m}^{-2}\), diện tích tấm pin \(S = 0{,}01 \, \text{m}^2\), công suất thu được là \(P = I \cdot S\). Tính thời gian \(t\) (phút) để sạc đầy pin. Làm tròn \(t\) đến hàng đơn vị.
+
+qs:
+>dnum: 3
+>type: short-2018
+>figures: img_cong1, img_cong2
+>qt: Dựa vào các hình, hãy tính tổng công mà hai lực \(\vec{F}_1\) và \(\vec{F}_2\) thực hiện khi di chuyển vật từ vị trí A đến B.@slurp_end@
+</assistant_response>
+
+
+</example>
+</examples>

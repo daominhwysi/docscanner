@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+**/.venv/
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# System
+.DS_Store
+Thumbs.db
+
+# Personal config folders (Linux/WSL typical)
+.cache/
+.config/
+.config/code-server/
+.docker/
+.jupyter/
+.local/
+.local/share/
+.npm/
+.nvm/
+.oh-my-zsh/
+.ssh/
+.hushlogin
+.sudo_as_admin_successful
+
+# Dotfiles
+.bash_history
+.bashrc
+.zshrc
+.profile
+.vimrc
+.gitconfig
+.condarc
+
+# Docker related
+
+# Output
+response_output.txt
+
+# App-specific folders
+**/node_modules/
+*.onnx
+# Logs and runtime
+*.log
+*.pid
+# Ignore large files
+app/model/weights/*.onnx
+.docker/cli-plugins/
+.npm/
+app/.venv/g

@@ -1,0 +1,130 @@
+<examples>
+<example>
+<user_query>
+@mml_start@Câu 1. Mặt trận Việt Minh được thành lập vào thời gian nào?
+A. 3/2/1930
+B. 22/12/1944
+C. 19/5/1941
+D. 2/9/1945
+Câu 2. Tổ chức ASEAN được thành lập năm nào?
+A. 1965
+B. 1967
+C. 1970
+D. 1975@mml_end@
+
+@slurp_incomplete_start@qs:
+>dnum: 1
+>type: mcq
+>qt: Mặt trận Việt Minh được thành lập vào thời gian nào?
+>items:
+>>a: 3/2/1930
+>>b: 22/12/1944
+>>c: 19/5/1941
+>>d: 2/9/1945
+qs:
+>dnum: 2
+>type: mcq@slurp_incomplete_end@
+</user_query>
+
+
+<assistant_response>
+@slurp_resume_start@>qt: Tổ chức ASEAN được thành lập năm nào?
+>items:
+>>a: 1965
+>>b: 1967
+>>c: 1970
+>>d: 1975@slurp_resume_end@
+</assistant_response>
+</example>
+
+
+<example>
+
+
+<user_query>
+@mml_start@Đọc thông tin sau và trả lời câu hỏi 1 và 2:
+
+Quang hợp là quá trình thực vật sử dụng ánh sáng mặt trời để tổng hợp các chất hữu cơ từ CO₂ và H₂O, giải phóng O₂.
+
+Câu 1. Quá trình quang hợp xảy ra ở bộ phận nào của cây?
+A. Rễ
+B. Thân
+C. Lá
+D. Hoa
+
+Câu 2. Sản phẩm chính của quá trình quang hợp là gì?
+A. Nước
+B. CO₂
+C. Chất hữu cơ
+D. Ánh sáng@mml_end@
+
+@slurp_incomplete_start@shareinfo:
+>id: s-photosynthesis
+>info: Quang hợp là quá trình thực vật sử dụng ánh sáng mặt trời để tổng hợp các chất hữu cơ từ CO₂ và H₂O, giải phóng O₂.
+qs:
+>dnum: 1
+>type: mcq
+>shared-info: s-photosynthesis
+>qt: Quá trình quang hợp xảy ra ở bộ phận nào của cây?
+>items:
+>>a: Rễ
+>>b: Thân
+>@slurp_incomplete_end@
+</user_query>
+
+
+
+<assistant_response>
+@slurp_resume_start@>c: Lá
+>>d: Hoa
+qs:
+>dnum: 2
+>type: mcq
+>shared-info: s-photosynthesis
+>qt: Sản phẩm chính của quá trình quang hợp là gì?
+>items:
+>>a: Nước
+>>b: CO₂
+>>c: Chất hữu cơ
+>>d: Ánh sáng@slurp_resume_end@
+</assistant_response>
+
+
+</example>
+
+
+<example>
+
+
+<user_query>
+@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
+
+Question 1: A. chemistry  B. chicken  C. change  D. choose
+Question 2: A. laughed   B. passed   C. played   D. watched@mml_end@
+@slurp_incomplete_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
+qs:
+>dnum: 1
+>type: mcq
+>items:
+>>a: chemistry
+>>b: chicken
+>>c:@slurp_incomplete_end@
+</user_query>
+
+
+<assistant_response>
+@slurp_resume_start@ change
+>>d: choose
+qs:
+>dnum: 2
+>type: mcq
+>items:
+>>a: laughed
+>>b: passed
+>>c: played
+>>d: watched@slurp_resume_end@
+</assistant_response>
+
+
+</example>
+</examples>
