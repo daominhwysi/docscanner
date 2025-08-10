@@ -24,6 +24,7 @@ def create_log(imageUrls : str,
             num_output_token : int,
             rawOutput : str,
             page_order : int,
+            error: str,
             session : Session):
     new_log = InferenceLog(
         imageUrls=imageUrls,
@@ -33,6 +34,7 @@ def create_log(imageUrls : str,
         num_input_token=num_input_token,
         num_output_token=num_output_token,
         rawOutput=rawOutput,
+        error=error,
         page_order=page_order,
     )
     session.add(new_log)

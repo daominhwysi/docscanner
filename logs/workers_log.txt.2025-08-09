@@ -1,0 +1,6 @@
+2025-08-09 09:46:08 - INFO - [5403] - [worker_logger:main:16] - Starting worker...
+2025-08-09 09:46:42 - INFO - [5508] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-09 09:48:58 - INFO - [5403] - [worker_logger:parse_document:99] - Parsing document e64042d9eb9d400d9a5f0e9bf18cc087
+2025-08-09 09:48:58 - INFO - [5403] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-09 09:50:56 - INFO - [5403] - [worker_logger:parse_document:111] - [e64042d9eb9d400d9a5f0e9bf18cc087] Task completed successfully.
+2025-08-09 09:53:03 - INFO - [5403] - [worker_logger:<module>:23] - Worker stopped by user.

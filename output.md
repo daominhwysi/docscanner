@@ -2,30 +2,6 @@
 
 Analyze the following project structure and file contents.
 
-## From: Dockerfile
-
----
-File: Dockerfile
----
-```
-FROM python:3.10-slim
-RUN apt-get update && apt-get install -y supervisor && \
-    mkdir -p /var/log/supervisor
-WORKDIR /src
-
-COPY . /src
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Mở cổng cho FastAPI
-EXPOSE 8000
-
-# 🔥 Chạy supervisor (thay vì uvicorn)
-CMD ["/usr/bin/supervisord"]
-```
-
 ## From: app
 
 ---
@@ -36,12 +12,12 @@ Error reading file: 'utf-8' codec can't decode byte 0x8e in position 10: invalid
 ---
 File: __pycache__/main.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xc0 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x93 in position 10: invalid start byte
 
 ---
 File: __pycache__/run_worker.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x80 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode bytes in position 9-10: invalid continuation byte
 
 ---
 File: __pycache__/worker_settings.cpython-310.pyc
@@ -51,12 +27,12 @@ Error reading file: 'utf-8' codec can't decode byte 0x8a in position 10: invalid
 ---
 File: db/__pycache__/client.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8e in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: db/__pycache__/models.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xbe in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: db/client.py
@@ -115,7 +91,7 @@ Base = declarative_base()
 
 # Enums
 class TaskType(str, Enum):
-    parseDocumentImages = "parseDocumentPDF"
+    parseDocumentPDF = "parseDocumentPDF"
     documentParsing = "documentParsing"
 
 class TaskStatus(str, Enum):
@@ -157,24 +133,45 @@ class InferenceLog(Base):
 ---
 File: lib/__pycache__/redis_client.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x93 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x85 in position 9: invalid start byte
 
 ---
 File: lib/__pycache__/worker_core.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8e in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xb7 in position 8: invalid start byte
 
 ---
 File: lib/redis_client.py
 ---
 ```python
+# lib/redis_client.py
 import os
 import redis.asyncio as redis
 
-redis_host = os.getenv("REDIS_HOST", "localhost")
-redis_port = int(os.getenv("REDIS_PORT", 6379))
+class RedisClient:
+    def __init__(self):
+        self.client = None
+        self.redis_host = os.getenv("REDIS_HOST", "localhost")
+        self.redis_port = int(os.getenv("REDIS_PORT", 6379))
+        self.redis_password = os.getenv('REDIS_PASSWORD')
+    def get_connection(self, decode_responses=False):
+        # Tạo một client duy nhất và tái sử dụng connection pool
+        # Tùy chọn decode_responses để phù hợp với cả worker và các service khác
+        return redis.Redis(
+            host=self.redis_host,
+            port=self.redis_port,
+            decode_responses=decode_responses,
+            health_check_interval=30, # Thêm health check để giữ kết nối ổn định
+            password=self.redis_password
+        )
 
-r = redis.Redis(host=redis_host, port=redis_port)
+# Tạo một instance duy nhất để import
+redis_manager = RedisClient()
+
+# Sử dụng:
+# from app.lib.redis_client import redis_manager
+# r = redis_manager.get_connection()
+# r_decoded = redis_manager.get_connection(decode_responses=True)
 ```
 
 ---
@@ -186,11 +183,11 @@ import json
 from typing import Callable, Awaitable, Dict, Optional
 from redis.asyncio import Redis
 import os
-redis_host = os.getenv("REDIS_HOST", "localhost")
-redis_port = int(os.getenv("REDIS_PORT", 6379))
+from app.lib.redis_client import redis_manager
+
 class SimpleRedisWorker:
     def __init__(self, queue_name: str = "tasks"):
-        self.redis = Redis(host=redis_host, port=redis_port, decode_responses=True)
+        self.redis = redis_manager.get_connection(decode_responses=True)
         self.queue_name = queue_name
         self.tasks: Dict[str, Callable[..., Awaitable]] = {}
         self.semaphores: Dict[str, asyncio.Semaphore] = {}
@@ -377,9 +374,6 @@ async def save_file(file_bytes: bytes, file_type: str) -> Path:
     relative_path = filepath.relative_to(PRIVATE_DIR)
     return relative_path
 
-
-
-
 @app.get("/logs")
 def read_latest_worker_log():
     # 📁 Trỏ tới thư mục chứa log
@@ -447,7 +441,7 @@ async def handle_pdf(
     # Tạo task
     task_id = None
     with get_session() as session:
-        task = create_task(task_type=TaskType("parseDocumentPDF"), session=session)
+        task = create_task(task_type=TaskType.parseDocumentPDF, session=session)
         task_id = task.id
 
     await worker.enqueue("process_pdf", task_id, file_url)
@@ -462,7 +456,7 @@ class Text2Slurp(BaseModel):
 async def documentParsing(body: Text2Slurp):
     task_id=None
     with get_session() as session:
-        task = create_task(task_type=TaskType("documentParsing"), session=session)
+        task = create_task(task_type=TaskType.documentParsing, session=session)
         task_id = task.id
     await worker.enqueue("documentParsing", task_id, body.text)
     return {"task_id": task_id}
@@ -516,17 +510,17 @@ File: ml_models/__init__.py
 ---
 File: ml_models/__pycache__/__init__.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xc9 in position 8: invalid continuation byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: ml_models/__pycache__/image_classifier.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x9c in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: ml_models/__pycache__/rfdetr.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x9c in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: ml_models/image_classifier.py
@@ -748,22 +742,22 @@ rtdetr_model = RTDETR_ONNX(MODEL_PATH)
 ---
 File: postprocessing/__pycache__/convert2html.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xbb in position 9: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: postprocessing/__pycache__/raw_response.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8d in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: postprocessing/__pycache__/replaceimgfig.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xf7 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xe2 in position 8: invalid continuation byte
 
 ---
 File: postprocessing/__pycache__/slurp2json.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xae in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x84 in position 8: invalid start byte
 
 ---
 File: postprocessing/convert2html.py
@@ -988,57 +982,33 @@ def replace_img_to_fig(html: str) -> Tuple[str, List[Dict[str, str]]]:
     text = re.sub(pattern, replacer, html, flags=re.IGNORECASE)
 
     return text, image_srcs
+
 def replace_fig2img_immutable(json_obj: Any, figures_data: List[Dict[str, str]]) -> Any:
-    """
-    Tạo một bản sao của đối tượng JSON và thay thế các giá trị 'figX' bằng URL thực tế.
-    Đây là phương pháp "bất biến" (immutable) - không làm thay đổi đối tượng đầu vào.
-
-    Args:
-        json_obj: Đối tượng JSON (dict hoặc list) cần xử lý.
-        figures_data: Danh sách các dictionary chứa mapping {'id': 'figX', 'src': 'url'}.
-
-    Returns:
-        Một đối tượng JSON mới đã được thay thế.
-    """
-    # 1. Tạo một bảng tra cứu (lookup table) để truy cập nhanh id -> src
     id_to_src_map = {figure['id']: figure['src'] for figure in figures_data}
+    FIGURE_TAG_RE = re.compile(
+        r'<figure\b[^>]*\bid\s*=\s*["\']([^"\']+)["\'][^>]*>',
+        re.IGNORECASE
+    )
 
-    # 2. Định nghĩa một hàm đệ quy để duyệt và xây dựng lại đối tượng
+    def replace_figures_in_text(text: str) -> str:
+        def replacer(match):
+            fig_id = match.group(1)
+            src = id_to_src_map.get(fig_id)
+            if src:
+                return f'<img src="{src}">'
+            return match.group(0)
+        return FIGURE_TAG_RE.sub(replacer, text)
+
     def _walk_and_rebuild(node: Any) -> Any:
-        # Nếu node là một dictionary...
         if isinstance(node, dict):
-            new_dict = {}
-            for key, value in node.items():
-                # Kiểm tra nếu đây là key 'figures' và giá trị là chuỗi cần thay thế
-                if key == 'figures' and isinstance(value, str):
-                    fig_ids = [i.strip() for i in value.split(',')]
-                    
-                    # Lấy các URL tương ứng, bỏ qua nếu ID không tồn tại
-                    urls = [id_to_src_map.get(fig_id) for fig_id in fig_ids if id_to_src_map.get(fig_id)]
-
-                    # Nếu chỉ có 1 URL, gán trực tiếp. Nếu nhiều, gán cả danh sách.
-                    if len(urls) == 1:
-                        new_dict[key] = urls[0]
-                    elif len(urls) > 1:
-                        new_dict[key] = urls
-                    else:
-                        # Nếu không tìm thấy URL nào, giữ lại giá trị gốc
-                        new_dict[key] = value 
-                else:
-                    # Nếu không phải key 'figures', gọi đệ quy cho giá trị của nó
-                    new_dict[key] = _walk_and_rebuild(value)
-            return new_dict
-
-        # Nếu node là một list...
+            return {k: _walk_and_rebuild(v) for k, v in node.items()}
         elif isinstance(node, list):
-            # Gọi đệ quy cho từng phần tử trong list và tạo ra một list mới
             return [_walk_and_rebuild(item) for item in node]
-        
-        # Nếu là các kiểu dữ liệu khác (string, number, bool...), trả về chính nó
+        elif isinstance(node, str):
+            return replace_figures_in_text(node)
         else:
             return node
 
-    # 3. Bắt đầu quá trình từ gốc của đối tượng JSON
     return _walk_and_rebuild(json_obj)
 
 if __name__ == "__main__":
@@ -1282,10 +1252,13 @@ _CSV_KEY_REGEX = re.compile(r"^(\w+)\[(\d+)\](?:\.(.+))?$")
 
 def parse_csv_to_json(input_str: str) -> DataMap:
     """
-    Phân tích cú pháp chuỗi định dạng CSV tùy chỉnh thành một cấu trúc đối tượng lồng nhau.
+    Phân tích cú pháp chuỗi định dạng CSV tùy chỉnh thành một cấu trúc đối tượng lồng nhau,
+    đồng thời giữ lại thuộc tính __order để biết thứ tự xuất hiện ban đầu của mỗi khối.
     """
     lines = split_csv_lines_safe(input_str)
     data: DataMap = {}
+
+    global_order = 0
 
     for line in lines:
         if not line:
@@ -1299,7 +1272,7 @@ def parse_csv_to_json(input_str: str) -> DataMap:
         try:
             value = json.loads(raw_value)
         except json.JSONDecodeError:
-            value = raw_value # Dự phòng nếu không phải là một chuỗi JSON hợp lệ
+            value = raw_value  # fallback nếu không phải JSON
 
         match = _CSV_KEY_REGEX.match(raw_key)
         if not match:
@@ -1311,32 +1284,37 @@ def parse_csv_to_json(input_str: str) -> DataMap:
         if obj_name not in data:
             data[obj_name] = []
 
-        # Đảm bảo danh sách đủ dài để chứa chỉ mục
+        # đảm bảo danh sách đủ dài
         if len(data[obj_name]) < index:
             data[obj_name].extend([None] * (index - len(data[obj_name])))
 
         list_index = index - 1
+
+        # tạo object mới kèm __order nếu chưa có
         if data[obj_name][list_index] is None:
-            data[obj_name][list_index] = {}
+            data[obj_name][list_index] = {'__order': global_order}
+            global_order += 1
 
         target = data[obj_name][list_index]
 
         if path:
             keys = path.split('.')
-            # Điều hướng/tạo các đối tượng lồng nhau
+            # tạo nested dict nếu cần
             for key_part in keys[:-1]:
                 target = target.setdefault(key_part, {})
             target[keys[-1]] = value
         else:
             target['value'] = value
 
+    # loại bỏ các slot None
     for key in data:
         data[key] = [entry for entry in data[key] if entry is not None]
 
     return data
 
 
-def slurp_to_json(slurp: str):
+
+def slurp_to_json(slurp: str) -> Dict:
     """
     Chức năng điều phối chính chuyển đổi một chuỗi SLURP thành một chuỗi JSON.
     """
@@ -1347,104 +1325,73 @@ def slurp_to_json(slurp: str):
     return json_obj
 
 # ---- Ví dụ sử dụng ----
+# if __name__ == "__main__":
+#     BASE_PATH = "/teamspace/studios/this_studio/tests/"
+#     with open(f"{BASE_PATH}raw.txt", "r", encoding="utf-8") as f:
+#         text = f.read()
+
+#     # Chuyển nội dung sang JSON (dict hoặc list)
+#     parsed = slurp_to_json(text)
+
+#     # Ghi ra file JSON đúng cách
+#     with open(f"{BASE_PATH}output.json", "w", encoding="utf-8") as f:
+#         json.dump(parsed, f, ensure_ascii=False, indent=4)
+
+
+import re
+
+def autofix_missing_pipes(text: str) -> str:
+    lines = text.replace('\r\n', '\n').split('\n')
+    fixed_lines = []
+
+    block_regex = re.compile(r"^([^:]+):\s*(?!\|)(.*)$")  # match block chưa có |
+    prop_regex = re.compile(r"^(>+)\s*([^:]+):\s*(?!\|)(.*)$")
+    new_block_or_prop = re.compile(r"^([^:]+:|>+\s*[^:]+:)")
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        
+        # Nếu dòng này đã có | thì giữ nguyên, không xử lý
+        if re.match(r"^[^:]+:\s*\|", line):
+            fixed_lines.append(line)
+            i += 1
+            continue
+
+        next_line = lines[i + 1] if i + 1 < len(lines) else ""
+
+        is_block = block_regex.match(line)
+        is_prop = prop_regex.match(line)
+
+        if (is_block or is_prop) and next_line.strip() != "":
+            if not new_block_or_prop.match(next_line):
+                before_colon, after_colon = line.split(':', 1)
+                fixed_lines.append(f"{before_colon}: |")
+                if after_colon.strip():
+                    fixed_lines.append(f"  {after_colon.strip()}")
+                i += 1
+                while i < len(lines) and (lines[i].startswith(" ") or lines[i].strip() == "") and not new_block_or_prop.match(lines[i]):
+                    fixed_lines.append(lines[i])
+                    i += 1
+                continue
+
+        fixed_lines.append(line)
+        i += 1
+
+    return '\n'.join(fixed_lines)
+
+
 if __name__ == "__main__":
-    sample_slurp_input = """
->name: ĐỀ THI THỬ
->subject: VẬT LÍ
->code: ĐỀ 15
->duration: 50 phút
+    sample_text = """title: Đây là tiêu đề
+noidung: Dòng đầu tiên
+  Dòng thứ hai
+author: Minh"""
 
-shareinfo:
->id: const
->info: |
-\(π = 3,14\); \(T (K) = t (°C) + 273\); \(R = 8,31 J. mol^{-1}. K^{-1}\); \(N_A = 6,02. 10^{23}\) hạt/mol.
-
-sectionHeader: PHẦN I. Thí sinh trả lời từ câu 1 đến câu 18. Mỗi câu hỏi thí sinh chỉ chọn một phương án.
-
-shareinfo:
->id: share-10-11
->info: |
-Hình bên mô tả một máy phát điện xoay chiều đơn giản. Máy phát điện xoay chiều gồm hai bộ phận chính là phần cảm và phần ứng.
->figures: fig0
-
-qs:
->dnum: 10
->type: mcq
->shared-info: share-10-11
->qt: Máy phát điện hoạt động dựa trên
->labels:
->>a: hiện tượng cảm ứng điện từ.
->>b: hiện tượng tích điện.
->>c: hiện tượng quang điện.
->>d: hiện tượng nhiễm điện do cọ xát.
-
-qs:
->dnum: 11
->type: mcq
->shared-info: share-10-11
->qt: Phần cảm tạo ra ...(1)..., phần ứng tạo ra ...(2)... khi máy hoạt động. Từ thích hợp điền vào vị trí (1) và (2) lần lượt là
->labels:
->>a: Từ trường, suất điện động cảm ứng.
->>b: Dòng điện, từ trường.
->>c: Suất điện động cảm ứng, từ trường.
->>d: Suất điện động cảm ứng, dòng điện.
-
-qs:
->dnum: 12
->type: mcq
->qt: Một dây dẫn thẳng dài vô hạn có phương vuông góc với mặt phẳng trang giấy. Cho dòng điện chạy qua dây dẫn theo chiều từ trong ra ngoài. Hình nào dưới đây mô tả đúng đường sức từ trên mặt phẳng trang giấy của từ trường của dòng điện chạy trong dây dẫn?
->figures: fig1, fig2, fig3
->labels:
->>a: Hình 2.
->>b: Hình 3.
->>c: Hình 4.
->>d: Hình 1.
-
-sectionHeader: PHẦN II. Thí sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
-
-qs:
->dnum: 3
->type: mtf-2018
->qt: Một thanh kim loại có khối lượng m = 50 g có thể trượt với ma sát không đáng kể trên hai thanh ray song song nằm ngang cách nhau một khoảng d = 4 cm. Đường ray nằm trong một từ trường đều thẳng đứng có độ lớn B = 0,3 T và có hướng như hình bên. Tại thời điểm t = 0 s, điện kế G được kết nối với thanh ray, tạo ra dòng điện không đổi I = 2 A (có chiều như hình) trong dây và thanh ray (kể cả khi dây chuyển động). Biết ban đầu thanh đứng yên.
->figures: fig4
->labels:
->>a: Lực tác dụng lên thanh là lực từ.
->>b: Từ trường do dòng điện tạo ra có hướng hướng theo chiều như từ trường bên ngoài.
->>c: Thanh kim loại chuyển động sang trái và tại lúc t = 1 s vận tốc của thanh có độ lớn là 0,48 m/s.
->>d: Quãng đường thanh đi được sau thời gian 2 s kể từ lúc thiết bị G được kết nối là 0,48 m.
-
-qs:
->dnum: 4
->type: mtf-2018
->qt: Trong y học một đồng vị phóng xạ của Sodium thường được dùng để xác định lượng máu trong cơ thể người là \(^{24}_{11}Na\). Chu kỳ bán rã của \(^{24}_{11}Na\) là 15 giờ. Người ta lấy một lượng \(^{24}_{11}Na\) có độ phóng xạ 2,5 \(\mu\)Ci để tiêm vào một bệnh nhân. Sau 3 giờ, họ lấy ra 1 cm³ máu từ người đó thì thấy nó có 145 phân rã trong 10 giây. Cho biết đồng vị \(^{24}_{11}Na\) phóng xạ tạo ra \(^{24}_{12}Mg\).
->labels:
->>a: Đây là phân rã \(\beta^+\).
->>b: Độ phóng xạ lúc mới tiêm vào cơ thể người là 7,4 · \(10^4\) Bq.
->>c: Số nguyên tử \(^{24}_{11}Na\) trong 1 cm³ máu sau 3 giờ là 3 · \(10^5\) nguyên tử.
->>d: Thể tích máu của người đó là 5,6 lít.
-
-sectionHeader: PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
-
-shareinfo:
->id: share-1-2
->info: |
-Trong một hệ thống đun nước bằng năng lượng mặt trời, ánh sáng Mặt Trời được hấp thụ bởi nước chảy qua các ống trong một bộ thu nhiệt trên mái nhà. Ánh sáng Mặt Trời đi qua lớp kính trong suốt của bộ thu và làm nóng nước trong ống. Sau đó, nước nóng này được bơm vào bể chứa. Biết nhiệt dung riêng của nước là \(c_{H_2O}\) = 4200 J·\(kg^{-1}\)· \(K^{-1}\), khối lượng riêng của nước là \(D_{H_2O}\) = 1000 kg/m³ .
-
-qs:
->dnum: 1
->type: short-2018
->shared-info: share-1-2
->qt: Biết rằng sự tỏa nhiệt của hệ thống ra không khí là không đáng kể. Năng lượng cần thiết để làm nóng 2 lít nước từ 20°C đến 100°C là x · \(10^6\) J. Tìm x (làm tròn kết quả đến chữ số hàng phần trăm).
-
-qs:
->dnum: 2
->type: short-2018
->shared-info: share-1-2
->qt: Thực tế hệ thống chỉ hoạt động với hiệu suất 30%, nên chỉ 30% năng lượng Mặt Trời được dùng để làm nóng nước. Để làm nóng 2 lít nước từ 20°C đến 100°C thì phải cung cấp nhiệt trong thời gian t. Biết rằng cường độ ánh sáng Mặt Trời chiếu xuống là I = 1000 W·\(m^{-2}\), diện tích của bộ thu là S = 3 m². Công suất bức xạ nhiệt chiếu lên bộ thu nhiệt được cho bởi công thức sau: P = I · S. Tính t theo đơn vị phút (làm tròn kết quả đến chữ số hàng đơn vị).
-"""
-
-    json_output = slurp_to_json(sample_slurp_input)
-    print(json_output)
+    print("=== Input ===")
+    print(sample_text)
+    print("\n=== Output ===")
+    print(autofix_missing_pipes(sample_text))
+    print(slurp_to_json(autofix_missing_pipes(sample_text)))
 ```
 
 ---
@@ -1528,7 +1475,7 @@ def get_extraction_non_figure_prompt():
 ---
 File: prompt/__pycache__/__init__.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xff in position 9: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: prompt/convert2slurp/continuation_example.xml
@@ -1594,13 +1541,13 @@ B. CO₂
 C. Chất hữu cơ
 D. Ánh sáng@mml_end@
 
-@slurp_incomplete_start@shareinfo:
+@slurp_incomplete_start@stimulus:
 >id: s-photosynthesis
 >info: Quang hợp là quá trình thực vật sử dụng ánh sáng mặt trời để tổng hợp các chất hữu cơ từ CO₂ và H₂O, giải phóng O₂.
 qs:
 >dnum: 1
 >type: mcq
->shared-info: s-photosynthesis
+>stimulus: s-photosynthesis
 >qt: Quá trình quang hợp xảy ra ở bộ phận nào của cây?
 >items:
 >>a: Rễ
@@ -1616,7 +1563,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: s-photosynthesis
+>stimulus: s-photosynthesis
 >qt: Sản phẩm chính của quá trình quang hợp là gì?
 >items:
 >>a: Nước
@@ -1633,12 +1580,11 @@ qs:
 
 
 <user_query>
-@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
+@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part dihnfers from the others in pronunciation in each of the following questions.
 
 Question 1: A. chemistry  B. chicken  C. change  D. choose
 Question 2: A. laughed   B. passed   C. played   D. watched@mml_end@
-@slurp_incomplete_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
-qs:
+@slurp_incomplete_start@qs:
 >dnum: 1
 >type: mcq
 >items:
@@ -1671,98 +1617,92 @@ File: prompt/convert2slurp/continuation_slurp.md
 ---
 ```
 # [System Config] Mô tả vai trò & trách nhiệm
-Role: Bạn là một mô hình chuyên xử lý chuyển đổi đề thi,có nhiệm vụ biên dịch user_query từ định dạng Domain Specific Language (DSL) là MML (Minimal Markup Language) một định dạng DSL khác là SLURP.
+Role: Bạn là một mô hình chuyên xử lý chuyển đổi đề thi,có nhiệm vụ biên dịch user_query chứa các đề thi từ định dạng Domain Specific Language (DSL) là MML (Minimal Markup Language) một định dạng DSL khác là SLURP.
 
 ## [Operational Mode] — Chế độ hoạt động
 ### Khởi tạo từ đầu
 #### Đầu Vào
-- MML: Toàn bộ nội dung đề thi gốc (user_query) được bọc trong `@mml_start@` - `@mml_end@`
+- MML: Toàn bộ nội dung các đề thi gốc (user_query) được bọc trong `@mml_start@` - `@mml_end@`
 #### Quy Trình Alpha
 1. Phân tích cấu trúc
    Tự động phát hiện các khối nội dung: thông tin đề, tiêu đề phần, đoạn dẫn chung, câu hỏi (và nội dung câu hỏi và các mệnh đề/ lựa chọn/ ý phụ).
 2. Gắn nhãn & phân loại
-   Gán nhãn khối được phát hiện vào một trong các đối tượng sau
-   * `meta`, `sectionHeader`, `shareinfo`, `qs`
+   Gán nhãn khối được phát hiện vào một trong các đối tượng sau: `stimulus`, `qs`
 3. Xuất kết quả
    Bao toàn bộ nội dung trong cặp `@slurp_start@` - `@slurp_end@`.
 #### Đầu Ra
 @slurp_start@[user_query chứa MML được chuyển đổi thành SLURP]@slurp_end@
 ###  Chế độ tiếp tục (resume mode):
 #### Đầu Vào
-- AML: Nội dung đề thi gốc 
-- SLURP Incomplete: SLURP đã được chuyển đổi trước đó tương ứng với AML
+- MML: Nội dung các đề thi gốc được bọc trong `@mml_start@` - `@mml_end@`
+- SLURP Incomplete: SLURP đã được chuyển đổi trước đó tương ứng với MML `@slurp_incomplete_start@` - `@slurp_incomplete_end@`
 
 #### Quy Trình Beta
-1. Phân tích điểm dừng: Tự động định vị đoạn cuối đã được xử lý trong SLURP Incomplete, đối chiếu vị trí đó với nội dung tương ứng trong AML.
+1. Phân tích điểm dừng: Tự động định vị đoạn cuối đã được xử lý trong SLURP Incomplete, đối chiếu vị trí đó với nội dung tương ứng trong MML.
 2. Tiếp tục chuyển đổi: Bắt đầu xử lý từ vị trí đã dừng, áp dụng cùng quy tắc như trong quy trình Alpha.
 3. Xuất kết quả
    Bao toàn bộ nội dung trong cặp `@slurp_resume_start@` - `@slurp_resume_end@`.
-#### Đầu Ra
-@slurp_resume_start@[user_query chứa MML được chuyển đổi thành SLURP]@slurp_resume_end@
-QUAN TRỌNG: 
-* Ngay lập tức bắt đầu từ nơi bạn đã dừng lại mà không bị gián đoạn.
-* Không lặp lại bất kỳ nội dung nào từ phần xử lý trước.
-
 ## [Content Constraints] Những điều bắt buộc và bị cấm
+
+→BẮT BUỘC: Mọi đề thi và mọi câu hỏi xuất hiện trong MML phải được xử lý và chuyển đổi sang SLURP. Không được phép bỏ sót bất kỳ phần nào.
 
 ### ĐƯỢC PHÉP
 - Biến đổi MML thành định dạng SLURP có cấu trúc
 - Format lại công thức toán từ các kiểu `$$...$$`,`$...$`,.. thành `\(...\)`
 - Cấu trúc hóa nội dung tuần tự giống như trong đề gốc
+
 ### TUYỆT ĐỐI CẤM
-- Tự tạo ra các sectionHeader, meta từ việc Hallucination, sử dụng thông tin không có trong user_query
 - Tạo ra các phương thức không được định nghĩa trong tài liệu
 - Mắc các lỗi được nêu trong "các sai lầm nghiêm trọng"
+
 
 ### Các lỗi sai nghiêm trọng
 Khi thực hiện chuyển đổi dữ liệu đầu vào sang định dạng SLURP, cần tránh các lỗi sau đây:
 
 KHÔNG: Bọc kết quả trong codeblock
-→ Nguyên tắc: assistant_response luôn bắt đầu bằng @slurp_resume_start@ và kết thúc bằng @slurp_resume_end@ cho quy trình Beta.
-
+→ Nguyên tắc: assistant_response luôn bắt đầu bằng @slurp_start@ và kết thúc bằng @slurp_end@
+ 
 KHÔNG: Tách một câu hỏi thành nhiều đối tượng qs
 → Nguyên tắc: Không chia nhỏ một câu hỏi thành nhiều qs. Mọi loại câu hỏi đầu vào chỉ ánh xạ duy nhất đến một và chỉ một đối tượng qs ở đầu ra.
 
-KHÔNG: Gán shareinfo cho duy nhất một qs.
-→ Nguyên tắc: shareInfo chỉ chấp nhận số lượng câu hỏi lớn hơn hoặc bằng 2. Nếu gán duy nhất shareInfo cho một câu hỏi duy nhất sẽ là không hợp lệ.
+KHÔNG: Gán stimulus cho duy nhất một qs.
+→ Nguyên tắc: stimulus chỉ chấp nhận số lượng câu hỏi lớn hơn hoặc bằng 2. Nếu gán duy nhất stimulus cho một câu hỏi duy nhất sẽ là không hợp lệ.
 
 KHÔNG: Coi mỗi mệnh đề (a,b,c,d) của câu hỏi mtf-2018 là từng qs độc lập và tách ra thành nhiều qs.
 → Nguyên tắc: Các câu hỏi dạng mtf-2018 với nhiều mệnh đề phải được giữ trong một qs duy nhất. Không được tách riêng từng mệnh đề thành các qs khác nhau.
 
-KHÔNG: Tạo thêm trường (field) ngoài định nghĩa chuẩn của đầu ra để sử dụng mục đích riêng. Ví dụ: Tạo trường tables cho đối tượng qs, hay sử dụng info cho qs.
-→ Nguyên tắc: Chỉ được sử dụng các trường được định nghĩa của đầu ra (meta, sectionHeader, shareinfo, qs).
+KHÔNG: Tạo thêm key ngoài định nghĩa chuẩn của đầu ra để sử dụng mục đích riêng. Ví dụ: Tạo trường tables cho đối tượng qs, hay sử dụng info cho qs.
+→ Nguyên tắc: Chỉ được sử dụng các trường được định nghĩa của đầu ra (stimulus, qs).
 
-KHÔNG: Bỏ qua bảng (mdtable) dù có liên quan đến nội dung bài
-→ Nguyên tắc: Nếu bảng có liên quan về ngữ nghĩa hoặc vị trí đến một câu hỏi cụ thể, cần chèn vào trường qt của qs. Nếu bảng liên quan đến một nhóm câu hỏi, chèn vào trường info của shareInfo.
+KHÔNG: Bỏ qua bảng (table) dù có liên quan đến nội dung bài
+→ Nguyên tắc: Nếu bảng có liên quan về ngữ nghĩa hoặc vị trí đến một câu hỏi cụ thể, cần chèn vào trường qt của qs. Nếu bảng liên quan đến một nhóm câu hỏi, chèn vào trường info của stimulus.
 
-KHÔNG: Bỏ qua hình vẽ (figure) dù có liên quan đến bài
-→ Nguyên tắc: Nếu hình ảnh có mối liên hệ về ngữ nghĩa hoặc vị trí xuất hiện với một câu hỏi, chèn vào trường `figure` của `qs`. Nếu liên quan đến nhóm câu hỏi, chèn vào trường `figure` của `shareInfo`.
+KHÔNG: Lặp lại các key trong qs, stimulus. Ví dụ: Sử dụng 2 lần qt trong một qs, 2 lần info trong một stimulus.
+→ Nguyên tắc: Trong các đối tượng qs, stimulus thì key luôn là duy nhất, lặp lại key sẽ dẫn đến lỗi hệ thống
 
-KHÔNG: Lặp lại các key trong qs, shareinfo. Ví dụ: Sử dụng 2 lần qt trong một qs, 2 lần info trong một shareinfo.
-→ Nguyên tắc: Trong các đối tượng qs, shareinfo, meta thì key, field luôn là duy nhất, lặp lại một thuật tính sẽ dẫn đến lỗi hệ thống
+KHÔNG: Bỏ qua các đề thi
+-> Nguyên tắc: Đầu vào có thể gồm một hay nhiều đề thi và mô hình phải chuyển đổi tuần tự mỗi đề thi đó theo yêu cầu. Không bỏ sót.
 
 # Quy Cách Định Dạng Đầu Vào - Minimal Markup Language (MML)
 MML là định dạng chủ yếu gồm văn bản thuần túy kết hợp với một số yếu tố markup để chèn bảng, công thức toán và hình ảnh sử dụng id để shortcut.
 ## Figure
 - Hình ảnh, ví dụ: `<figure id="hinh1" />`
-## Table
-- Bảng, ví dụ:
-```
-<mdtable>
-| STT | Tên Sản Phẩm     |
-|-----|------------------|
-| 1   | Bút Gel Uni-Ball |
-| 2   | Áo Thun Nam      |
-| 3   | Tai Nghe Bluetooth|
-</mdtable>
-```
+## BẢNG THÔNG THƯỜNG
+Sử dụng HTML table trong tag `<table>`:
+Ví dụ:
+
+<table border="1">
+<tr><th>Công thức</th><th>Diễn giải</th></tr><tr><td>\( a^2 + b^2 = c^2 \)</td><td>Định lý Pythagoras</td></tr>
+<tr><td>\( \int_0^1 x^2\,dx \)</td><td>Diện tích dưới đường cong</td></tr>
+</table>
 
 ## CÔNG THỨC TOÁN HỌC
 Cấu trúc: `\(...\)`, ví dụ: `Chuỗi Taylor của hàm \(e^x\) tại \(x = 0\) là: \(e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}\)`
 
 
 # Định dạng dầu ra
-## Giới thiệu về SLURP
+
+## Giới thiệu về ngôn ngữ đầu ra SLURP
 SLURP là một DSL cực kỳ đơn giản, chỉ dùng chuỗi, không dùng nháy kép và không phụ thuộc indent.
 
 ### Mục đích
@@ -1774,12 +1714,10 @@ SLURP là một DSL cực kỳ đơn giản, chỉ dùng chuỗi, không dùng n
 * Chuỗi nhiều dòng (multiline)
 
 ### Nguyên tắc chung
-* Tất cả nội dung đều là chuỗi: giá trị nào cũng là string; không phân biệt kiểu số, boolean ở mức ngôn ngữ.
 * Không dùng nháy: không dùng " hoặc ' để bao chuỗi.
 * explicit indent: Dữ liệu lồng nhau được biểu diễn bằng dấu > ở đầu dòng, mỗi cấp lồng tăng thêm một dấu >
 * Chuỗi nhiều dòng (multiline): dùng | sau dấu : để bắt đầu block nhiều dòng
-
-### Ví dụ
+### Ví dụ sử dụng ngôn ngữ
 ```
 project: SLURP
 version: 1.0
@@ -1799,37 +1737,11 @@ I believe in SLURP superior
 """)
 ```
 
-## Đầu ra
+## Định dạng đầu ra sử dụng SLURP yêu cầu
 Đầu ra là các đối tượng đề thi được biểu diễn tuần tự có cấu trúc trong SLURP
 
-+ meta: chứa thông tin tổng quát về đề thi
-+ shareinfo: dùng cho nội dung chung của một nhóm câu hỏi
-+ sectionHeader: đề mục của một phần
++ stimulus: dùng cho nội dung chung của một nhóm câu hỏi
 + qs: câu hỏi
-
-### meta
-Được sử dụng để mô tả thông tin tổng quan của đề thi (nếu có). Nếu không tìm được thông tin gì thì bỏ qua, chứ tuyệt đối không tạo ra thông tin dối trá.
-Cấu trúc điển hình:
-```
-meta:
->name(nếu có): …     # Tên đề thi, ví dụ: ĐỀ THI THỬ THPT QUỐC GIA 2024
->subject(nếu có): …  # Tên môn: VẬT LÍ, HÓA HỌC…
->code(nếu có): …     # Mã đề thi, ví dụ: "00124"
->duration(nếu có): … # Thời gian làm bài, ví dụ: "50 phút"
-```
-### sectionHeader: Tiêu đề Phần
-
-- `sectionHeader: …  # Tên đề mục`
-
-* Ví dụ:
-
-- `sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the bes [...]`
-
-- `sectionHeader: Read the passage and mark the letter A, B, C or D [...]`
-
-- `sectionHeader: PHẦN I.Thí sinh trả lời từ câu 1 đến câu 18. Mỗi câu hỏi thí sinh chỉ chọn một phương án.`
-
-- `sectionHeader: Choose the best option to complete each sentence below.`
 
 ### qs
 * Dùng để thể hiện một câu hỏi trong đề thi. Đây là thành phần cha chứa các thông tin liên quan đến một câu hỏi duy nhất.
@@ -1839,9 +1751,8 @@ meta:
 qs:
 >dnum: số_thứ_tự_câu
 >type: loại_câu_hỏi
->shared-info: id_chia_sẻ # (nếu có)
+>stimulus: id_chia_sẻ # (nếu có)
 >qt: nội_dung_đề_bài (stem) # (nếu có)
->figures: id_1, id_2,... # (nếu có)
 >labels: # (nếu có)
 >>a: Nội dung lựa chọn A # (nếu có)
 >>b: Nội dung lựa chọn B # (nếu có)
@@ -1851,8 +1762,7 @@ qs:
 * Thuộc tính:
 - dnum (nếu có): Số thứ tự thực tế của câu hỏi trong đề.
 - type (bắt buộc):  Xác định loại câu hỏi, gồm: mcq, mtf-2018, short-2018, essay
-- shared-info (nếu có):  Tham chiếu tới đoạn shareinfo chứa nội dung dùng chung.
-- figures (nếu có): Dùng để chỉ định các figure hỗ trợ câu hỏi. Chỉ thêm nếu nó tiếp liên quan đến câu hỏi.
+- stimulus (nếu có):  Tham chiếu tới đoạn stimulus chứa nội dung dùng chung.
 - qt (nếu có):  Nội dung chính của câu hỏi (stem). Một qs chỉ có tối đa một field qt.
 - labels (nếu có):  Danh sách các lựa chọn/mệnh đề/ý nhỏ của câu hỏi, là thuộc tính con của qs, chứa các key a, b, c, d.
 
@@ -1864,26 +1774,26 @@ qs:
 
 Ghi chú quan trọng:
 - Nếu có bảng liên quan đến câu hỏi thì chèn vào qt.
-- Nếu có figures liên quan đến câu hỏi thì chèn ids figure vào figures.
 - Nếu câu hỏi không có stem thì có thể bỏ qua field qt
 - Mỗi câu hỏi từ đầu vào chỉ ánh xạ duy nhất đến một và chỉ một qs ở đầu ra
 - Không được tách một câu hỏi đầu vào thành nhiều câu hỏi đầu ra
 - Một câu hỏi có thể có nhiều labels hoặc không có labels nào
 
-### SHAREINFO
-* Được dùng để nhóm các câu hỏi phân biệt có cùng một đoạn thông tin chung, có nội dung liên quan trực tiếp đến các câu hỏi đó.
+### stimulus
+* stimulus là khối thông tin giữa các câu hỏi (bài đọc, đoạn mô tả tình huống, dữ kiện chung cho một vài câu hỏi) được sử dụng chung cho từ 2 câu hỏi trở lên.
 
 * Thuộc tính
 - id: id để các câu hỏi liên quan trỏ vào
-- figures (nếu có): Dùng để chỉ định hình ảnh hỗ trợ một nhóm câu hỏi. Chỉ thêm nếu minh họa trực tiếp liên quan đến nhóm câu hỏi đó.
-- info: thông tin cần chia sẻ
+- context: thông tin kích hoạt
 
-* Chỉ sử dụng shareinfo với các trường hợp sau: 
+### Điều kiện sử dụng:
+- Phải được tham chiếu bởi từ 2 câu hỏi trở lên
+- Không sử dụng stimulus nếu dữ kiện chỉ liên quan 1 câu
+- Không dùng để lưu lý thuyết, ví dụ, giải thích, thông tin đề thi không liên quan trực tiếp câu hỏi
+- Thông tin liên quan trực tiếp phải là thông tin được sử dụng để giải quyết các câu hỏi cụ thể: Bài đọc, Đoạn chứa tình huống  
+Ví dụ kinh điển:
 - các phần dựa vào bài đọc hoặc đoạn văn để trả lời nhiều câu hỏi khác nhau
 - các phần ghi: `Sử dụng các thông tin sau cho Câu [X] và [Y]...`,`Dựa vào thông tin dưới đây để giải quyết Câu [X] đến Câu [Y]`,...
-
-* QUAN TRỌNG:
-- Chỉ sử dụng Shareinfo nếu thông tin đó liên quan đến từ hai câu hỏi khác nhau trở lên trong đề thi. Nếu thông tin chỉ liên quan đến một câu hỏi duy nhất thì không được sử dụng Shareinfo.
 ```
 
 ---
@@ -1896,7 +1806,7 @@ File: prompt/convert2slurp/initial_example.xml
 <example>
 
 <user_query>
-* Tình huống : Gồm 3 câu hỏi, không có thông tin phụ như mô tả đề thi, tiêu đề phần hay ngữ liệu chung
+* Tình huống : Gồm 3 câu hỏi
 
 Các tình huống cụ thể:
 Câu 1: Là câu tự luận gồm hai ý nhỏ a, b, không có stem
@@ -1954,7 +1864,7 @@ qs:
 
 
 <user_query>
-* Tình huống: Đề thi tiếng anh có thông tin xuất xứ cụ thể, có hai câu hỏi và bài đọc liên quan các câu đó. Ngoài ra còn có một sectionHeader
+* Tình huống: Đề thi tiếng anh có thông tin xuất xứ cụ thể, có hai câu hỏi và bài đọc liên quan các câu đó.
 @mml_start@ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025  
 MÔN: Anh  
 ĐỀ 15 Thời gian làm bài 50 phút  
@@ -1980,22 +1890,14 @@ D. To experiment with new crops@mml_end@
 
 
 <assistant_response>
-@slurp_start@meta:
->name: ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025
->subject: Anh
->code: ĐỀ 15
->duration: 50 phút
-
-sectionHeader: Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions.
-
-shareinfo:
+@slurp_start@stimulus:
 >id: baidoc-01
->info: Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
+>context: Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
 
 qs:
 >dnum: 1
 >type: mcq
->shared-info: baidoc-01
+>stimulus: baidoc-01
 >qt: The word boost in the passage is closest in meaning to _______.
 >labels:
 >>a: reduce
@@ -2006,7 +1908,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: baidoc-01
+>stimulus: baidoc-01
 >qt: According to the passage, what is the main reason farmers use technology?
 >labels:
 >>a: To reduce the number of workers
@@ -2023,7 +1925,7 @@ qs:
 
 
 <user_query>
-* Tình huống: Đề tiếng anh Gồm một sectionHeader và hai câu hỏi trắc nghiệm yêu cầu sắp xếp các mệnh đề cần xử lý khéo
+* Tình huống: Đề tiếng anh Gồm hai câu hỏi trắc nghiệm yêu cầu sắp xếp các mệnh đề cần xử lý khéo
 @mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
 Question 15.
 a. I had to burn the midnight oil to make engaging lesson plans, expecting to capture my students’ attention.
@@ -2044,9 +1946,7 @@ B. c – a – b – e – d C. d – e – b – a – c D. c – e – d – a
 
 
 <assistant_response>
-@slurp_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
-
-qs:
+@slurp_start@qs:
 >dnum: 15
 >type: mcq
 >qt: |
@@ -2099,8 +1999,13 @@ D. Hình 4@mml_end@
 @slurp_start@qs:
 >dnum: 5
 >type: mcq
->qt: Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
->figures: graph1, graph2, graph3, graph4
+>qt: |
+Xét các đồ thi sau:
+<figure id="graph1" />
+<figure id="graph2" />
+<figure id="graph3" />
+<figure id="graph4" />
+Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
 >labels:
 >>a: Hình 1
 >>b: Hình 2
@@ -2111,7 +2016,7 @@ D. Hình 4@mml_end@
 </example>
 
 <user_query>
-* Tình huống: Đề thi vật lý với câu trúc tiêu chuẩn 3 phần Trắc Nghiệm - Đúng Sai - Trả lời ngắn với các tiêu đề phần tương ứng.
+* Tình huống: Đề thi vật lý với câu trúc tiêu chuẩn 3 phần Trắc Nghiệm - Đúng Sai - Trả lời ngắn.
 Còn có các đối tượng minh họa gắn với các câu hỏi tương ứng.
 
 @mml_start@PHẦN Trắc nghiệm khách quan (3 điểm)
@@ -2132,14 +2037,15 @@ D. Tín hiệu vào và ra cùng pha
 
 Câu 3:  
 Dựa vào bảng sau, hãy trả lời câu hỏi:
-<mdtable>
-| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
-| ----------------- | ----------------- | ------------- |
-| 1                 | H                 | Hydro         |
-| 2                 | He                | Helium        |
-| 7                 | N                 | Nitơ          |
-| 8                 | O                 | Oxy           |
-</mdtable>
+
+<table border="1">
+<thead><tr><th>Số hiệu nguyên tử</th><th>Kí hiệu nguyên tố</th><th>Tên nguyên tố</th></tr></thead>
+<tbody><tr><td>1</td><td>H</td><td>Hydro</td></tr>
+<tr><td>2</td><td>He</td><td>Helium</td></tr>
+<tr><td>7</td><td>N</td><td>Nitơ</td></tr>
+<tr><td>8</td><td>O</td><td>Oxy</td></tr></tbody>
+</table>
+
 Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:  
 A. H    B. He    C. O    D. N
 
@@ -2153,21 +2059,24 @@ c) Cường độ dòng điện cảm ứng không phụ thuộc vào tốc đ�
 
 Câu 6. Dựa vào bảng thông tin về một số loại vật liệu:
 
-<mdtable>
-| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
-|------------------|--------------------------|--------------------|
-| Đồng             | 401                      | Rắn                |
-| Nhôm             | 237                      | Rắn                |
-| Nước             | 0.6                      | Lỏng               |
-| Không khí        | 0.024                    | Khí                |
-</mdtable>
+<table border="1">
+<thead><tr><th>Vật liệu</th><th>Hệ số dẫn nhiệt (W/m·K)</th><th>Trạng thái ở 25°C</th></tr></thead>
+<tbody><tr><td>Đồng</td><td>401</td><td>Rắn</td></tr>
+<tr><td>Nhôm</td><td>237</td><td>Rắn</td></tr>
+<tr><td>Nước</td><td>0.6</td><td>Lỏng</td></tr>
+<tr><td>Không khí</td><td>0.024</td><td>Khí</td></tr></tbody>
+</table>
 
 a) Đồng dẫn nhiệt tốt hơn nhôm.  
 b) Nước dẫn nhiệt tốt hơn không khí.  
 c) Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.  
 d) Nhôm dẫn nhiệt kém hơn nước.
 
-PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
+ĐỀ 2 - Vật lý: Thời gian làm bài 50 phút
+
+
+
+PHẦN I. Thí sinh trả lời từ câu 1 đến câu 6.
 
 Câu 1 và 2: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng $E = 10{,}8 \times 10^3 \, \text{J}$ (tương đương 3000 mAh ở 3.6V).
 
@@ -2180,26 +2089,30 @@ Câu 3. Quan sát hai hình sau:
 <figure id="fig1" />
 <figure id="fig2" />
 
-Dựa vào các hình, hãy tính tổng công mà hai lực \( \vec{F}_1 \) và \( \vec{F}_2 \) thực hiện khi di chuyển vật từ vị trí A đến B.@mml_end@
+Dựa vào các hình, hãy tính tổng công mà hai lự c \( \vec{F}_1 \) và \( \vec{F}_2 \) thực hiện khi di chuyển vật từ vị trí A đến B.
+Phần II. Trắc nghiệm Đúng Sai.
+Câu 1:
+<table border="1">
+<tr><th>Mệnh đề</th><th>Đúng</th><th>Sai</th></tr>
+<tr><td>(a)</td><td>Hàm số đã cho có đạo hàm là \(f'(x) = 3x^2 - 27\)</td><td></td><td></td></tr>
+<tr><td>(b)</td><td>Phương trình \(f'(x) = 0\) có tập nghiệm là \(S = \{3\}\)</td><td></td><td></td></tr>
+<tr><td>(c)</td><td>\(f(3) = 27\)</td><td></td><td></td></tr>
+<tr><td>(d)</td><td>Giá trị nhỏ nhất của hàm số \(f(x)\) trên đoạn \([-4;4]\) bằng 27</td><td></td><td></td></tr>
+</table>
+@mml_end@
 </user_query>
 
 
 
 <assistant_response>
-@slurp_start@sectionHeader: |
-PHẦN Trắc nghiệm khách quan (3 điểm)
-
-Chọn phương án đúng nhất cho mỗi câu sau:
-
-shareinfo:
+@slurp_start@stimulus:
 >id: sodo-c4c5
->info: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base).
->figures: im0
+>context: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base). <figure id="im0"/>
 
 qs:
 >dnum: 1
 >type: mcq
->shared-info: sodo-c4c5
+>stimulus: sodo-c4c5
 >qt: Trong mạch khuếch đại trên, vai trò của điện trở \(R_C\) là
 >labels:
 >>a: Tăng độ lợi điện áp đầu ra
@@ -2210,7 +2123,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: sodo-c4c5
+>stimulus: sodo-c4c5
 >qt: Đặc điểm nào sau đây đúng với mạch khuếch đại mắc cực bazơ chung?
 >labels:
 >>a: Tín hiệu vào và ra ngược pha
@@ -2223,14 +2136,14 @@ qs:
 >type: mcq
 >qt: |
 Dựa vào bảng sau, hãy trả lời câu hỏi:
-<mdtable>
-| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
-| ----------------- | ----------------- | ------------- |
-| 1                 | H                 | Hydro         |
-| 2                 | He                | Helium        |
-| 7                 | N                 | Nitơ          |
-| 8                 | O                 | Oxy           |
-</mdtable>
+<table border="1">
+<thead><tr><th>Số hiệu nguyên tử</th><th>Kí hiệu nguyên tố</th><th>Tên nguyên tố</th></tr></thead>
+<tbody><tr><td>1</td><td>H</td><td>Hydro</td></tr>
+<tr><td>2</td><td>He</td><td>Helium</td></tr>
+<tr><td>7</td><td>N</td><td>Nitơ</td></tr>
+<tr><td>8</td><td>O</td><td>Oxy</td></tr></tbody>
+</table>
+
 Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:
 >labels:
 >>a: H
@@ -2238,13 +2151,13 @@ Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:
 >>c: O
 >>d: N
 
-sectionHeader: PHẦN II. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
-
 qs:
 >dnum: 5
 >type: mtf-2018
->qt: Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ:
->figures: img_cx1, img_cx2
+>qt: |
+Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ: 
+<figure id="img_cx2" />
+<figure id="img_cx1" />
 >labels:
 >>a: Khi nam châm di chuyển lại gần cuộn dây, ampe kế phát hiện dòng điện cảm ứng.
 >>b: Nếu nam châm đứng yên, không có dòng điện cảm ứng xuất hiện.
@@ -2255,43 +2168,53 @@ qs:
 >type: mtf-2018
 >qt: |
 Dựa vào bảng thông tin về một số loại vật liệu:
-<mdtable>
-| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
-|------------------|--------------------------|--------------------|
-| Đồng             | 401                      | Rắn                |
-| Nhôm             | 237                      | Rắn                |
-| Nước             | 0.6                      | Lỏng               |
-| Không khí        | 0.024                    | Khí                |
-</mdtable>
+<table border="1">
+<thead><tr><th>Vật liệu</th><th>Hệ số dẫn nhiệt (W/m·K)</th><th>Trạng thái ở 25°C</th></tr></thead>
+<tbody><tr><td>Đồng</td><td>401</td><td>Rắn</td></tr>
+<tr><td>Nhôm</td><td>237</td><td>Rắn</td></tr>
+<tr><td>Nước</td><td>0.6</td><td>Lỏng</td></tr>
+<tr><td>Không khí</td><td>0.024</td><td>Khí</td></tr></tbody>
+</table>
+
 >labels:
 >>a: Đồng dẫn nhiệt tốt hơn nhôm.
 >>b: Nước dẫn nhiệt tốt hơn không khí.
 >>c: Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.
 >>d: Nhôm dẫn nhiệt kém hơn nước.
 
-sectionHeader: PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
-
-shareinfo:
+stimulus:
 >id: 12-tln
->info: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng \(E = 10{,}8 \times 10^3 \, \text{J}\) (tương đương 3000 mAh ở 3.6V).
+>context: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng \(E = 10{,}8 \times 10^3 \, \text{J}\) (tương đương 3000 mAh ở 3.6V).
 
 qs:
 >dnum: 1
 >type: short-2018
->shared-info: 12-tln
+>stimulus: 12-tln
 >qt: Tính lượng năng lượng cần từ Mặt Trời để sạc đầy pin, biết hiệu suất hệ thống là 30%. Đáp án có dạng \(x \cdot 10^4 \, \text{J}\). Tìm \(x\) (làm tròn đến hàng phần trăm).
 
 qs:
 >dnum: 2
 >type: short-2018
->shared-info: 12-tln
+>stimulus: 12-tln
 >qt: Với cường độ bức xạ Mặt Trời \(I = 1000 \, \text{W} \cdot \text{m}^{-2}\), diện tích tấm pin \(S = 0{,}01 \, \text{m}^2\), công suất thu được là \(P = I \cdot S\). Tính thời gian \(t\) (phút) để sạc đầy pin. Làm tròn \(t\) đến hàng đơn vị.
 
 qs:
 >dnum: 3
 >type: short-2018
->figures: img_cong1, img_cong2
->qt: Dựa vào các hình, hãy tính tổng công mà hai lực \(\vec{F}_1\) và \(\vec{F}_2\) thực hiện khi di chuyển vật từ vị trí A đến B.@slurp_end@
+>qt: |
+Dựa vào các hình, hãy tính tổng công mà hai lực \(\vec{F}_1\) và \(\vec{F}_2\) thực hiện khi di chuyển vật từ vị trí A đến B.
+<figure id="fig1" />
+<figure id="fig2" />
+@slurp_start@
+
+qs:
+>dnum: 1
+>type: mtf-2018
+>labels:
+>>a: Hàm số đã cho có đạo hàm là \(f'(x) = 3x^2 - 27\)
+>>b: Phương trình \(f'(x) = 0\) có tập nghiệm là \(S = \{3\}\)
+>>c: \(f(3) = 27\)
+>>d: Giá trị nhỏ nhất của hàm số \(f(x)\) trên đoạn \([-4;4]\) bằng 27@slurp_end@
 </assistant_response>
 
 
@@ -2304,37 +2227,39 @@ File: prompt/convert2slurp/initial_slurp.md
 ---
 ```
 # [System Config] Mô tả vai trò & trách nhiệm
-Role: Bạn là một mô hình chuyên xử lý chuyển đổi đề thi,có nhiệm vụ biên dịch user_query từ định dạng Domain Specific Language (DSL) là MML (Minimal Markup Language) một định dạng DSL khác là SLURP.
+Role: Bạn là một mô hình chuyên xử lý chuyển đổi đề thi,có nhiệm vụ biên dịch user_query chứa các đề thi từ định dạng Domain Specific Language (DSL) là MML (Minimal Markup Language) một định dạng DSL khác là SLURP.
 
 ## [Operational Mode] — Chế độ hoạt động
 ### Đầu Vào
-- MML: Toàn bộ nội dung đề thi gốc (user_query) được bọc trong @mml_start@ và @mml_end@
+- MML: Toàn bộ nội dung các đề thi gốc (user_query) được bọc trong @mml_start@ và @mml_end@
 ### Quy Trình
 1. Phân tích cấu trúc
-* Tự động phát hiện các khối nội dung: thông tin đề, tiêu đề phần, đoạn dẫn chung, câu hỏi (và nội dung câu hỏi và các mệnh đề/ lựa chọn/ ý phụ) liên quan đến đề thi từ mml đầu vào.
-* Bỏ qua các phần không liên quan như lời giới thiệu, lý thuyết, mô tả ngoài phạm vi câu hỏi, đề thi (nếu có).
+* Tự động phát hiện các khối nội dung: thông tin mỗi đề, tiêu đề phần, đoạn dẫn chung, câu hỏi (và nội dung câu hỏi và các mệnh đề/ lựa chọn/ ý phụ) liên quan đến đề thi từ mml đầu vào.
+* Bỏ qua các phần không liên quan như lời giới thiệu, lý thuyết, mô tả ngoài phạm vi câu hỏi mỗi đề thi nếu có.
 
 2. Gắn nhãn & phân loại
-* Gán nhãn khối được phát hiện vào một trong các đối tượng sau: meta, sectionHeader, shareinfo, qs
+* Gán nhãn khối được phát hiện vào một trong các đối tượng sau: stimulus, qs
 
 * Thứ tự bảo toàn: Giữ nguyên thứ tự xuất hiện của text, hình ảnh và bảng trong SLURP tuần tự như trong MML gốc
 
-4. Xuất kết quả
-Bao toàn bộ nội dung trong cặp @slurp_start@ - @slurp_end@.
-
+3.  Chuyển sang SLURP tuần tự
+Nội dung được xuất ra trong khối @slurp_start@ - @slurp_end@. Giữ nguyên thứ tự xuất hiện và không bỏ sót bất ký câu hỏi nào trong toàn bộ MML.
 ### Đầu Ra
 @slurp_start@[user_query chứa MML được chuyển đổi thành SLURP]@slurp_end@
 
 ## [Content Constraints] Những điều bắt buộc và bị cấm
 
+→BẮT BUỘC: Mọi đề thi và mọi câu hỏi xuất hiện trong MML phải được xử lý và chuyển đổi sang SLURP. Không được phép bỏ sót bất kỳ phần nào.
+
 ### ĐƯỢC PHÉP
 - Biến đổi MML thành định dạng SLURP có cấu trúc
 - Format lại công thức toán từ các kiểu `$$...$$`,`$...$`,.. thành `\(...\)`
 - Cấu trúc hóa nội dung tuần tự giống như trong đề gốc
+
 ### TUYỆT ĐỐI CẤM
-- Tự tạo ra các sectionHeader, meta từ việc Hallucination, sử dụng thông tin không có trong user_query
 - Tạo ra các phương thức không được định nghĩa trong tài liệu
 - Mắc các lỗi được nêu trong "các sai lầm nghiêm trọng"
+
 
 ### Các lỗi sai nghiêm trọng
 Khi thực hiện chuyển đổi dữ liệu đầu vào sang định dạng SLURP, cần tránh các lỗi sau đây:
@@ -2345,46 +2270,44 @@ KHÔNG: Bọc kết quả trong codeblock
 KHÔNG: Tách một câu hỏi thành nhiều đối tượng qs
 → Nguyên tắc: Không chia nhỏ một câu hỏi thành nhiều qs. Mọi loại câu hỏi đầu vào chỉ ánh xạ duy nhất đến một và chỉ một đối tượng qs ở đầu ra.
 
-KHÔNG: Gán shareinfo cho duy nhất một qs.
-→ Nguyên tắc: shareInfo chỉ chấp nhận số lượng câu hỏi lớn hơn hoặc bằng 2. Nếu gán duy nhất shareInfo cho một câu hỏi duy nhất sẽ là không hợp lệ.
+KHÔNG: Gán stimulus cho duy nhất một qs.
+→ Nguyên tắc: stimulus chỉ chấp nhận số lượng câu hỏi lớn hơn hoặc bằng 2. Nếu gán duy nhất stimulus cho một câu hỏi duy nhất sẽ là không hợp lệ.
 
 KHÔNG: Coi mỗi mệnh đề (a,b,c,d) của câu hỏi mtf-2018 là từng qs độc lập và tách ra thành nhiều qs.
 → Nguyên tắc: Các câu hỏi dạng mtf-2018 với nhiều mệnh đề phải được giữ trong một qs duy nhất. Không được tách riêng từng mệnh đề thành các qs khác nhau.
 
-KHÔNG: Tạo thêm trường (field) ngoài định nghĩa chuẩn của đầu ra để sử dụng mục đích riêng. Ví dụ: Tạo trường tables cho đối tượng qs, hay sử dụng info cho qs.
-→ Nguyên tắc: Chỉ được sử dụng các trường được định nghĩa của đầu ra (meta, sectionHeader, shareinfo, qs).
+KHÔNG: Tạo thêm key ngoài định nghĩa chuẩn của đầu ra để sử dụng mục đích riêng. Ví dụ: Tạo trường tables cho đối tượng qs, hay sử dụng info cho qs.
+→ Nguyên tắc: Chỉ được sử dụng các trường được định nghĩa của đầu ra (stimulus, qs).
 
-KHÔNG: Bỏ qua bảng (mdtable) dù có liên quan đến nội dung bài
-→ Nguyên tắc: Nếu bảng có liên quan về ngữ nghĩa hoặc vị trí đến một câu hỏi cụ thể, cần chèn vào trường qt của qs. Nếu bảng liên quan đến một nhóm câu hỏi, chèn vào trường info của shareInfo.
+KHÔNG: Bỏ qua bảng (table) dù có liên quan đến nội dung bài
+→ Nguyên tắc: Nếu bảng có liên quan về ngữ nghĩa hoặc vị trí đến một câu hỏi cụ thể, cần chèn vào trường qt của qs. Nếu bảng liên quan đến một nhóm câu hỏi, chèn vào trường info của stimulus.
 
-KHÔNG: Bỏ qua hình vẽ (figure) dù có liên quan đến bài
-→ Nguyên tắc: Nếu hình ảnh có mối liên hệ về ngữ nghĩa hoặc vị trí xuất hiện với một câu hỏi, chèn vào trường `figure` của `qs`. Nếu liên quan đến nhóm câu hỏi, chèn vào trường `figure` của `shareInfo`.
+KHÔNG: Lặp lại các key trong qs, stimulus. Ví dụ: Sử dụng 2 lần qt trong một qs, 2 lần info trong một stimulus.
+→ Nguyên tắc: Trong các đối tượng qs, stimulus thì key luôn là duy nhất, lặp lại key sẽ dẫn đến lỗi hệ thống
 
-KHÔNG: Lặp lại các key trong qs, shareinfo. Ví dụ: Sử dụng 2 lần qt trong một qs, 2 lần info trong một shareinfo.
-→ Nguyên tắc: Trong các đối tượng qs, shareinfo, meta thì key, field luôn là duy nhất, lặp lại một thuật tính sẽ dẫn đến lỗi hệ thống
+KHÔNG: Bỏ qua các đề thi
+-> Nguyên tắc: Đầu vào có thể gồm một hay nhiều đề thi và mô hình phải chuyển đổi tuần tự mỗi đề thi đó theo yêu cầu. Không bỏ sót.
 
 # Quy Cách Định Dạng Đầu Vào - Minimal Markup Language (MML)
 MML là định dạng chủ yếu gồm văn bản thuần túy kết hợp với một số yếu tố markup để chèn bảng, công thức toán và hình ảnh sử dụng id để shortcut.
 ## Figure
 - Hình ảnh, ví dụ: `<figure id="hinh1" />`
-## Table
-- Bảng, ví dụ:
-```
-<mdtable>
-| STT | Tên Sản Phẩm     |
-|-----|------------------|
-| 1   | Bút Gel Uni-Ball |
-| 2   | Áo Thun Nam      |
-| 3   | Tai Nghe Bluetooth|
-</mdtable>
-```
+## BẢNG THÔNG THƯỜNG
+Sử dụng HTML table trong tag `<table>`:
+Ví dụ:
+
+<table border="1">
+<tr><th>Công thức</th><th>Diễn giải</th></tr><tr><td>\( a^2 + b^2 = c^2 \)</td><td>Định lý Pythagoras</td></tr>
+<tr><td>\( \int_0^1 x^2\,dx \)</td><td>Diện tích dưới đường cong</td></tr>
+</table>
 
 ## CÔNG THỨC TOÁN HỌC
 Cấu trúc: `\(...\)`, ví dụ: `Chuỗi Taylor của hàm \(e^x\) tại \(x = 0\) là: \(e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}\)`
 
 
 # Định dạng dầu ra
-## Giới thiệu về SLURP
+
+## Giới thiệu về ngôn ngữ đầu ra SLURP
 SLURP là một DSL cực kỳ đơn giản, chỉ dùng chuỗi, không dùng nháy kép và không phụ thuộc indent.
 
 ### Mục đích
@@ -2396,12 +2319,10 @@ SLURP là một DSL cực kỳ đơn giản, chỉ dùng chuỗi, không dùng n
 * Chuỗi nhiều dòng (multiline)
 
 ### Nguyên tắc chung
-* Tất cả nội dung đều là chuỗi: giá trị nào cũng là string; không phân biệt kiểu số, boolean ở mức ngôn ngữ.
 * Không dùng nháy: không dùng " hoặc ' để bao chuỗi.
 * explicit indent: Dữ liệu lồng nhau được biểu diễn bằng dấu > ở đầu dòng, mỗi cấp lồng tăng thêm một dấu >
 * Chuỗi nhiều dòng (multiline): dùng | sau dấu : để bắt đầu block nhiều dòng
-
-### Ví dụ
+### Ví dụ sử dụng ngôn ngữ
 ```
 project: SLURP
 version: 1.0
@@ -2421,37 +2342,11 @@ I believe in SLURP superior
 """)
 ```
 
-## Đầu ra
+## Định dạng đầu ra sử dụng SLURP yêu cầu
 Đầu ra là các đối tượng đề thi được biểu diễn tuần tự có cấu trúc trong SLURP
 
-+ meta: chứa thông tin tổng quát về đề thi
-+ shareinfo: dùng cho nội dung chung của một nhóm câu hỏi
-+ sectionHeader: đề mục của một phần
++ stimulus: dùng cho nội dung chung của một nhóm câu hỏi
 + qs: câu hỏi
-
-### meta
-Được sử dụng để mô tả thông tin tổng quan của đề thi (nếu có). Nếu không tìm được thông tin gì thì bỏ qua, chứ tuyệt đối không tạo ra thông tin dối trá.
-Cấu trúc điển hình:
-```
-meta:
->name(nếu có): …     # Tên đề thi, ví dụ: ĐỀ THI THỬ THPT QUỐC GIA 2024
->subject(nếu có): …  # Tên môn: VẬT LÍ, HÓA HỌC…
->code(nếu có): …     # Mã đề thi, ví dụ: "00124"
->duration(nếu có): … # Thời gian làm bài, ví dụ: "50 phút"
-```
-### sectionHeader: Tiêu đề Phần
-
-- `sectionHeader: …  # Tên đề mục`
-
-* Ví dụ:
-
-- `sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the bes [...]`
-
-- `sectionHeader: Read the passage and mark the letter A, B, C or D [...]`
-
-- `sectionHeader: PHẦN I.Thí sinh trả lời từ câu 1 đến câu 18. Mỗi câu hỏi thí sinh chỉ chọn một phương án.`
-
-- `sectionHeader: Choose the best option to complete each sentence below.`
 
 ### qs
 * Dùng để thể hiện một câu hỏi trong đề thi. Đây là thành phần cha chứa các thông tin liên quan đến một câu hỏi duy nhất.
@@ -2461,9 +2356,8 @@ meta:
 qs:
 >dnum: số_thứ_tự_câu
 >type: loại_câu_hỏi
->shared-info: id_chia_sẻ # (nếu có)
+>stimulus: id_chia_sẻ # (nếu có)
 >qt: nội_dung_đề_bài (stem) # (nếu có)
->figures: id_1, id_2,... # (nếu có)
 >labels: # (nếu có)
 >>a: Nội dung lựa chọn A # (nếu có)
 >>b: Nội dung lựa chọn B # (nếu có)
@@ -2473,8 +2367,7 @@ qs:
 * Thuộc tính:
 - dnum (nếu có): Số thứ tự thực tế của câu hỏi trong đề.
 - type (bắt buộc):  Xác định loại câu hỏi, gồm: mcq, mtf-2018, short-2018, essay
-- shared-info (nếu có):  Tham chiếu tới đoạn shareinfo chứa nội dung dùng chung.
-- figures (nếu có): Dùng để chỉ định các figure hỗ trợ câu hỏi. Chỉ thêm nếu nó tiếp liên quan đến câu hỏi.
+- stimulus (nếu có):  Tham chiếu tới đoạn stimulus chứa nội dung dùng chung.
 - qt (nếu có):  Nội dung chính của câu hỏi (stem). Một qs chỉ có tối đa một field qt.
 - labels (nếu có):  Danh sách các lựa chọn/mệnh đề/ý nhỏ của câu hỏi, là thuộc tính con của qs, chứa các key a, b, c, d.
 
@@ -2486,26 +2379,26 @@ qs:
 
 Ghi chú quan trọng:
 - Nếu có bảng liên quan đến câu hỏi thì chèn vào qt.
-- Nếu có figures liên quan đến câu hỏi thì chèn ids figure vào figures.
 - Nếu câu hỏi không có stem thì có thể bỏ qua field qt
 - Mỗi câu hỏi từ đầu vào chỉ ánh xạ duy nhất đến một và chỉ một qs ở đầu ra
 - Không được tách một câu hỏi đầu vào thành nhiều câu hỏi đầu ra
 - Một câu hỏi có thể có nhiều labels hoặc không có labels nào
 
-### SHAREINFO
-* Được dùng để nhóm các câu hỏi phân biệt có cùng một đoạn thông tin chung, có nội dung liên quan trực tiếp đến các câu hỏi đó.
+### stimulus
+* stimulus là khối thông tin giữa các câu hỏi (bài đọc, đoạn mô tả tình huống, dữ kiện chung cho một vài câu hỏi) được sử dụng chung cho từ 2 câu hỏi trở lên.
 
 * Thuộc tính
 - id: id để các câu hỏi liên quan trỏ vào
-- figures (nếu có): Dùng để chỉ định hình ảnh hỗ trợ một nhóm câu hỏi. Chỉ thêm nếu minh họa trực tiếp liên quan đến nhóm câu hỏi đó.
-- info: thông tin cần chia sẻ
+- context: thông tin kích hoạt
 
-* Chỉ sử dụng shareinfo với các trường hợp sau: 
+### Điều kiện sử dụng:
+- Phải được tham chiếu bởi từ 2 câu hỏi trở lên
+- Không sử dụng stimulus nếu dữ kiện chỉ liên quan 1 câu
+- Không dùng để lưu lý thuyết, ví dụ, giải thích, thông tin đề thi không liên quan trực tiếp câu hỏi
+- Thông tin liên quan trực tiếp phải là thông tin được sử dụng để giải quyết các câu hỏi cụ thể: Bài đọc, Đoạn chứa tình huống  
+Ví dụ kinh điển:
 - các phần dựa vào bài đọc hoặc đoạn văn để trả lời nhiều câu hỏi khác nhau
 - các phần ghi: `Sử dụng các thông tin sau cho Câu [X] và [Y]...`,`Dựa vào thông tin dưới đây để giải quyết Câu [X] đến Câu [Y]`,...
-
-* QUAN TRỌNG:
-- Chỉ sử dụng Shareinfo nếu thông tin đó liên quan đến từ hai câu hỏi khác nhau trở lên trong đề thi. Nếu thông tin chỉ liên quan đến một câu hỏi duy nhất thì không được sử dụng Shareinfo.
 ```
 
 ---
@@ -2720,6 +2613,8 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Worker stopped by user.")
+    except Exception as e:
+        logger.exception(f"FAILED to process : {e}")
 ```
 
 ---
@@ -2732,29 +2627,30 @@ File: services/__init__.py
 ---
 File: services/__pycache__/__init__.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xc9 in position 8: invalid continuation byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: services/__pycache__/counter.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x99 in position 9: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xe5 in position 8: invalid continuation byte
 
 ---
 File: services/__pycache__/create_task.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xdc in position 8: invalid continuation byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: services/__pycache__/logging_config.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x90 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode bytes in position 9-10: invalid continuation byte
 
 ---
 File: services/counter.py
 ---
 ```python
-from app.lib.redis_client import r 
+from app.lib.redis_client import redis_manager
 
+r = redis_manager.get_connection()
 async def increment_counter(id : str):
     return await r.incr(f"counter:{id}")
 
@@ -2835,44 +2731,59 @@ def update_task_result(session : Session, task_id: str, result : str):
 File: services/logging_config.py
 ---
 ```python
-# services/logging_service.py
+# services/logging_config.py
 
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import os
+import sys
 
 # 📁 Tạo thư mục log nếu chưa có
 log_dir = os.path.join(os.path.dirname(__file__), "..","..", "logs")
 os.makedirs(log_dir, exist_ok=True)
 
-# 📄 Đường dẫn file log gốc (sẽ được rotate thành workers_log.txt.YYYY-MM-DD)
-log_file = os.path.join(log_dir, "workers_log.txt")
+# 📄 Đường dẫn các file log
+all_log_file = os.path.join(log_dir, "workers_log.txt")
+error_log_file = os.path.join(log_dir, "errors.txt") # ✅ ĐỊNH NGHĨA FILE LOG LỖI
 
-# 🔧 Tạo một logger riêng
+# 🔧 Tạo logger
 logger = logging.getLogger("worker_logger")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.INFO) # ✅ Set level tổng thể của logger là INFO (để bắt cả INFO và ERROR)
 
+# Chỉ cấu hình handler một lần duy nhất
 if not logger.handlers:
-    # ✍️ Handler xoay vòng theo ngày, với suffix là ngày YYYY-MM-DD
-    handler = TimedRotatingFileHandler(
-        filename=log_file,
-        when="midnight",
-        interval=1,
-        backupCount=7,       # giữ 7 ngày log cũ, bạn chỉnh tuỳ ý
-        encoding="utf-8",
-        utc=False            # nếu muốn theo giờ local, để False
-    )
-    # đặt định dạng suffix của file rotated
-    handler.suffix = "%Y-%m-%d"
-
+    # --- Định dạng chung cho tất cả các handler ---
+    log_format = "%(asctime)s - %(levelname)s - [%(process)d] - [%(name)s:%(funcName)s:%(lineno)d] - %(message)s"
     formatter = logging.Formatter(
-        fmt="%(asctime)s - %(levelname)s - [%(name)s] - %(message)s",
+        fmt=log_format,
         datefmt="%Y-%m-%d %H:%M:%S"
     )
-    handler.setFormatter(formatter)
 
-    # ⚙️ Chỉ add file handler, không add StreamHandler
-    logger.addHandler(handler)
+    # --- Handler 1: Ghi TẤT CẢ log (từ INFO trở lên) ra file workers_log.txt ---
+    all_log_handler = TimedRotatingFileHandler(
+        filename=all_log_file,
+        when="midnight",
+        interval=1,
+        backupCount=7,
+        encoding="utf-8"
+    )
+    all_log_handler.suffix = "%Y-%m-%d"
+    all_log_handler.setFormatter(formatter)
+    all_log_handler.setLevel(logging.INFO) # Handler này xử lý từ INFO trở lên
+    logger.addHandler(all_log_handler)
+
+    # --- Handler 2: Ghi TẤT CẢ log (từ INFO trở lên) ra Console (stdout) ---
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    console_handler.setLevel(logging.INFO) # Handler này xử lý từ INFO trở lên
+    logger.addHandler(console_handler)
+
+    # --- ✅ Handler 3: Ghi CHỈ CÁC LỖI (từ ERROR trở lên) ra file errors.txt ---
+    error_handler = logging.FileHandler(error_log_file, mode='a', encoding='utf-8')
+    error_handler.setFormatter(formatter)
+    error_handler.setLevel(logging.ERROR) # ⭐️ Đây là điểm mấu chốt: chỉ bắt ERROR và CRITICAL
+    logger.addHandler(error_handler)
+
 
 def get_logger():
     return logger
@@ -2893,7 +2804,7 @@ Error reading file: 'utf-8' codec can't decode byte 0xc9 in position 8: invalid 
 ---
 File: utils/__pycache__/agent.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xfb in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xca in position 8: invalid continuation byte
 
 ---
 File: utils/__pycache__/annotate.cpython-310.pyc
@@ -2903,7 +2814,7 @@ Error reading file: 'utf-8' codec can't decode byte 0xec in position 8: invalid 
 ---
 File: utils/__pycache__/draw_boxes.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8a in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: utils/__pycache__/process_and_annotate.cpython-310.pyc
@@ -2913,12 +2824,12 @@ Error reading file: 'utf-8' codec can't decode bytes in position 9-10: invalid c
 ---
 File: utils/__pycache__/remove_padding.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8a in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: utils/__pycache__/upload_r2.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8b in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: utils/agent.py
@@ -2939,7 +2850,8 @@ load_dotenv()
 logger = get_logger()
 keys = os.environ.get("GEMINI_API_KEY", "").split(",")
 
-from app.lib.redis_client import r
+from app.lib.redis_client import redis_manager
+r = redis_manager.get_connection()
 async def init_api_key_zset(keys):
     logger.info("Successed in initializing api keys set")
     # chỉ chạy một lần lúc khởi động
@@ -3366,7 +3278,7 @@ File: worker/__init__.py
 ---
 File: worker/__pycache__/__init__.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode bytes in position 9-10: invalid continuation byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: worker/__pycache__/core.cpython-310.pyc
@@ -3381,7 +3293,7 @@ Error reading file: 'utf-8' codec can't decode byte 0xfa in position 8: invalid 
 ---
 File: worker/__pycache__/instance.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x8b in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: worker/__pycache__/process_img.cpython-310.pyc
@@ -3412,27 +3324,27 @@ File: worker/tasks/__init__.py
 ---
 File: worker/tasks/__pycache__/__init__.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode bytes in position 9-10: invalid continuation byte
+Error reading file: 'utf-8' codec can't decode byte 0x91 in position 10: invalid start byte
 
 ---
 File: worker/tasks/__pycache__/document_parser.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x90 in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x9d in position 8: invalid start byte
 
 ---
 File: worker/tasks/__pycache__/extractor.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0xa8 in position 8: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xb0 in position 8: invalid start byte
 
 ---
 File: worker/tasks/__pycache__/process_img.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x90 in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0x9f in position 8: invalid start byte
 
 ---
 File: worker/tasks/__pycache__/process_pdf.cpython-310.pyc
 ---
-Error reading file: 'utf-8' codec can't decode byte 0x90 in position 10: invalid start byte
+Error reading file: 'utf-8' codec can't decode byte 0xdb in position 8: invalid continuation byte
 
 ---
 File: worker/tasks/document_parser.py
@@ -3456,14 +3368,13 @@ from app.postprocessing.replaceimgfig import replace_img_to_fig, replace_fig2img
 from app.db.client import get_session
 from app.db.models import TaskType
 from app.services.create_task import create_task, update_task_result
-from app.postprocessing.slurp2json import slurp_to_json
+from app.postprocessing.slurp2json import slurp_to_json, autofix_missing_pipes
 from app.services.logging_config import get_logger
 
 logger = get_logger()
 
-PARSER_MODEL = "gemini-2.0-flash-001"
-MAX_CONTINUATION_ATTEMPTS = 6
-
+PARSER_MODEL = "gemini-2.5-flash"
+MAX_CONTINUATION_ATTEMPTS = 5
 
 
 def clean_output(text: str) -> str:
@@ -3482,7 +3393,7 @@ async def llmAsParser(text: str):
     initial_instruction = get_initial_slurp_prompt()
     initial_config = types.GenerateContentConfig(
         system_instruction=[types.Part.from_text(text=initial_instruction)],
-        temperature=0
+        temperature=0.2
     )
 
     initial_response = await GeminiAgent(
@@ -3502,7 +3413,7 @@ async def llmAsParser(text: str):
     cont_instruction = get_slurp_continuation_prompt()
     continuation_config = types.GenerateContentConfig(
         system_instruction=[types.Part.from_text(text=cont_instruction)],
-        temperature=0
+        temperature=0.2
     )
     continuation_examples = get_slurp_continuation_examples()
 
@@ -3537,20 +3448,21 @@ async def llmAsParser(text: str):
 
 @worker.task(name="documentParsing", max_concurrency=20, max_retries=0)
 async def parse_document(task_id: str, text: str):
-    logger.info(f"[Worker-Parse] Parsing document {task_id}")
+    logger.info(f"Parsing document {task_id}")
     try:
         slurp_content, figures = await llmAsParser(text=text)
-        parsed_json = slurp_to_json(slurp_content)
+        fixed_slurp_content = autofix_missing_pipes(slurp_content)
+        parsed_json = slurp_to_json(fixed_slurp_content)
         
         refine_json = replace_fig2img_immutable(parsed_json, figures)
         
-        dumped_json = json.dumps(refine_json, ensure_ascii=False)
+        dumped_json = json.dumps({"raw" : slurp_content, "parsed": refine_json }, ensure_ascii=False)
         
         with get_session() as session:
             update_task_result(session=session, task_id=task_id, result=dumped_json)  
-        logger.info(f"[Worker-Parse] Task {task_id} completed successfully.")
+        logger.info(f"[{task_id}] Task completed successfully.")
     except Exception as e:
-        logger.exception(f"[Worker-Parse] Failed to parse document {task_id}: {e}")
+        logger.exception(f"[{task_id}] Failed to parse document : {e}")
 
 
 if __name__ == "__main__":
@@ -3564,9 +3476,8 @@ if __name__ == "__main__":
 
         # 2. Chạy parser
         slurp_content, figures = await llmAsParser(text)
-
         # 3. Chuyển thành JSON và thay fig → img
-        parsed_json = slurp_to_json(slurp_content)
+        parsed_json = slurp_to_json(autofix_missing_pipes(slurp_content))
         refine_json = replace_fig2img_immutable(parsed_json, figures)
 
         # 4. Ghi kết quả cuối cùng (có URL) ra file
@@ -3584,6 +3495,7 @@ if __name__ == "__main__":
 File: worker/tasks/extractor.py
 ---
 ```python
+# worker/tasks/extractor.py
 from typing import List
 from app.prompt import get_extraction_figure_prompt, get_extraction_non_figure_prompt
 from app.worker.instance import worker
@@ -3596,18 +3508,21 @@ from io import BytesIO
 from app.utils.upload_r2 import upload_multiple_images
 from app.postprocessing.raw_response import extract_response, replace_image_tags
 import base64
-from app.services.create_task import create_log, get_logs_by_task, update_task_result
+from app.services.create_task import create_log, get_logs_by_task, update_task_result, get_task_by_id
 from app.db.client import get_session
-from app.services.counter import decrement_counter, get_counter, delete_counter
-from app.db.models import InferenceLog
-async def uploadImageFromUrls(ImageUrls) -> List[str]:
-    image_bytes = await asyncio.gather(*(get_file_bytes(img) for img in ImageUrls))
-    image_urls = await upload_multiple_images(image_bytes, concurrency_limit=10)
-    return image_urls
-
+from app.services.counter import decrement_counter, delete_counter
+from app.db.models import InferenceLog, TaskStatus, Task # THÊM MỚI
 from app.services.logging_config import get_logger
 
 logger = get_logger()
+
+
+async def uploadImageFromUrls(ImageUrls) -> List[str]:
+    if not ImageUrls:
+        return []
+    image_bytes = await asyncio.gather(*(get_file_bytes(img) for img in ImageUrls))
+    image_urls = await upload_multiple_images(image_bytes, concurrency_limit=10)
+    return image_urls
 
 
 async def convert_to_webp_base64(img_bytes: bytes, quality: int = 80) -> str:
@@ -3618,90 +3533,109 @@ async def convert_to_webp_base64(img_bytes: bytes, quality: int = 80) -> str:
         base64_str = base64.b64encode(webp_bytes).decode('utf-8')
         return base64_str
 
-@worker.task(name="parseDocumentImage", max_concurrency=20,max_retries=0)
-async def extractDocumentImage(task_id : str, img_url : str, page_order: int, cropped_objects_urls):
-    logger.info(f"[Worker-Document] Start processing task {task_id}")
+@worker.task(name="parseDocumentImage", max_concurrency=20, max_retries=0)
+async def extractDocumentImage(task_id: str, img_url: str, page_order: int, cropped_objects_urls: List[tuple]):
+    try:
+        logger.info(f"Start processing task {task_id}, page {page_order}")
 
-    img_bytes = await get_file_bytes(img_url)
-    img_webp = await convert_to_webp_base64(img_bytes)
+        img_bytes = await get_file_bytes(img_url)
+        img_webp = await convert_to_webp_base64(img_bytes)
 
-    object_urls = []
-    object_keys = []
-    uploadedUrls = []
-    for key, url in cropped_objects_urls:
-        object_urls.append(url)
-        object_keys.append(key)
-    
-    model = "gemini-2.0-flash-001"
-    generate_content_config = types.GenerateContentConfig(
-        media_resolution="MEDIA_RESOLUTION_HIGH",
-        system_instruction=[
-            types.Part.from_text(text=get_extraction_figure_prompt()),
-        ],
-    )
+        object_urls = [url for key, url in cropped_objects_urls]
+        object_keys = [key for key, url in cropped_objects_urls]
 
-    user_parts = [
-        types.Part.from_bytes(
-            mime_type="image/webp",
-            data=base64.b64decode(img_webp),
-        ),
-    ]
+        user_parts = [
+            types.Part.from_bytes(
+                mime_type="image/webp",
+                data=base64.b64decode(img_webp),
+            ),
+        ]
 
-    # if object_urls:
-    #     user_parts.append(types.Part.from_text(text="""a"""))
+        llmResponse = None
+        uploadedUrls = []
 
-    contents = [
-        types.Content(
-            role="user",
-            parts=user_parts,
-        ),
-    ]
-
-
-    if(object_urls):
-
-        llmResponse, uploadedUrls = await asyncio.gather(
-            GeminiAgent(model=model,contents=contents,config=generate_content_config),
-            uploadImageFromUrls(object_urls))
-    else:
-        generate_content_config = types.GenerateContentConfig(
-            media_resolution="MEDIA_RESOLUTION_HIGH",
-            system_instruction=[
-                types.Part.from_text(text=get_extraction_non_figure_prompt()),
-            ],
+        if object_urls:
+            model = "gemini-2.0-flash-001"
+            generate_content_config = types.GenerateContentConfig(
+                media_resolution="MEDIA_RESOLUTION_HIGH",
+                system_instruction=[
+                    types.Part.from_text(text=get_extraction_figure_prompt()),
+                ],
+                temperature=1
+            )
+            contents = [types.Content(role="user", parts=user_parts)]
             
-        )
-        llmResponse = await GeminiAgent(model=model,contents=contents,config=generate_content_config)
-    if not llmResponse.text:
-        raise ValueError("Dữ liệu không hợp lệ!")
-    with get_session() as session:
-        create_log(imageUrls=img_url,
+            llmResponse, uploadedUrls = await asyncio.gather(
+                GeminiAgent(model=model, contents=contents, config=generate_content_config),
+                uploadImageFromUrls(object_urls)
+            )
+        else:
+            generate_content_config = types.GenerateContentConfig(
+                media_resolution="MEDIA_RESOLUTION_HIGH",
+                system_instruction=[
+                    types.Part.from_text(text=get_extraction_non_figure_prompt()),
+                ],
+                temperature=1
+            )
+            contents = [types.Content(role="user", parts=user_parts)]
+            llmResponse = await GeminiAgent(model="gemini-2.0-flash-001", contents=contents, config=generate_content_config)
+
+        if not llmResponse or not llmResponse.text:
+            raise ValueError("LLM response is invalid or empty!")
+
+        with get_session() as session:
+            create_log(
+                imageUrls=img_url,
                 objectKeys=object_keys,
                 objectUrls=uploadedUrls,
                 requestId=task_id,
                 num_input_token=llmResponse.usage_metadata.prompt_token_count or 0,
                 num_output_token=llmResponse.usage_metadata.candidates_token_count or 0,
-                rawOutput=llmResponse.text, page_order=page_order, session=session)
-    if(await get_counter(task_id)):
-        await decrement_counter(task_id)
-    else:
-        await delete_counter(task_id)
-        combined_output = ''
+                rawOutput=llmResponse.text,
+                page_order=page_order,
+                session=session
+            )
         
-        with get_session() as session:
-            logger.info(f"[Worker-Document] Finished All Call Request {task_id}")
-            logs: list[InferenceLog] = get_logs_by_task(session=session, task_id=task_id)
-            sorted_logs: list[InferenceLog] = sorted(logs, key=lambda log: log.page_order)  # IDE sẽ suy được kiểu
+        # SỬA LỖI: Logic counter mới, đảm bảo tính nguyên tử và chính xác
+        remaining_pages = await decrement_counter(task_id)
+        logger.info(f"[{task_id}] page {page_order} processed. Remaining pages to process: {remaining_pages}")
 
-            for log in sorted_logs:
-                doc_block = extract_response(log.rawOutput).document
-                if(log.objectUrls):
-                    doc_block, status = replace_image_tags(doc_block,  dict(zip(list(log.objectKeys), list(log.objectUrls))))
-                if(doc_block):
-                    combined_output += doc_block 
-                
-            update_task_result(session=session, result=combined_output, task_id=task_id)
-            logger.info(f"[Worker-Document] Writing Task result {task_id}")
+        # Nếu không còn trang nào cần xử lý (counter <= 0), tiến hành tổng hợp kết quả
+        if remaining_pages <= 0:
+                logger.info(f"[{task_id}] All pages processed or last page. Attempting to aggregate results.")
+                await delete_counter(task_id)
+
+                with get_session() as session:
+                    task = session.query(Task).filter(Task.id == task_id).with_for_update().first()
+                    if task.status != TaskStatus.pending: 
+                        logger.warning(f"[{task_id}] Task is no longer in 'pending' state (current: {task.status.value}). Skipping aggregation.")
+                        return 
+
+                    combined_output = ''
+                    logs: list[InferenceLog] = get_logs_by_task(session=session, task_id=task_id)
+                    sorted_logs = sorted(logs, key=lambda log: log.page_order)
+
+                    for log in sorted_logs:
+                        doc_block = extract_response(log.rawOutput).document
+                        if log.objectUrls and doc_block:
+                            image_map = dict(zip(list(log.objectKeys), list(log.objectUrls)))
+                            doc_block, _ = replace_image_tags(doc_block, image_map)
+                        
+                        if doc_block:
+                            combined_output += doc_block.strip() + "\n"
+                    
+                    update_task_result(session=session, result=combined_output.strip(), task_id=task_id)
+                    logger.info(f"[{task_id}] Successfully wrote final result for task ")
+
+    except Exception as e:
+        logger.exception(f"[{task_id}] FAILED to process task, page {page_order}: {e}")
+        with get_session() as session:
+            task = get_task_by_id(session=session, task_id=task_id)
+            if task and task.status == TaskStatus.pending:
+                task.status = TaskStatus.failed
+                task.error = f"Error on page {page_order}: {str(e)}"
+                session.commit()
+        await delete_counter(task_id)
 ```
 
 ---
@@ -3821,15 +3755,17 @@ async def annotate_img(img_np: np.ndarray):
 
 @worker.task(name="process_img",max_concurrency=1, max_retries=1)
 async def process_img(task_id :str,page_idx: int, file_url: str):
-    logger.info(f"[Worker-Image] Start processing task {task_id}")
-    img_bytes = await get_file_bytes(file_url)
-    img = Image.open(BytesIO(img_bytes))
-    
-    # Gọi hàm annotate_img (giờ đã là async)
-    processed_img_url , cropped_objects_urls = await annotate_img(img_np=np.array(img))
-
-    await worker.enqueue("parseDocumentImage", task_id , processed_img_url, page_idx, list(cropped_objects_urls.items()))
-
+    logger.info(f"{task_id} Start processing task ")
+    try:
+        img_bytes = await get_file_bytes(file_url)
+        img = Image.open(BytesIO(img_bytes)).convert('RGB') 
+        img_np_bgr = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+        
+        processed_img_url , cropped_objects_urls = await annotate_img(img_np=img_np_bgr)
+        
+        await worker.enqueue("parseDocumentImage", task_id , processed_img_url, page_idx, list(cropped_objects_urls.items()))
+    except Exception as e:
+        logger.exception(f"[{task_id}] FAILED to process page {page_idx}: {e}")
     # Tại đây, cropped_objects_urls đã có cấu trúc Key-URL như mong muốn
     # TODO: Cập nhật task trong DB với thông tin cropped_objects_urls
     # Ví dụ (cần import json nếu lưu vào Text field, hoặc có thể lưu dưới dạng JSONB nếu DB hỗ trợ):
@@ -3865,29 +3801,50 @@ async def process_img(task_id :str,page_idx: int, file_url: str):
 File: worker/tasks/process_pdf.py
 ---
 ```python
-# worker/extractor_worker.py
+# worker/tasks/process_pdf.py
 
 import fitz
-import numpy as np
 from app.main import save_file, get_file_bytes
 from app.worker.instance import worker
 from app.services.counter import set_counter
 from app.services.logging_config import get_logger
+# THÊM MỚI: Import để xử lý trường hợp 0 trang
+from app.db.client import get_session
+from app.services.create_task import update_task_result
 
 logger = get_logger()
-@worker.task(name="process_pdf",max_concurrency=1, max_retries=1)
+
+@worker.task(name="process_pdf", max_concurrency=1, max_retries=1)
 async def process_pdf(task_id: str, file_url: str):
-    logger.info(f"[Worker-PDF] Start processing task {task_id}")
-    pdf_bytes = await get_file_bytes(file_url)
-    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-    await set_counter(task_id, len(doc) - 1)
-    for page_idx in range(len(doc)):
-        page = doc[page_idx]
-        pix = page.get_pixmap(dpi=200, alpha=False)
-        img_bytes = pix.tobytes("jpeg")
-        filepath = await save_file(file_bytes=img_bytes, file_type='jpg')
-        file_url = f"http://localhost:8000/media/{filepath}"
-        await worker.enqueue("process_img", task_id, page_idx, file_url)
+    logger.info(f"Start processing task {task_id}")
+    try:
+        pdf_bytes = await get_file_bytes(file_url)
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+
+        num_pages = len(doc)
+        
+        # CẢI TIẾN: Khởi tạo counter bằng tổng số trang cho trực quan.
+        await set_counter(task_id, num_pages)
+
+        # CẢI TIẾN: Xử lý trường hợp PDF không có trang nào.
+        if num_pages == 0:
+            logger.warning(f"{task_id} PDF for task has 0 pages. Finishing task immediately.")
+            with get_session() as session:
+                update_task_result(session=session, result="", task_id=task_id)
+            return
+
+        for page_idx in range(num_pages):
+            page = doc[page_idx]
+            pix = page.get_pixmap(dpi=200, alpha=False)
+            img_bytes = pix.tobytes("jpeg")
+            filepath = await save_file(file_bytes=img_bytes, file_type='jpg')
+            file_url = f"http://localhost:8000/media/{filepath}"
+            await worker.enqueue("process_img", task_id, page_idx, file_url)
+
+        logger.info(f"[{task_id}] Enqueued {num_pages} pages for task ")
+    except Exception as e:
+
+        logger.exception(f"[{task_id}] Error processing task {task_id}: {e}")
     # try:
     #     with get_session() as session:
     #         task = session.query(Task).filter(Task.id == task_id).first()
@@ -3906,33 +3863,5 @@ async def process_pdf(task_id: str, file_url: str):
     #             task.error = str(e)
     #             session.commit()
     #     print(f"[Worker] Error processing task {task_id}: {e}")
-```
-
-## From: docker-compose.yml
-
----
-File: docker-compose.yml
----
-```
-services:
-  docscanner:
-    image: daominhwysi/docscanner:latest
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-
-volumes:
-  redis-data:
 ```
 

@@ -22,57 +22,33 @@ def replace_img_to_fig(html: str) -> Tuple[str, List[Dict[str, str]]]:
     text = re.sub(pattern, replacer, html, flags=re.IGNORECASE)
 
     return text, image_srcs
+
 def replace_fig2img_immutable(json_obj: Any, figures_data: List[Dict[str, str]]) -> Any:
-    """
-    Tạo một bản sao của đối tượng JSON và thay thế các giá trị 'figX' bằng URL thực tế.
-    Đây là phương pháp "bất biến" (immutable) - không làm thay đổi đối tượng đầu vào.
-
-    Args:
-        json_obj: Đối tượng JSON (dict hoặc list) cần xử lý.
-        figures_data: Danh sách các dictionary chứa mapping {'id': 'figX', 'src': 'url'}.
-
-    Returns:
-        Một đối tượng JSON mới đã được thay thế.
-    """
-    # 1. Tạo một bảng tra cứu (lookup table) để truy cập nhanh id -> src
     id_to_src_map = {figure['id']: figure['src'] for figure in figures_data}
+    FIGURE_TAG_RE = re.compile(
+        r'<figure\b[^>]*\bid\s*=\s*["\']([^"\']+)["\'][^>]*>',
+        re.IGNORECASE
+    )
 
-    # 2. Định nghĩa một hàm đệ quy để duyệt và xây dựng lại đối tượng
+    def replace_figures_in_text(text: str) -> str:
+        def replacer(match):
+            fig_id = match.group(1)
+            src = id_to_src_map.get(fig_id)
+            if src:
+                return f'<img src="{src}">'
+            return match.group(0)
+        return FIGURE_TAG_RE.sub(replacer, text)
+
     def _walk_and_rebuild(node: Any) -> Any:
-        # Nếu node là một dictionary...
         if isinstance(node, dict):
-            new_dict = {}
-            for key, value in node.items():
-                # Kiểm tra nếu đây là key 'figures' và giá trị là chuỗi cần thay thế
-                if key == 'figures' and isinstance(value, str):
-                    fig_ids = [i.strip() for i in value.split(',')]
-                    
-                    # Lấy các URL tương ứng, bỏ qua nếu ID không tồn tại
-                    urls = [id_to_src_map.get(fig_id) for fig_id in fig_ids if id_to_src_map.get(fig_id)]
-
-                    # Nếu chỉ có 1 URL, gán trực tiếp. Nếu nhiều, gán cả danh sách.
-                    if len(urls) == 1:
-                        new_dict[key] = urls[0]
-                    elif len(urls) > 1:
-                        new_dict[key] = urls
-                    else:
-                        # Nếu không tìm thấy URL nào, giữ lại giá trị gốc
-                        new_dict[key] = value 
-                else:
-                    # Nếu không phải key 'figures', gọi đệ quy cho giá trị của nó
-                    new_dict[key] = _walk_and_rebuild(value)
-            return new_dict
-
-        # Nếu node là một list...
+            return {k: _walk_and_rebuild(v) for k, v in node.items()}
         elif isinstance(node, list):
-            # Gọi đệ quy cho từng phần tử trong list và tạo ra một list mới
             return [_walk_and_rebuild(item) for item in node]
-        
-        # Nếu là các kiểu dữ liệu khác (string, number, bool...), trả về chính nó
+        elif isinstance(node, str):
+            return replace_figures_in_text(node)
         else:
             return node
 
-    # 3. Bắt đầu quá trình từ gốc của đối tượng JSON
     return _walk_and_rebuild(json_obj)
 
 if __name__ == "__main__":

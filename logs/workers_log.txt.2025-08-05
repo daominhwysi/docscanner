@@ -1,0 +1,115 @@
+2025-08-05 09:57:50 - INFO - [worker_logger] - Starting worker...
+2025-08-05 09:58:20 - INFO - [worker_logger] - Successed in initializing api keys set
+2025-08-05 09:58:54 - INFO - [worker_logger] - [Worker-PDF] Start processing task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:58:55 - INFO - [worker_logger] - [Worker-Image] Start processing task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:58:55 - INFO - [worker_logger] - [Worker-PDF] Enqueued 3 pages for task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:58:55 - INFO - [worker_logger] - [Worker-Image] Start processing task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:58:55 - INFO - [worker_logger] - [Worker-Document] Start processing task c746997ff0094559a745eeaf6dbc8463, page 0
+2025-08-05 09:58:57 - INFO - [worker_logger] - [Worker-Image] Start processing task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:58:57 - INFO - [worker_logger] - [Worker-Document] Start processing task c746997ff0094559a745eeaf6dbc8463, page 1
+2025-08-05 09:58:57 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 09:58:58 - INFO - [worker_logger] - [Worker-Document] Start processing task c746997ff0094559a745eeaf6dbc8463, page 2
+2025-08-05 09:58:58 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 09:58:59 - INFO - [worker_logger] - Key 1 has been selected
+2025-08-05 09:59:07 - INFO - [worker_logger] - [Worker-Document] Task c746997ff0094559a745eeaf6dbc8463, page 2 processed. Remaining pages to process: 2
+2025-08-05 09:59:07 - INFO - [worker_logger] - [Worker-Document] Task c746997ff0094559a745eeaf6dbc8463, page 0 processed. Remaining pages to process: 1
+2025-08-05 09:59:07 - INFO - [worker_logger] - [Worker-Document] Task c746997ff0094559a745eeaf6dbc8463, page 1 processed. Remaining pages to process: 0
+2025-08-05 09:59:07 - INFO - [worker_logger] - [Worker-Document] All pages for task c746997ff0094559a745eeaf6dbc8463 processed. Aggregating results.
+2025-08-05 09:59:08 - INFO - [worker_logger] - [Worker-Document] Successfully wrote final result for task c746997ff0094559a745eeaf6dbc8463
+2025-08-05 09:59:28 - INFO - [worker_logger] - [Worker-PDF] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:28 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:32 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:32 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 0
+2025-08-05 09:59:33 - INFO - [worker_logger] - [Worker-PDF] Enqueued 15 pages for task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:34 - INFO - [worker_logger] - Key 3 has been selected
+2025-08-05 09:59:34 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 1
+2025-08-05 09:59:34 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:34 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:34 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 2
+2025-08-05 09:59:35 - INFO - [worker_logger] - Key 0 has been selected
+2025-08-05 09:59:36 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 09:59:36 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 3
+2025-08-05 09:59:36 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:38 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 09:59:38 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:38 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 4
+2025-08-05 09:59:39 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 0 processed. Remaining pages to process: 14
+2025-08-05 09:59:40 - INFO - [worker_logger] - Key 1 has been selected
+2025-08-05 09:59:40 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:41 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 5
+2025-08-05 09:59:42 - INFO - [worker_logger] - Key 3 has been selected
+2025-08-05 09:59:42 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:42 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 6
+2025-08-05 09:59:42 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 2 processed. Remaining pages to process: 13
+2025-08-05 09:59:44 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:44 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 7
+2025-08-05 09:59:45 - INFO - [worker_logger] - Key 0 has been selected
+2025-08-05 09:59:45 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 09:59:47 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 1 processed. Remaining pages to process: 12
+2025-08-05 09:59:47 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:47 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 8
+2025-08-05 09:59:49 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 09:59:49 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:49 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 9
+2025-08-05 09:59:50 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 3 processed. Remaining pages to process: 11
+2025-08-05 09:59:51 - INFO - [worker_logger] - Key 1 has been selected
+2025-08-05 09:59:51 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:51 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 10
+2025-08-05 09:59:52 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 4 processed. Remaining pages to process: 10
+2025-08-05 09:59:52 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 5 processed. Remaining pages to process: 9
+2025-08-05 09:59:54 - INFO - [worker_logger] - Key 3 has been selected
+2025-08-05 09:59:54 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 11
+2025-08-05 09:59:54 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:55 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 7 processed. Remaining pages to process: 8
+2025-08-05 09:59:55 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 12
+2025-08-05 09:59:55 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:56 - INFO - [worker_logger] - Key 0 has been selected
+2025-08-05 09:59:57 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 09:59:58 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 13
+2025-08-05 09:59:58 - INFO - [worker_logger] - [Worker-Image] Start processing task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 09:59:58 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 6 processed. Remaining pages to process: 7
+2025-08-05 09:59:59 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 10:00:00 - INFO - [worker_logger] - [Worker-Document] Start processing task 0b66ef795af9417ab4a141a9c0b044d8, page 14
+2025-08-05 10:00:00 - WARNING - [worker_logger] - [GeminiAgent] APIError (Code 503): The model is overloaded. Please try again later.
+2025-08-05 10:00:00 - INFO - [worker_logger] - [GeminiAgent] Lỗi server 503, chờ 1.0s rồi thử lại...
+2025-08-05 10:00:00 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 8 processed. Remaining pages to process: 6
+2025-08-05 10:00:01 - INFO - [worker_logger] - Key 1 has been selected
+2025-08-05 10:00:01 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 9 processed. Remaining pages to process: 5
+2025-08-05 10:00:01 - INFO - [worker_logger] - Key 3 has been selected
+2025-08-05 10:00:06 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 10 processed. Remaining pages to process: 4
+2025-08-05 10:00:06 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 11 processed. Remaining pages to process: 3
+2025-08-05 10:00:06 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 12 processed. Remaining pages to process: 2
+2025-08-05 10:00:11 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 14 processed. Remaining pages to process: 1
+2025-08-05 10:00:12 - INFO - [worker_logger] - [Worker-Document] Task 0b66ef795af9417ab4a141a9c0b044d8, page 13 processed. Remaining pages to process: 0
+2025-08-05 10:00:12 - INFO - [worker_logger] - [Worker-Document] All pages for task 0b66ef795af9417ab4a141a9c0b044d8 processed. Aggregating results.
+2025-08-05 10:00:12 - INFO - [worker_logger] - [Worker-Document] Successfully wrote final result for task 0b66ef795af9417ab4a141a9c0b044d8
+2025-08-05 10:17:03 - INFO - [worker_logger] - Worker stopped by user.
+2025-08-05 10:17:08 - INFO - [worker_logger] - Starting worker...
+2025-08-05 10:17:10 - INFO - [worker_logger] - [Worker-PDF] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:17:11 - INFO - [worker_logger] - [Worker-Image] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:17:11 - INFO - [worker_logger] - [Worker-PDF] Enqueued 3 pages for task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:17:11 - INFO - [worker_logger] - [Worker-Image] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:17:11 - INFO - [worker_logger] - [Worker-Document] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 0
+2025-08-05 10:17:13 - INFO - [worker_logger] - Key 0 has been selected
+2025-08-05 10:17:13 - INFO - [worker_logger] - [Worker-Document] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 1
+2025-08-05 10:17:13 - INFO - [worker_logger] - [Worker-Image] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:17:14 - INFO - [worker_logger] - [Worker-Document] Start processing task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 2
+2025-08-05 10:17:14 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 10:17:14 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 10:17:22 - INFO - [worker_logger] - [Worker-Document] Task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 1 processed. Remaining pages to process: 2
+2025-08-05 10:17:23 - INFO - [worker_logger] - [Worker-Document] Task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 2 processed. Remaining pages to process: 1
+2025-08-05 10:17:23 - INFO - [worker_logger] - [Worker-Document] Task 06bf4f8e7ba34c8c928ee6d6a2127a53, page 0 processed. Remaining pages to process: 0
+2025-08-05 10:17:23 - INFO - [worker_logger] - [Worker-Document] All pages for task 06bf4f8e7ba34c8c928ee6d6a2127a53 processed. Aggregating results.
+2025-08-05 10:17:24 - INFO - [worker_logger] - [Worker-Document] Successfully wrote final result for task 06bf4f8e7ba34c8c928ee6d6a2127a53
+2025-08-05 10:20:32 - INFO - [worker_logger] - Successed in initializing api keys set
+2025-08-05 10:20:33 - INFO - [worker_logger] - Worker stopped by user.
+2025-08-05 10:20:36 - INFO - [worker_logger] - Starting worker...
+2025-08-05 10:21:10 - INFO - [worker_logger] - [Worker-Parse] Parsing document 9baffcc46d5f4478bee38222b952186a
+2025-08-05 10:21:10 - INFO - [worker_logger] - Key 4 has been selected
+2025-08-05 10:21:22 - INFO - [worker_logger] - [Worker-Parse] Task 9baffcc46d5f4478bee38222b952186a completed successfully.
+2025-08-05 10:36:49 - INFO - [worker_logger] - [Worker-Parse] Parsing document 76b0bf803e4f4f9d87708f0309fa3c47
+2025-08-05 10:36:49 - INFO - [worker_logger] - Key 2 has been selected
+2025-08-05 10:37:01 - INFO - [worker_logger] - [Worker-Parse] Task 76b0bf803e4f4f9d87708f0309fa3c47 completed successfully.
+2025-08-05 10:40:09 - INFO - [worker_logger] - [Worker-Parse] Parsing document d5ccecc69f704cfca224624e88f7364d
+2025-08-05 10:40:09 - INFO - [worker_logger] - Key 1 has been selected
+2025-08-05 10:40:24 - INFO - [worker_logger] - [Worker-Parse] Task d5ccecc69f704cfca224624e88f7364d completed successfully.

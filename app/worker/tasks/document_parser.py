@@ -16,14 +16,13 @@ from app.postprocessing.replaceimgfig import replace_img_to_fig, replace_fig2img
 from app.db.client import get_session
 from app.db.models import TaskType
 from app.services.create_task import create_task, update_task_result
-from app.postprocessing.slurp2json import slurp_to_json
+from app.postprocessing.slurp2json import slurp_to_json, autofix_missing_pipes
 from app.services.logging_config import get_logger
 
 logger = get_logger()
 
-PARSER_MODEL = "gemini-2.0-flash-001"
-MAX_CONTINUATION_ATTEMPTS = 6
-
+PARSER_MODEL = "gemini-2.5-flash"
+MAX_CONTINUATION_ATTEMPTS = 5
 
 
 def clean_output(text: str) -> str:
@@ -42,7 +41,7 @@ async def llmAsParser(text: str):
     initial_instruction = get_initial_slurp_prompt()
     initial_config = types.GenerateContentConfig(
         system_instruction=[types.Part.from_text(text=initial_instruction)],
-        temperature=0
+        temperature=0.2
     )
 
     initial_response = await GeminiAgent(
@@ -62,7 +61,7 @@ async def llmAsParser(text: str):
     cont_instruction = get_slurp_continuation_prompt()
     continuation_config = types.GenerateContentConfig(
         system_instruction=[types.Part.from_text(text=cont_instruction)],
-        temperature=0
+        temperature=0.2
     )
     continuation_examples = get_slurp_continuation_examples()
 
@@ -97,20 +96,21 @@ async def llmAsParser(text: str):
 
 @worker.task(name="documentParsing", max_concurrency=20, max_retries=0)
 async def parse_document(task_id: str, text: str):
-    logger.info(f"[Worker-Parse] Parsing document {task_id}")
+    logger.info(f"Parsing document {task_id}")
     try:
         slurp_content, figures = await llmAsParser(text=text)
-        parsed_json = slurp_to_json(slurp_content)
+        fixed_slurp_content = autofix_missing_pipes(slurp_content)
+        parsed_json = slurp_to_json(fixed_slurp_content)
         
         refine_json = replace_fig2img_immutable(parsed_json, figures)
         
-        dumped_json = json.dumps(refine_json, ensure_ascii=False)
+        dumped_json = json.dumps({"raw" : slurp_content, "parsed": refine_json }, ensure_ascii=False)
         
         with get_session() as session:
             update_task_result(session=session, task_id=task_id, result=dumped_json)  
-        logger.info(f"[Worker-Parse] Task {task_id} completed successfully.")
+        logger.info(f"[{task_id}] Task completed successfully.")
     except Exception as e:
-        logger.exception(f"[Worker-Parse] Failed to parse document {task_id}: {e}")
+        logger.exception(f"[{task_id}] Failed to parse document : {e}")
 
 
 if __name__ == "__main__":
@@ -124,9 +124,8 @@ if __name__ == "__main__":
 
         # 2. Chạy parser
         slurp_content, figures = await llmAsParser(text)
-
         # 3. Chuyển thành JSON và thay fig → img
-        parsed_json = slurp_to_json(slurp_content)
+        parsed_json = slurp_to_json(autofix_missing_pipes(slurp_content))
         refine_json = replace_fig2img_immutable(parsed_json, figures)
 
         # 4. Ghi kết quả cuối cùng (có URL) ra file

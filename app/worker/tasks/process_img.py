@@ -111,15 +111,17 @@ async def annotate_img(img_np: np.ndarray):
 
 @worker.task(name="process_img",max_concurrency=1, max_retries=1)
 async def process_img(task_id :str,page_idx: int, file_url: str):
-    logger.info(f"[Worker-Image] Start processing task {task_id}")
-    img_bytes = await get_file_bytes(file_url)
-    img = Image.open(BytesIO(img_bytes))
-    
-    # Gọi hàm annotate_img (giờ đã là async)
-    processed_img_url , cropped_objects_urls = await annotate_img(img_np=np.array(img))
-
-    await worker.enqueue("parseDocumentImage", task_id , processed_img_url, page_idx, list(cropped_objects_urls.items()))
-
+    logger.info(f"{task_id} Start processing task ")
+    try:
+        img_bytes = await get_file_bytes(file_url)
+        img = Image.open(BytesIO(img_bytes)).convert('RGB') 
+        img_np_bgr = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+        
+        processed_img_url , cropped_objects_urls = await annotate_img(img_np=img_np_bgr)
+        
+        await worker.enqueue("parseDocumentImage", task_id , processed_img_url, page_idx, list(cropped_objects_urls.items()))
+    except Exception as e:
+        logger.exception(f"[{task_id}] FAILED to process page {page_idx}: {e}")
     # Tại đây, cropped_objects_urls đã có cấu trúc Key-URL như mong muốn
     # TODO: Cập nhật task trong DB với thông tin cropped_objects_urls
     # Ví dụ (cần import json nếu lưu vào Text field, hoặc có thể lưu dưới dạng JSONB nếu DB hỗ trợ):

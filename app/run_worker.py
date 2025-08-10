@@ -21,3 +21,5 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Worker stopped by user.")
+    except Exception as e:
+        logger.exception(f"FAILED to process : {e}")

@@ -4,7 +4,7 @@
 <example>
 
 <user_query>
-* Tình huống : Gồm 3 câu hỏi, không có thông tin phụ như mô tả đề thi, tiêu đề phần hay ngữ liệu chung
+* Tình huống : Gồm 3 câu hỏi
 
 Các tình huống cụ thể:
 Câu 1: Là câu tự luận gồm hai ý nhỏ a, b, không có stem
@@ -62,7 +62,7 @@ qs:
 
 
 <user_query>
-* Tình huống: Đề thi tiếng anh có thông tin xuất xứ cụ thể, có hai câu hỏi và bài đọc liên quan các câu đó. Ngoài ra còn có một sectionHeader
+* Tình huống: Đề thi tiếng anh có thông tin xuất xứ cụ thể, có hai câu hỏi và bài đọc liên quan các câu đó.
 @mml_start@ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025  
 MÔN: Anh  
 ĐỀ 15 Thời gian làm bài 50 phút  
@@ -88,22 +88,14 @@ D. To experiment with new crops@mml_end@
 
 
 <assistant_response>
-@slurp_start@meta:
->name: ĐỀ THI THỬ KỲ THI TỐT NGHIỆP THPT NĂM 2025
->subject: Anh
->code: ĐỀ 15
->duration: 50 phút
-
-sectionHeader: Read the passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions.
-
-shareinfo:
+@slurp_start@stimulus:
 >id: baidoc-01
->info: Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
+>context: Farmers today increasingly rely on technology to boost productivity. With GPS-guided tractors and drone surveillance, they can monitor crop growth, apply water more efficiently, and reduce waste...
 
 qs:
 >dnum: 1
 >type: mcq
->shared-info: baidoc-01
+>stimulus: baidoc-01
 >qt: The word boost in the passage is closest in meaning to _______.
 >labels:
 >>a: reduce
@@ -114,7 +106,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: baidoc-01
+>stimulus: baidoc-01
 >qt: According to the passage, what is the main reason farmers use technology?
 >labels:
 >>a: To reduce the number of workers
@@ -131,7 +123,7 @@ qs:
 
 
 <user_query>
-* Tình huống: Đề tiếng anh Gồm một sectionHeader và hai câu hỏi trắc nghiệm yêu cầu sắp xếp các mệnh đề cần xử lý khéo
+* Tình huống: Đề tiếng anh Gồm hai câu hỏi trắc nghiệm yêu cầu sắp xếp các mệnh đề cần xử lý khéo
 @mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
 Question 15.
 a. I had to burn the midnight oil to make engaging lesson plans, expecting to capture my students’ attention.
@@ -152,9 +144,7 @@ B. c – a – b – e – d C. d – e – b – a – c D. c – e – d – a
 
 
 <assistant_response>
-@slurp_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a cohesive and coherent exchange or text in each of the following questions from 15 to 19.
-
-qs:
+@slurp_start@qs:
 >dnum: 15
 >type: mcq
 >qt: |
@@ -207,8 +197,13 @@ D. Hình 4@mml_end@
 @slurp_start@qs:
 >dnum: 5
 >type: mcq
->qt: Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
->figures: graph1, graph2, graph3, graph4
+>qt: |
+Xét các đồ thi sau:
+<figure id="graph1" />
+<figure id="graph2" />
+<figure id="graph3" />
+<figure id="graph4" />
+Đồ thị nào biểu diễn hàm số bậc ba có điểm uốn tại gốc tọa độ?
 >labels:
 >>a: Hình 1
 >>b: Hình 2
@@ -219,7 +214,7 @@ D. Hình 4@mml_end@
 </example>
 
 <user_query>
-* Tình huống: Đề thi vật lý với câu trúc tiêu chuẩn 3 phần Trắc Nghiệm - Đúng Sai - Trả lời ngắn với các tiêu đề phần tương ứng.
+* Tình huống: Đề thi vật lý với câu trúc tiêu chuẩn 3 phần Trắc Nghiệm - Đúng Sai - Trả lời ngắn.
 Còn có các đối tượng minh họa gắn với các câu hỏi tương ứng.
 
 @mml_start@PHẦN Trắc nghiệm khách quan (3 điểm)
@@ -240,14 +235,15 @@ D. Tín hiệu vào và ra cùng pha
 
 Câu 3:  
 Dựa vào bảng sau, hãy trả lời câu hỏi:
-<mdtable>
-| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
-| ----------------- | ----------------- | ------------- |
-| 1                 | H                 | Hydro         |
-| 2                 | He                | Helium        |
-| 7                 | N                 | Nitơ          |
-| 8                 | O                 | Oxy           |
-</mdtable>
+
+<table border="1">
+<thead><tr><th>Số hiệu nguyên tử</th><th>Kí hiệu nguyên tố</th><th>Tên nguyên tố</th></tr></thead>
+<tbody><tr><td>1</td><td>H</td><td>Hydro</td></tr>
+<tr><td>2</td><td>He</td><td>Helium</td></tr>
+<tr><td>7</td><td>N</td><td>Nitơ</td></tr>
+<tr><td>8</td><td>O</td><td>Oxy</td></tr></tbody>
+</table>
+
 Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:  
 A. H    B. He    C. O    D. N
 
@@ -261,21 +257,24 @@ c) Cường độ dòng điện cảm ứng không phụ thuộc vào tốc đ�
 
 Câu 6. Dựa vào bảng thông tin về một số loại vật liệu:
 
-<mdtable>
-| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
-|------------------|--------------------------|--------------------|
-| Đồng             | 401                      | Rắn                |
-| Nhôm             | 237                      | Rắn                |
-| Nước             | 0.6                      | Lỏng               |
-| Không khí        | 0.024                    | Khí                |
-</mdtable>
+<table border="1">
+<thead><tr><th>Vật liệu</th><th>Hệ số dẫn nhiệt (W/m·K)</th><th>Trạng thái ở 25°C</th></tr></thead>
+<tbody><tr><td>Đồng</td><td>401</td><td>Rắn</td></tr>
+<tr><td>Nhôm</td><td>237</td><td>Rắn</td></tr>
+<tr><td>Nước</td><td>0.6</td><td>Lỏng</td></tr>
+<tr><td>Không khí</td><td>0.024</td><td>Khí</td></tr></tbody>
+</table>
 
 a) Đồng dẫn nhiệt tốt hơn nhôm.  
 b) Nước dẫn nhiệt tốt hơn không khí.  
 c) Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.  
 d) Nhôm dẫn nhiệt kém hơn nước.
 
-PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
+ĐỀ 2 - Vật lý: Thời gian làm bài 50 phút
+
+
+
+PHẦN I. Thí sinh trả lời từ câu 1 đến câu 6.
 
 Câu 1 và 2: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng $E = 10{,}8 \times 10^3 \, \text{J}$ (tương đương 3000 mAh ở 3.6V).
 
@@ -288,26 +287,30 @@ Câu 3. Quan sát hai hình sau:
 <figure id="fig1" />
 <figure id="fig2" />
 
-Dựa vào các hình, hãy tính tổng công mà hai lực \( \vec{F}_1 \) và \( \vec{F}_2 \) thực hiện khi di chuyển vật từ vị trí A đến B.@mml_end@
+Dựa vào các hình, hãy tính tổng công mà hai lự c \( \vec{F}_1 \) và \( \vec{F}_2 \) thực hiện khi di chuyển vật từ vị trí A đến B.
+Phần II. Trắc nghiệm Đúng Sai.
+Câu 1:
+<table border="1">
+<tr><th>Mệnh đề</th><th>Đúng</th><th>Sai</th></tr>
+<tr><td>(a)</td><td>Hàm số đã cho có đạo hàm là \(f'(x) = 3x^2 - 27\)</td><td></td><td></td></tr>
+<tr><td>(b)</td><td>Phương trình \(f'(x) = 0\) có tập nghiệm là \(S = \{3\}\)</td><td></td><td></td></tr>
+<tr><td>(c)</td><td>\(f(3) = 27\)</td><td></td><td></td></tr>
+<tr><td>(d)</td><td>Giá trị nhỏ nhất của hàm số \(f(x)\) trên đoạn \([-4;4]\) bằng 27</td><td></td><td></td></tr>
+</table>
+@mml_end@
 </user_query>
 
 
 
 <assistant_response>
-@slurp_start@sectionHeader: |
-PHẦN Trắc nghiệm khách quan (3 điểm)
-
-Chọn phương án đúng nhất cho mỗi câu sau:
-
-shareinfo:
+@slurp_start@stimulus:
 >id: sodo-c4c5
->info: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base).
->figures: im0
+>context: Sơ đồ dưới đây mô tả mạch khuếch đại sử dụng transistor mắc theo kiểu cực bazơ chung (common base). <figure id="im0"/>
 
 qs:
 >dnum: 1
 >type: mcq
->shared-info: sodo-c4c5
+>stimulus: sodo-c4c5
 >qt: Trong mạch khuếch đại trên, vai trò của điện trở \(R_C\) là
 >labels:
 >>a: Tăng độ lợi điện áp đầu ra
@@ -318,7 +321,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: sodo-c4c5
+>stimulus: sodo-c4c5
 >qt: Đặc điểm nào sau đây đúng với mạch khuếch đại mắc cực bazơ chung?
 >labels:
 >>a: Tín hiệu vào và ra ngược pha
@@ -331,14 +334,14 @@ qs:
 >type: mcq
 >qt: |
 Dựa vào bảng sau, hãy trả lời câu hỏi:
-<mdtable>
-| Số hiệu nguyên tử | Kí hiệu nguyên tố | Tên nguyên tố |
-| ----------------- | ----------------- | ------------- |
-| 1                 | H                 | Hydro         |
-| 2                 | He                | Helium        |
-| 7                 | N                 | Nitơ          |
-| 8                 | O                 | Oxy           |
-</mdtable>
+<table border="1">
+<thead><tr><th>Số hiệu nguyên tử</th><th>Kí hiệu nguyên tố</th><th>Tên nguyên tố</th></tr></thead>
+<tbody><tr><td>1</td><td>H</td><td>Hydro</td></tr>
+<tr><td>2</td><td>He</td><td>Helium</td></tr>
+<tr><td>7</td><td>N</td><td>Nitơ</td></tr>
+<tr><td>8</td><td>O</td><td>Oxy</td></tr></tbody>
+</table>
+
 Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:
 >labels:
 >>a: H
@@ -346,13 +349,13 @@ Kí hiệu của nguyên tố có số hiệu nguyên tử bằng 2 là:
 >>c: O
 >>d: N
 
-sectionHeader: PHẦN II. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.
-
 qs:
 >dnum: 5
 >type: mtf-2018
->qt: Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ:
->figures: img_cx1, img_cx2
+>qt: |
+Quan sát hai thí nghiệm sau liên quan đến hiện tượng cảm ứng điện từ: 
+<figure id="img_cx2" />
+<figure id="img_cx1" />
 >labels:
 >>a: Khi nam châm di chuyển lại gần cuộn dây, ampe kế phát hiện dòng điện cảm ứng.
 >>b: Nếu nam châm đứng yên, không có dòng điện cảm ứng xuất hiện.
@@ -363,43 +366,53 @@ qs:
 >type: mtf-2018
 >qt: |
 Dựa vào bảng thông tin về một số loại vật liệu:
-<mdtable>
-| Vật liệu         | Hệ số dẫn nhiệt (W/m·K) | Trạng thái ở 25°C |
-|------------------|--------------------------|--------------------|
-| Đồng             | 401                      | Rắn                |
-| Nhôm             | 237                      | Rắn                |
-| Nước             | 0.6                      | Lỏng               |
-| Không khí        | 0.024                    | Khí                |
-</mdtable>
+<table border="1">
+<thead><tr><th>Vật liệu</th><th>Hệ số dẫn nhiệt (W/m·K)</th><th>Trạng thái ở 25°C</th></tr></thead>
+<tbody><tr><td>Đồng</td><td>401</td><td>Rắn</td></tr>
+<tr><td>Nhôm</td><td>237</td><td>Rắn</td></tr>
+<tr><td>Nước</td><td>0.6</td><td>Lỏng</td></tr>
+<tr><td>Không khí</td><td>0.024</td><td>Khí</td></tr></tbody>
+</table>
+
 >labels:
 >>a: Đồng dẫn nhiệt tốt hơn nhôm.
 >>b: Nước dẫn nhiệt tốt hơn không khí.
 >>c: Không khí là vật liệu rắn có hệ số dẫn nhiệt thấp nhất.
 >>d: Nhôm dẫn nhiệt kém hơn nước.
 
-sectionHeader: PHẦN III. Thí sinh trả lời từ câu 1 đến câu 6.
-
-shareinfo:
+stimulus:
 >id: 12-tln
->info: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng \(E = 10{,}8 \times 10^3 \, \text{J}\) (tương đương 3000 mAh ở 3.6V).
+>context: Một hệ thống sạc điện thoại sử dụng pin năng lượng mặt trời. Ánh sáng Mặt Trời chiếu vào tấm pin, tạo ra điện năng để sạc pin điện thoại. Hiệu suất của hệ thống là 30%. Pin điện thoại có dung lượng \(E = 10{,}8 \times 10^3 \, \text{J}\) (tương đương 3000 mAh ở 3.6V).
 
 qs:
 >dnum: 1
 >type: short-2018
->shared-info: 12-tln
+>stimulus: 12-tln
 >qt: Tính lượng năng lượng cần từ Mặt Trời để sạc đầy pin, biết hiệu suất hệ thống là 30%. Đáp án có dạng \(x \cdot 10^4 \, \text{J}\). Tìm \(x\) (làm tròn đến hàng phần trăm).
 
 qs:
 >dnum: 2
 >type: short-2018
->shared-info: 12-tln
+>stimulus: 12-tln
 >qt: Với cường độ bức xạ Mặt Trời \(I = 1000 \, \text{W} \cdot \text{m}^{-2}\), diện tích tấm pin \(S = 0{,}01 \, \text{m}^2\), công suất thu được là \(P = I \cdot S\). Tính thời gian \(t\) (phút) để sạc đầy pin. Làm tròn \(t\) đến hàng đơn vị.
 
 qs:
 >dnum: 3
 >type: short-2018
->figures: img_cong1, img_cong2
->qt: Dựa vào các hình, hãy tính tổng công mà hai lực \(\vec{F}_1\) và \(\vec{F}_2\) thực hiện khi di chuyển vật từ vị trí A đến B.@slurp_end@
+>qt: |
+Dựa vào các hình, hãy tính tổng công mà hai lực \(\vec{F}_1\) và \(\vec{F}_2\) thực hiện khi di chuyển vật từ vị trí A đến B.
+<figure id="fig1" />
+<figure id="fig2" />
+@slurp_start@
+
+qs:
+>dnum: 1
+>type: mtf-2018
+>labels:
+>>a: Hàm số đã cho có đạo hàm là \(f'(x) = 3x^2 - 27\)
+>>b: Phương trình \(f'(x) = 0\) có tập nghiệm là \(S = \{3\}\)
+>>c: \(f(3) = 27\)
+>>d: Giá trị nhỏ nhất của hàm số \(f(x)\) trên đoạn \([-4;4]\) bằng 27@slurp_end@
 </assistant_response>
 
 

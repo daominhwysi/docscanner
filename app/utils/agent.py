@@ -13,7 +13,8 @@ load_dotenv()
 logger = get_logger()
 keys = os.environ.get("GEMINI_API_KEY", "").split(",")
 
-from app.lib.redis_client import r
+from app.lib.redis_client import redis_manager
+r = redis_manager.get_connection()
 async def init_api_key_zset(keys):
     logger.info("Successed in initializing api keys set")
     # chỉ chạy một lần lúc khởi động

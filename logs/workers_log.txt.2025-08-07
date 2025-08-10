@@ -1,0 +1,6 @@
+2025-08-07 11:44:47 - INFO - [56657] - [worker_logger:main:16] - Starting worker...
+2025-08-07 11:46:49 - INFO - [57119] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-07 11:47:53 - INFO - [57352] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-07 11:52:06 - INFO - [56657] - [worker_logger:parse_document:100] - Parsing document bc19d34e7dee4c51a5bd264f80487a50
+2025-08-07 11:52:06 - INFO - [56657] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-07 11:52:33 - INFO - [56657] - [worker_logger:parse_document:111] - [bc19d34e7dee4c51a5bd264f80487a50] Task completed successfully.

@@ -58,13 +58,13 @@ B. CO₂
 C. Chất hữu cơ
 D. Ánh sáng@mml_end@
 
-@slurp_incomplete_start@shareinfo:
+@slurp_incomplete_start@stimulus:
 >id: s-photosynthesis
 >info: Quang hợp là quá trình thực vật sử dụng ánh sáng mặt trời để tổng hợp các chất hữu cơ từ CO₂ và H₂O, giải phóng O₂.
 qs:
 >dnum: 1
 >type: mcq
->shared-info: s-photosynthesis
+>stimulus: s-photosynthesis
 >qt: Quá trình quang hợp xảy ra ở bộ phận nào của cây?
 >items:
 >>a: Rễ
@@ -80,7 +80,7 @@ qs:
 qs:
 >dnum: 2
 >type: mcq
->shared-info: s-photosynthesis
+>stimulus: s-photosynthesis
 >qt: Sản phẩm chính của quá trình quang hợp là gì?
 >items:
 >>a: Nước
@@ -97,12 +97,11 @@ qs:
 
 
 <user_query>
-@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
+@mml_start@Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part dihnfers from the others in pronunciation in each of the following questions.
 
 Question 1: A. chemistry  B. chicken  C. change  D. choose
 Question 2: A. laughed   B. passed   C. played   D. watched@mml_end@
-@slurp_incomplete_start@sectionHeader: Mark the letter A, B, C or D on your answer sheet to indicate the word whose underlined part differs from the others in pronunciation in each of the following questions.
-qs:
+@slurp_incomplete_start@qs:
 >dnum: 1
 >type: mcq
 >items:

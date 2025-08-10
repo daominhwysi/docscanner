@@ -1,5 +1,6 @@
-from app.lib.redis_client import r 
+from app.lib.redis_client import redis_manager
 
+r = redis_manager.get_connection()
 async def increment_counter(id : str):
     return await r.incr(f"counter:{id}")
 

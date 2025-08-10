@@ -85,9 +85,6 @@ async def save_file(file_bytes: bytes, file_type: str) -> Path:
     relative_path = filepath.relative_to(PRIVATE_DIR)
     return relative_path
 
-
-
-
 @app.get("/logs")
 def read_latest_worker_log():
     # 📁 Trỏ tới thư mục chứa log
@@ -155,7 +152,7 @@ async def handle_pdf(
     # Tạo task
     task_id = None
     with get_session() as session:
-        task = create_task(task_type=TaskType("parseDocumentPDF"), session=session)
+        task = create_task(task_type=TaskType.parseDocumentPDF, session=session)
         task_id = task.id
 
     await worker.enqueue("process_pdf", task_id, file_url)
@@ -170,7 +167,7 @@ class Text2Slurp(BaseModel):
 async def documentParsing(body: Text2Slurp):
     task_id=None
     with get_session() as session:
-        task = create_task(task_type=TaskType("documentParsing"), session=session)
+        task = create_task(task_type=TaskType.documentParsing, session=session)
         task_id = task.id
     await worker.enqueue("documentParsing", task_id, body.text)
     return {"task_id": task_id}

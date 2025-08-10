@@ -3,11 +3,11 @@ import json
 from typing import Callable, Awaitable, Dict, Optional
 from redis.asyncio import Redis
 import os
-redis_host = os.getenv("REDIS_HOST", "localhost")
-redis_port = int(os.getenv("REDIS_PORT", 6379))
+from app.lib.redis_client import redis_manager
+
 class SimpleRedisWorker:
     def __init__(self, queue_name: str = "tasks"):
-        self.redis = Redis(host=redis_host, port=redis_port, decode_responses=True)
+        self.redis = redis_manager.get_connection(decode_responses=True)
         self.queue_name = queue_name
         self.tasks: Dict[str, Callable[..., Awaitable]] = {}
         self.semaphores: Dict[str, asyncio.Semaphore] = {}

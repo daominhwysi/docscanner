@@ -1,0 +1,98 @@
+2025-08-08 07:37:16 - INFO - [30336] - [worker_logger:main:16] - Starting worker...
+2025-08-08 07:37:50 - INFO - [30550] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 07:55:22 - INFO - [30336] - [worker_logger:parse_document:100] - Parsing document 22dc7b80bb744c74ab5b4ec344e23860
+2025-08-08 07:55:22 - INFO - [30336] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-08 07:56:07 - INFO - [30336] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
+2025-08-08 07:56:33 - INFO - [30336] - [worker_logger:parse_document:111] - [22dc7b80bb744c74ab5b4ec344e23860] Task completed successfully.
+2025-08-08 12:46:27 - INFO - [23030] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 12:47:18 - INFO - [23457] - [worker_logger:main:16] - Starting worker...
+2025-08-08 12:47:36 - INFO - [23524] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 12:48:05 - INFO - [23457] - [worker_logger:parse_document:99] - Parsing document 8ca234788b2342c3bc3a6af8c2eae796
+2025-08-08 12:48:05 - INFO - [23457] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-08 12:49:43 - INFO - [23457] - [worker_logger:parse_document:110] - [8ca234788b2342c3bc3a6af8c2eae796] Task completed successfully.
+2025-08-08 13:23:59 - INFO - [31315] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:24:01 - INFO - [31335] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:24:04 - INFO - [31346] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:25:55 - INFO - [31435] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:25:57 - INFO - [31455] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:26:26 - INFO - [31471] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:26:29 - INFO - [31500] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:26:30 - INFO - [23457] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-08 13:26:34 - INFO - [31551] - [worker_logger:main:16] - Starting worker...
+2025-08-08 13:26:36 - INFO - [31551] - [worker_logger:parse_document:99] - Parsing document 08944085e5324cea89b6060700efabb4
+2025-08-08 13:26:36 - INFO - [31551] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-08 13:28:05 - INFO - [31551] - [worker_logger:parse_document:110] - [08944085e5324cea89b6060700efabb4] Task completed successfully.
+2025-08-08 13:34:13 - INFO - [31551] - [worker_logger:parse_document:99] - Parsing document cc2b615da57e4770a7e33b6c143fe2e4
+2025-08-08 13:34:13 - INFO - [31551] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
+2025-08-08 13:35:54 - INFO - [31551] - [worker_logger:parse_document:110] - [cc2b615da57e4770a7e33b6c143fe2e4] Task completed successfully.
+2025-08-08 13:46:31 - INFO - [31551] - [worker_logger:parse_document:99] - Parsing document e5e353274f2c494cac3bb5b436be2d55
+2025-08-08 13:46:31 - INFO - [31551] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
+2025-08-08 13:48:00 - INFO - [31551] - [worker_logger:parse_document:110] - [e5e353274f2c494cac3bb5b436be2d55] Task completed successfully.
+2025-08-08 13:54:59 - INFO - [38362] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:03 - INFO - [38383] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:11 - INFO - [38410] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:20 - INFO - [38424] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:29 - INFO - [38450] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:32 - INFO - [38461] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 13:55:37 - INFO - [31551] - [worker_logger:parse_document:99] - Parsing document a30203f8e76a48228ba9352e00e147eb
+2025-08-08 13:55:37 - INFO - [31551] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-08 13:57:24 - INFO - [31551] - [worker_logger:parse_document:110] - [a30203f8e76a48228ba9352e00e147eb] Task completed successfully.
+2025-08-08 14:17:28 - INFO - [42980] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 14:17:43 - INFO - [43036] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 14:17:45 - INFO - [43056] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 14:17:50 - INFO - [31551] - [worker_logger:parse_document:99] - Parsing document 7b51d408b63a44c287463cd2c544d0b3
+2025-08-08 14:17:50 - INFO - [31551] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-08 14:20:24 - INFO - [31551] - [worker_logger:parse_document:110] - [7b51d408b63a44c287463cd2c544d0b3] Task completed successfully.
+2025-08-08 22:58:25 - INFO - [11173] - [worker_logger:main:16] - Starting worker...
+2025-08-08 22:58:50 - INFO - [11309] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 23:16:01 - INFO - [16002] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-08 23:16:34 - ERROR - [11173] - [worker_logger:<module>:25] - FAILED to process : Error 111 connecting to localhost:6379. Connect call failed ('127.0.0.1', 6379).
+Traceback (most recent call last):
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 302, in connect_check_health
+    await self.retry.call_with_retry(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 71, in call_with_retry
+    return await do()
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 755, in _connect
+    reader, writer = await asyncio.open_connection(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/streams.py", line 48, in open_connection
+    transport, _ = await loop.create_connection(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 1076, in create_connection
+    raise exceptions[0]
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 1060, in create_connection
+    sock = await self._connect_sock(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 969, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/selector_events.py", line 501, in sock_connect
+    return await fut
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/selector_events.py", line 541, in _sock_connect_cb
+    raise OSError(err, f'Connect call failed {address}')
+ConnectionRefusedError: [Errno 111] Connect call failed ('127.0.0.1', 6379)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/teamspace/studios/this_studio/docscanner/app/run_worker.py", line 21, in <module>
+    asyncio.run(main())
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/teamspace/studios/this_studio/docscanner/app/run_worker.py", line 17, in main
+    await worker.run_worker()
+  File "/teamspace/studios/this_studio/docscanner/app/lib/worker_core.py", line 42, in run_worker
+    item = await self.redis.blpop(self.queue_name, timeout=1)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/client.py", line 677, in execute_command
+    return await conn.retry.call_with_retry(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 76, in call_with_retry
+    raise error
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 71, in call_with_retry
+    return await do()
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/client.py", line 651, in _send_command_parse_response
+    await conn.send_command(*args)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 554, in send_command
+    await self.send_packed_command(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 515, in send_packed_command
+    await self.connect_check_health(check_health=False)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 310, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connect call failed ('127.0.0.1', 6379).

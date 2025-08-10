@@ -1,0 +1,72 @@
+2025-08-06 06:19:11 - ERROR - [12475] - [worker_logger:parse_document:113] - Failed to parse document 87f297553d504f42814e0079ccfc882c: name 'r' is not defined
+Traceback (most recent call last):
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/document_parser.py", line 102, in parse_document
+    slurp_content, figures = await llmAsParser(text=text)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/document_parser.py", line 48, in llmAsParser
+    initial_response = await GeminiAgent(
+  File "/teamspace/studios/this_studio/docscanner/app/utils/agent.py", line 67, in GeminiAgent
+    # Lấy key LRU
+  File "/teamspace/studios/this_studio/docscanner/app/utils/agent.py", line 33, in get_lru_api_key
+    while True:
+NameError: name 'r' is not defined
+2025-08-08 23:16:34 - ERROR - [11173] - [worker_logger:<module>:25] - FAILED to process : Error 111 connecting to localhost:6379. Connect call failed ('127.0.0.1', 6379).
+Traceback (most recent call last):
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 302, in connect_check_health
+    await self.retry.call_with_retry(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 71, in call_with_retry
+    return await do()
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 755, in _connect
+    reader, writer = await asyncio.open_connection(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/streams.py", line 48, in open_connection
+    transport, _ = await loop.create_connection(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 1076, in create_connection
+    raise exceptions[0]
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 1060, in create_connection
+    sock = await self._connect_sock(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 969, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/selector_events.py", line 501, in sock_connect
+    return await fut
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/selector_events.py", line 541, in _sock_connect_cb
+    raise OSError(err, f'Connect call failed {address}')
+ConnectionRefusedError: [Errno 111] Connect call failed ('127.0.0.1', 6379)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/teamspace/studios/this_studio/docscanner/app/run_worker.py", line 21, in <module>
+    asyncio.run(main())
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/teamspace/studios/this_studio/docscanner/app/run_worker.py", line 17, in main
+    await worker.run_worker()
+  File "/teamspace/studios/this_studio/docscanner/app/lib/worker_core.py", line 42, in run_worker
+    item = await self.redis.blpop(self.queue_name, timeout=1)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/client.py", line 677, in execute_command
+    return await conn.retry.call_with_retry(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 76, in call_with_retry
+    raise error
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/retry.py", line 71, in call_with_retry
+    return await do()
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/client.py", line 651, in _send_command_parse_response
+    await conn.send_command(*args)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 554, in send_command
+    await self.send_packed_command(
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 515, in send_packed_command
+    await self.connect_check_health(check_health=False)
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/redis/asyncio/connection.py", line 310, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connect call failed ('127.0.0.1', 6379).
+2025-08-10 07:40:44 - ERROR - [19623] - [worker_logger:extractDocumentImage:159] - [dbedc339f6e34481a1cc1ab6c2893cd5] FAILED to process task, page 2: can't set attribute 'text'
+Traceback (most recent call last):
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/extractor.py", line 109, in extractDocumentImage
+    llmResponse = await call_gemini_with_retry(contents=contents, config=generate_content_config)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/extractor.py", line 48, in call_gemini_with_retry
+    llmResponse.text = last_response_text
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/pydantic/main.py", line 998, in __setattr__
+    setattr_handler(self, name, value)  # call here to not memo on possibly unknown fields
+  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/pydantic/main.py", line 1038, in <lambda>
+    return lambda model, _name, val: attr.__set__(model, val)
+AttributeError: can't set attribute 'text'

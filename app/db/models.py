@@ -13,7 +13,7 @@ Base = declarative_base()
 
 # Enums
 class TaskType(str, Enum):
-    parseDocumentImages = "parseDocumentPDF"
+    parseDocumentPDF = "parseDocumentPDF"
     documentParsing = "documentParsing"
 
 class TaskStatus(str, Enum):
@@ -44,6 +44,7 @@ class InferenceLog(Base):
     rawOutput = Column(Text, nullable=False)
     objectKeys = Column(ARRAY(String), nullable=True)
     objectUrls = Column(ARRAY(String), nullable=True)
+    error = Column(Text, nullable=True)  # Thêm field này
     num_input_token = Column(Integer, nullable=False)
     num_output_token = Column(Integer, nullable=False)
     page_order = Column(Integer, nullable=True)
