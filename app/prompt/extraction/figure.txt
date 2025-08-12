@@ -5,7 +5,7 @@ Nhiệm vụ của bạn là chuyển đổi toàn bộ nội dung (văn bản, 
 # ĐỊNH DẠNG ĐẦU RA BẮT BUỘC
 
 <thinking>
-[CHỈ thực hiện đúng 3 bước phân tích bên dưới]
+[CHỈ thực hiện đúng các bước phân tích bên dưới theo đủ các tiêu chí]
 </thinking>
 
 <AssessmentMarkupLanguage>
@@ -20,7 +20,7 @@ Nhiệm vụ của bạn là chuyển đổi toàn bộ nội dung (văn bản, 
 
 #### VĂN BẢN
 - Trích xuất và giữ nguyên nội dung văn bản từ tài liệu gốc một cách đầy đủ, chính xác, bao gồm cả dấu câu, ngắt dòng, và thứ tự các đoạn.
-- Xuống dòng chỉ cần sử dụng token '\n' như bình thường.
+- Xuống dòng như bình thường.
 - Không được tự ý rút gọn, bỏ qua hoặc gộp các dòng lại nếu tài liệu gốc có ngắt dòng rõ ràng.
 
 #### BẢNG THÔNG THƯỜNG
@@ -59,13 +59,12 @@ Ví dụ:
 * Ví dụ: Đạo hàm của \(\sin(x)\) là \(\cos(x)\)
 ## QUY TRÌNH PHÂN TÍCH BẮT BUỘC (TRONG TAG `<thinking>`)
 
-
 ### Bước 1: Quan sát tổng thể
 
 - Loại tài liệu: [đề thi/bài tập/lý thuyết/...]
 - Ngôn Ngữ : [Việt/Anh/...]
 - Cấu trúc: [Hãy mô tả từ trên xuống cấu trúc tổng quát tài liệu]
-- Hình ảnh: Đối với mỗi hình ảnh, nếu hình có nền màu xanh lá cây và trên hình có text màu đỏ theo định dạng IM kèm theo một số nguyên không âm (ví dụ: IM1, IM2, IM3,...), thì coi đó là figure cần chèn vào nội dung đầu ra. Ghi nhận vị trí xuất hiện tương đối trong văn bản để chèn đúng chỗ.
+- Hình ảnh: Đối với mỗi hình ảnh, nếu hình có nền màu xanh lá cây và trên hình có text màu đỏ theo định dạng IM kèm theo một số nguyên không âm (ví dụ: IM1, IM2, IM3,...), thì coi đó là figure cần chèn vào nội dung đầu ra. Ghi nhận vị trí xuất hiện tương đối trong văn bản để chèn đúng chỗ. Ví dụ: "Có hình ảnh được được đánh dấu là IM1 xuất hiện ở đầu tài liệu, IM2 inline với bài 3 phần Tự luận"
 - Bảng: Các bảng ở vị trí nào? Xác định số lượng [Z] bảng. 
 
 ### Bước 2: Xác nhận chiến lược 
@@ -74,13 +73,12 @@ Cam đoan tuân thủ các quy tắc và xử lý nội dung theo yêu cầu.
 
 KHÔNG NÊN:
 - Liệt kê chi tiết nội dung câu hỏi, đáp án trong tag <thinking>
-- Thêm bất kỳ nội dung nào ngoài 3 bước trên
-
+- Thêm bất kỳ nội dung nào ngoài 2 bước trên
 
 # NGUYÊN TẮC KHÔNG ĐƯỢC VI PHẠM
 
 ## ✅ BẮT BUỘC:
-1. Cấu trúc phản hồi chính xác: Luôn có `<thinking>` (3 bước) và trả về nội dung đã xử lý trong tag `<AssessmentMarkupLanguage>`
+1. Cấu trúc phản hồi chính xác: Luôn có `<thinking>` đầy đủ các nội dung theo các tiêu chí có sẵn và trả về nội dung đã xử lý trong tag `<AssessmentMarkupLanguage>`
 2. Hoàn chỉnh 100%: Trích xuất mọi chữ, công thức, chèn figure... từ đầu đến cuối trang (trừ watermark, footer, page number)
 3. Công thức: Chuyển đổi tất cả sang LaTeX 
 4. Hình ảnh: Chèn figure có nền màu xanh lá cây và bên trong hình có text màu đỏ theo định dạng IM kèm theo một số nguyên không âm (ví dụ: IM0, IM1, IM2,...) vào đúng vị trí xuất hiện tương ứng trong dòng nội dung của văn bản đầu vào.
@@ -88,7 +86,7 @@ KHÔNG NÊN:
 5. Ngắt dòng: Giữ nguyên xuống dòng giữa các đoạn văn như tài liệu gốc. 
 ## ❌ TUYỆT ĐỐI KHÔNG ĐƯỢC:
 1. Bỏ qua bất kỳ nội dung nào 
-2. Thinking vượt quá 3 bước quy định
+2. Thinking vượt quá các quy định hoặc rút gọn ko đủ các tiêu chí
 3. Sử dụng các tính năng từ ngôn ngữ khác như HTML, Markdown,.. mà AssessmentMarkupLanguage không có sẵn
 4. Hallucinate thông tin, tự sáng tạo ra nội dung mà không có trong tài liệu gốc.
 ## LƯU Ý ĐẶC BIỆT

@@ -70,3 +70,12 @@ Traceback (most recent call last):
   File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/pydantic/main.py", line 1038, in <lambda>
     return lambda model, _name, val: attr.__set__(model, val)
 AttributeError: can't set attribute 'text'
+2025-08-11 13:55:14 - ERROR - [29751] - [worker_logger:process_img:125] - [02a5044417d548cb9aadf86de53b6d71] FAILED to process page 0: local variable 'cropped_objects_np' referenced before assignment
+Traceback (most recent call last):
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 121, in process_img
+    processed_img_url , cropped_objects_urls = await annotate_img(img_np=img_np_bgr)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 95, in annotate_img
+    processed_img_np, cropped_objects_np = get_annotated_images(img_np, threshold=0.5)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 46, in get_annotated_images
+    print("Model detected ", len(cropped_objects_np), "objects (before drew)")
+UnboundLocalError: local variable 'cropped_objects_np' referenced before assignment

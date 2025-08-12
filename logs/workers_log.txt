@@ -1,291 +1,220 @@
-2025-08-10 07:32:10 - INFO - [18722] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 07:34:54 - INFO - [19623] - [worker_logger:main:16] - Starting worker...
-2025-08-10 07:35:01 - INFO - [19656] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 07:37:39 - INFO - [20019] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 07:38:27 - INFO - [20137] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 07:39:40 - INFO - [20274] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 07:39:41 - INFO - [19623] - [worker_logger:process_pdf:16] - Start processing task f4192991f9814c37ba3ae9d1ee33f0fd
-2025-08-10 07:39:42 - INFO - [19623] - [worker_logger:process_img:114] - f4192991f9814c37ba3ae9d1ee33f0fd Start processing task 
-2025-08-10 07:39:42 - INFO - [19623] - [worker_logger:process_pdf:41] - [f4192991f9814c37ba3ae9d1ee33f0fd] Enqueued 3 pages for task 
-2025-08-10 07:39:42 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task f4192991f9814c37ba3ae9d1ee33f0fd, page 0
-2025-08-10 07:39:42 - INFO - [19623] - [worker_logger:process_img:114] - f4192991f9814c37ba3ae9d1ee33f0fd Start processing task 
-2025-08-10 07:39:44 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:39:44 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task f4192991f9814c37ba3ae9d1ee33f0fd, page 1
-2025-08-10 07:39:44 - INFO - [19623] - [worker_logger:process_img:114] - f4192991f9814c37ba3ae9d1ee33f0fd Start processing task 
-2025-08-10 07:39:44 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:39:45 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task f4192991f9814c37ba3ae9d1ee33f0fd, page 2
-2025-08-10 07:39:45 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:39:52 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [f4192991f9814c37ba3ae9d1ee33f0fd] page 2 processed. Remaining pages to process: 2
-2025-08-10 07:39:53 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [f4192991f9814c37ba3ae9d1ee33f0fd] page 0 processed. Remaining pages to process: 1
-2025-08-10 07:39:53 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [f4192991f9814c37ba3ae9d1ee33f0fd] page 1 processed. Remaining pages to process: 0
-2025-08-10 07:39:53 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [f4192991f9814c37ba3ae9d1ee33f0fd] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:39:53 - INFO - [19623] - [worker_logger:extractDocumentImage:156] - [f4192991f9814c37ba3ae9d1ee33f0fd] Successfully wrote final result for task 
-2025-08-10 07:40:26 - INFO - [19623] - [worker_logger:process_pdf:16] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5
-2025-08-10 07:40:27 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:32 - INFO - [19623] - [worker_logger:process_pdf:41] - [dbedc339f6e34481a1cc1ab6c2893cd5] Enqueued 15 pages for task 
-2025-08-10 07:40:32 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:32 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 0
-2025-08-10 07:40:32 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:40:33 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 1
-2025-08-10 07:40:33 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:33 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:40:33 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:33 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 2
-2025-08-10 07:40:35 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:40:35 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 3
-2025-08-10 07:40:35 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:37 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:40:37 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 0 processed. Remaining pages to process: 14
-2025-08-10 07:40:37 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 4
-2025-08-10 07:40:37 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:38 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:40:39 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 07:40:39 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:40:39 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 5
-2025-08-10 07:40:39 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:40 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:40:41 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:41 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 6
-2025-08-10 07:40:42 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 07:40:42 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:40:42 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:40:42 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:42 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 7
-2025-08-10 07:40:43 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:40:44 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 2/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 07:40:44 - INFO - [19623] - [worker_logger:call_gemini_with_retry:45] - Fallback: appending </AssessmentMarkupLanguage> at the end
-2025-08-10 07:40:44 - ERROR - [19623] - [worker_logger:extractDocumentImage:159] - [dbedc339f6e34481a1cc1ab6c2893cd5] FAILED to process task, page 2: can't set attribute 'text'
+2025-08-11 08:15:16 - INFO - [41743] - [worker_logger:main:16] - Starting worker...
+2025-08-11 08:15:45 - INFO - [41862] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:16:11 - INFO - [41743] - [worker_logger:process_pdf:16] - Start processing task d737a6b8184c4fb6a33f170375beb07f
+2025-08-11 08:16:12 - INFO - [41743] - [worker_logger:process_pdf:41] - [d737a6b8184c4fb6a33f170375beb07f] Enqueued 1 pages for task 
+2025-08-11 08:16:12 - INFO - [41743] - [worker_logger:process_img:114] - d737a6b8184c4fb6a33f170375beb07f Start processing task 
+2025-08-11 08:16:13 - INFO - [41743] - [worker_logger:extractDocumentImage:174] - Start processing task d737a6b8184c4fb6a33f170375beb07f, page 0
+2025-08-11 08:16:13 - INFO - [41743] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 08:16:19 - INFO - [41743] - [worker_logger:extractDocumentImage:236] - [d737a6b8184c4fb6a33f170375beb07f] Successfully processed page 0
+2025-08-11 08:16:19 - INFO - [41743] - [worker_logger:extractDocumentImage:247] - [d737a6b8184c4fb6a33f170375beb07f] Page 0 finished. Remaining pages: 0
+2025-08-11 08:16:19 - INFO - [41743] - [worker_logger:extractDocumentImage:251] - [d737a6b8184c4fb6a33f170375beb07f] All pages processed. Starting result aggregation.
+2025-08-11 08:16:19 - INFO - [41743] - [worker_logger:aggregate_results:153] - [d737a6b8184c4fb6a33f170375beb07f] Task completed successfully
+2025-08-11 08:18:24 - INFO - [42502] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:18:49 - INFO - [42600] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:18:52 - INFO - [41743] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 08:19:00 - INFO - [42660] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:19:03 - INFO - [42700] - [worker_logger:main:16] - Starting worker...
+2025-08-11 08:19:04 - INFO - [42700] - [worker_logger:process_pdf:16] - Start processing task 51afd489440544d0877b5f64e7faebfe
+2025-08-11 08:19:05 - INFO - [42700] - [worker_logger:process_pdf:41] - [51afd489440544d0877b5f64e7faebfe] Enqueued 1 pages for task 
+2025-08-11 08:19:05 - INFO - [42700] - [worker_logger:process_img:114] - 51afd489440544d0877b5f64e7faebfe Start processing task 
+2025-08-11 08:19:06 - INFO - [42700] - [worker_logger:extractDocumentImage:174] - Start processing task 51afd489440544d0877b5f64e7faebfe, page 0
+2025-08-11 08:19:06 - INFO - [42700] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 08:19:13 - INFO - [42700] - [worker_logger:extractDocumentImage:236] - [51afd489440544d0877b5f64e7faebfe] Successfully processed page 0
+2025-08-11 08:19:13 - INFO - [42700] - [worker_logger:extractDocumentImage:247] - [51afd489440544d0877b5f64e7faebfe] Page 0 finished. Remaining pages: 0
+2025-08-11 08:19:13 - INFO - [42700] - [worker_logger:extractDocumentImage:251] - [51afd489440544d0877b5f64e7faebfe] All pages processed. Starting result aggregation.
+2025-08-11 08:19:13 - INFO - [42700] - [worker_logger:aggregate_results:153] - [51afd489440544d0877b5f64e7faebfe] Task completed successfully
+2025-08-11 08:19:29 - INFO - [42867] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:19:32 - INFO - [42881] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:19:33 - INFO - [42700] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 08:19:36 - INFO - [42896] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:19:39 - INFO - [42919] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:19:42 - INFO - [42948] - [worker_logger:main:16] - Starting worker...
+2025-08-11 08:19:43 - INFO - [42948] - [worker_logger:process_pdf:16] - Start processing task f62cfdec25484bbcaf05f5449e04b39f
+2025-08-11 08:19:44 - INFO - [42948] - [worker_logger:process_pdf:41] - [f62cfdec25484bbcaf05f5449e04b39f] Enqueued 1 pages for task 
+2025-08-11 08:19:44 - INFO - [42948] - [worker_logger:process_img:115] - f62cfdec25484bbcaf05f5449e04b39f Start processing task 
+2025-08-11 08:19:45 - INFO - [42948] - [worker_logger:extractDocumentImage:174] - Start processing task f62cfdec25484bbcaf05f5449e04b39f, page 0
+2025-08-11 08:19:46 - INFO - [42948] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 08:19:51 - INFO - [42948] - [worker_logger:extractDocumentImage:236] - [f62cfdec25484bbcaf05f5449e04b39f] Successfully processed page 0
+2025-08-11 08:19:51 - INFO - [42948] - [worker_logger:extractDocumentImage:247] - [f62cfdec25484bbcaf05f5449e04b39f] Page 0 finished. Remaining pages: 0
+2025-08-11 08:19:51 - INFO - [42948] - [worker_logger:extractDocumentImage:251] - [f62cfdec25484bbcaf05f5449e04b39f] All pages processed. Starting result aggregation.
+2025-08-11 08:19:51 - INFO - [42948] - [worker_logger:aggregate_results:153] - [f62cfdec25484bbcaf05f5449e04b39f] Task completed successfully
+2025-08-11 08:21:07 - INFO - [43122] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 08:51:47 - INFO - [48393] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 12:39:30 - INFO - [7280] - [worker_logger:main:16] - Starting worker...
+2025-08-11 12:39:44 - INFO - [7392] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 12:40:22 - INFO - [7492] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:17:40 - INFO - [7280] - [worker_logger:process_pdf:16] - Start processing task de757fd0dcc942a2ab41e05935c4d41c
+2025-08-11 13:17:40 - INFO - [7280] - [worker_logger:process_pdf:41] - [de757fd0dcc942a2ab41e05935c4d41c] Enqueued 1 pages for task 
+2025-08-11 13:17:40 - INFO - [7280] - [worker_logger:process_img:114] - de757fd0dcc942a2ab41e05935c4d41c Start processing task 
+2025-08-11 13:17:41 - INFO - [7280] - [worker_logger:extractDocumentImage:174] - Start processing task de757fd0dcc942a2ab41e05935c4d41c, page 0
+2025-08-11 13:17:42 - INFO - [7280] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:17:49 - INFO - [7280] - [worker_logger:extractDocumentImage:236] - [de757fd0dcc942a2ab41e05935c4d41c] Successfully processed page 0
+2025-08-11 13:17:49 - INFO - [7280] - [worker_logger:extractDocumentImage:247] - [de757fd0dcc942a2ab41e05935c4d41c] Page 0 finished. Remaining pages: 0
+2025-08-11 13:17:49 - INFO - [7280] - [worker_logger:extractDocumentImage:251] - [de757fd0dcc942a2ab41e05935c4d41c] All pages processed. Starting result aggregation.
+2025-08-11 13:17:49 - INFO - [7280] - [worker_logger:aggregate_results:153] - [de757fd0dcc942a2ab41e05935c4d41c] Task completed successfully
+2025-08-11 13:36:04 - INFO - [25794] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:43:24 - INFO - [27016] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:43:53 - INFO - [27126] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:43:59 - INFO - [27158] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:01 - INFO - [27178] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:25 - INFO - [27277] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:28 - INFO - [27297] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:32 - INFO - [27305] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:35 - INFO - [27353] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:44:39 - INFO - [27380] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:47:13 - INFO - [27857] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:47:29 - INFO - [27931] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:47:46 - INFO - [28008] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:47:51 - INFO - [28034] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:47:59 - INFO - [28084] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:48:03 - INFO - [28110] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:48:04 - INFO - [7280] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:48:08 - INFO - [28140] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:48:11 - INFO - [28176] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:48:16 - INFO - [28140] - [worker_logger:process_pdf:16] - Start processing task 56cb99a2e4a045c9b669e89ddcfde10e
+2025-08-11 13:48:16 - INFO - [28140] - [worker_logger:process_img:114] - 56cb99a2e4a045c9b669e89ddcfde10e Start processing task 
+2025-08-11 13:48:16 - INFO - [28140] - [worker_logger:process_pdf:41] - [56cb99a2e4a045c9b669e89ddcfde10e] Enqueued 1 pages for task 
+2025-08-11 13:48:17 - INFO - [28140] - [worker_logger:extractDocumentImage:174] - Start processing task 56cb99a2e4a045c9b669e89ddcfde10e, page 0
+2025-08-11 13:48:18 - INFO - [28140] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:48:25 - INFO - [28140] - [worker_logger:extractDocumentImage:236] - [56cb99a2e4a045c9b669e89ddcfde10e] Successfully processed page 0
+2025-08-11 13:48:25 - INFO - [28140] - [worker_logger:extractDocumentImage:247] - [56cb99a2e4a045c9b669e89ddcfde10e] Page 0 finished. Remaining pages: 0
+2025-08-11 13:48:25 - INFO - [28140] - [worker_logger:extractDocumentImage:251] - [56cb99a2e4a045c9b669e89ddcfde10e] All pages processed. Starting result aggregation.
+2025-08-11 13:48:25 - INFO - [28140] - [worker_logger:aggregate_results:153] - [56cb99a2e4a045c9b669e89ddcfde10e] Task completed successfully
+2025-08-11 13:49:03 - INFO - [28511] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:09 - INFO - [28540] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:14 - INFO - [28554] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:17 - INFO - [28559] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:22 - INFO - [28573] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:29 - INFO - [28140] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:49:32 - INFO - [28600] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:33 - INFO - [28607] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:49:36 - INFO - [28641] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:49:38 - INFO - [28607] - [worker_logger:process_pdf:16] - Start processing task 00344ba95c5d4ceb8ef05e8d67b7c787
+2025-08-11 13:49:38 - INFO - [28607] - [worker_logger:process_pdf:41] - [00344ba95c5d4ceb8ef05e8d67b7c787] Enqueued 1 pages for task 
+2025-08-11 13:49:38 - INFO - [28607] - [worker_logger:process_img:114] - 00344ba95c5d4ceb8ef05e8d67b7c787 Start processing task 
+2025-08-11 13:49:39 - INFO - [28607] - [worker_logger:extractDocumentImage:174] - Start processing task 00344ba95c5d4ceb8ef05e8d67b7c787, page 0
+2025-08-11 13:49:40 - INFO - [28607] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:49:47 - INFO - [28607] - [worker_logger:extractDocumentImage:236] - [00344ba95c5d4ceb8ef05e8d67b7c787] Successfully processed page 0
+2025-08-11 13:49:47 - INFO - [28607] - [worker_logger:extractDocumentImage:247] - [00344ba95c5d4ceb8ef05e8d67b7c787] Page 0 finished. Remaining pages: 0
+2025-08-11 13:49:47 - INFO - [28607] - [worker_logger:extractDocumentImage:251] - [00344ba95c5d4ceb8ef05e8d67b7c787] All pages processed. Starting result aggregation.
+2025-08-11 13:49:47 - INFO - [28607] - [worker_logger:aggregate_results:153] - [00344ba95c5d4ceb8ef05e8d67b7c787] Task completed successfully
+2025-08-11 13:52:09 - INFO - [28607] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:52:56 - INFO - [29248] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:52:59 - INFO - [29268] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:53:02 - INFO - [29277] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:53:02 - INFO - [29275] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:53:06 - INFO - [29275] - [worker_logger:process_pdf:16] - Start processing task b146a56b31f64e69bf1655eb858f891c
+2025-08-11 13:53:06 - INFO - [29275] - [worker_logger:process_img:114] - b146a56b31f64e69bf1655eb858f891c Start processing task 
+2025-08-11 13:53:06 - INFO - [29275] - [worker_logger:process_pdf:41] - [b146a56b31f64e69bf1655eb858f891c] Enqueued 1 pages for task 
+2025-08-11 13:53:07 - INFO - [29275] - [worker_logger:extractDocumentImage:174] - Start processing task b146a56b31f64e69bf1655eb858f891c, page 0
+2025-08-11 13:53:08 - INFO - [29275] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:53:15 - INFO - [29275] - [worker_logger:extractDocumentImage:236] - [b146a56b31f64e69bf1655eb858f891c] Successfully processed page 0
+2025-08-11 13:53:15 - INFO - [29275] - [worker_logger:extractDocumentImage:247] - [b146a56b31f64e69bf1655eb858f891c] Page 0 finished. Remaining pages: 0
+2025-08-11 13:53:15 - INFO - [29275] - [worker_logger:extractDocumentImage:251] - [b146a56b31f64e69bf1655eb858f891c] All pages processed. Starting result aggregation.
+2025-08-11 13:53:15 - INFO - [29275] - [worker_logger:aggregate_results:153] - [b146a56b31f64e69bf1655eb858f891c] Task completed successfully
+2025-08-11 13:54:09 - INFO - [29473] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:54:09 - INFO - [29275] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:54:12 - INFO - [29488] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:54:13 - INFO - [29495] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:54:18 - INFO - [29495] - [worker_logger:process_pdf:16] - Start processing task 48372f1661844094ae9ae0227630d9d4
+2025-08-11 13:54:18 - INFO - [29495] - [worker_logger:process_pdf:41] - [48372f1661844094ae9ae0227630d9d4] Enqueued 1 pages for task 
+2025-08-11 13:54:18 - INFO - [29495] - [worker_logger:process_img:114] - 48372f1661844094ae9ae0227630d9d4 Start processing task 
+2025-08-11 13:54:19 - INFO - [29495] - [worker_logger:extractDocumentImage:174] - Start processing task 48372f1661844094ae9ae0227630d9d4, page 0
+2025-08-11 13:54:20 - INFO - [29495] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:54:27 - INFO - [29495] - [worker_logger:extractDocumentImage:236] - [48372f1661844094ae9ae0227630d9d4] Successfully processed page 0
+2025-08-11 13:54:27 - INFO - [29495] - [worker_logger:extractDocumentImage:247] - [48372f1661844094ae9ae0227630d9d4] Page 0 finished. Remaining pages: 0
+2025-08-11 13:54:27 - INFO - [29495] - [worker_logger:extractDocumentImage:251] - [48372f1661844094ae9ae0227630d9d4] All pages processed. Starting result aggregation.
+2025-08-11 13:54:27 - INFO - [29495] - [worker_logger:aggregate_results:153] - [48372f1661844094ae9ae0227630d9d4] Task completed successfully
+2025-08-11 13:54:41 - INFO - [29690] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:54:51 - INFO - [29716] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:54:58 - INFO - [29495] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:54:59 - INFO - [29742] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:55:02 - INFO - [29751] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:55:10 - INFO - [29809] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:55:13 - INFO - [29751] - [worker_logger:process_pdf:16] - Start processing task 02a5044417d548cb9aadf86de53b6d71
+2025-08-11 13:55:13 - INFO - [29751] - [worker_logger:process_img:115] - 02a5044417d548cb9aadf86de53b6d71 Start processing task 
+2025-08-11 13:55:13 - INFO - [29751] - [worker_logger:process_pdf:41] - [02a5044417d548cb9aadf86de53b6d71] Enqueued 1 pages for task 
+2025-08-11 13:55:14 - ERROR - [29751] - [worker_logger:process_img:125] - [02a5044417d548cb9aadf86de53b6d71] FAILED to process page 0: local variable 'cropped_objects_np' referenced before assignment
 Traceback (most recent call last):
-  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/extractor.py", line 109, in extractDocumentImage
-    llmResponse = await call_gemini_with_retry(contents=contents, config=generate_content_config)
-  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/extractor.py", line 48, in call_gemini_with_retry
-    llmResponse.text = last_response_text
-  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/pydantic/main.py", line 998, in __setattr__
-    setattr_handler(self, name, value)  # call here to not memo on possibly unknown fields
-  File "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/pydantic/main.py", line 1038, in <lambda>
-    return lambda model, _name, val: attr.__set__(model, val)
-AttributeError: can't set attribute 'text'
-2025-08-10 07:40:45 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:45 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 8
-2025-08-10 07:40:46 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:40:47 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 3 processed. Remaining pages to process: -1
-2025-08-10 07:40:47 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:47 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:47 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:47 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 9
-2025-08-10 07:40:48 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:40:49 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 10
-2025-08-10 07:40:49 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:49 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 4 processed. Remaining pages to process: -1
-2025-08-10 07:40:49 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:49 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:51 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:40:51 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 5 processed. Remaining pages to process: -1
-2025-08-10 07:40:51 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:52 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 7 processed. Remaining pages to process: -1
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:52 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 6 processed. Remaining pages to process: -1
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:52 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 1 processed. Remaining pages to process: -1
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:52 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 11
-2025-08-10 07:40:52 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:53 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:40:53 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 12
-2025-08-10 07:40:53 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:54 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:40:56 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 13
-2025-08-10 07:40:56 - INFO - [19623] - [worker_logger:process_img:114] - dbedc339f6e34481a1cc1ab6c2893cd5 Start processing task 
-2025-08-10 07:40:58 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 8 processed. Remaining pages to process: -1
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 9 processed. Remaining pages to process: -2
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:40:59 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:59 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task dbedc339f6e34481a1cc1ab6c2893cd5, page 14
-2025-08-10 07:40:59 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 07:40:59 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:41:00 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:41:02 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 11 processed. Remaining pages to process: -1
-2025-08-10 07:41:02 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:41:02 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:41:02 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 10 processed. Remaining pages to process: -1
-2025-08-10 07:41:02 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:41:02 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:41:04 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 12 processed. Remaining pages to process: -1
-2025-08-10 07:41:04 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:41:04 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:41:09 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 13 processed. Remaining pages to process: -1
-2025-08-10 07:41:09 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:41:09 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:41:10 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [dbedc339f6e34481a1cc1ab6c2893cd5] page 14 processed. Remaining pages to process: -1
-2025-08-10 07:41:10 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [dbedc339f6e34481a1cc1ab6c2893cd5] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:41:10 - WARNING - [19623] - [worker_logger:extractDocumentImage:139] - [dbedc339f6e34481a1cc1ab6c2893cd5] Task is no longer in 'pending' state (current: failed). Skipping aggregation.
-2025-08-10 07:41:37 - INFO - [19623] - [worker_logger:process_pdf:16] - Start processing task a29448e5e07a46da9048a9d24632cf9c
-2025-08-10 07:41:38 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:42 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:43 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 0
-2025-08-10 07:41:43 - INFO - [19623] - [worker_logger:process_pdf:41] - [a29448e5e07a46da9048a9d24632cf9c] Enqueued 15 pages for task 
-2025-08-10 07:41:43 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:41:43 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 1
-2025-08-10 07:41:43 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:44 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 2
-2025-08-10 07:41:44 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:44 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:41:45 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:41:46 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 3
-2025-08-10 07:41:46 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:47 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:41:47 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:47 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 4
-2025-08-10 07:41:47 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 0 processed. Remaining pages to process: 14
-2025-08-10 07:41:48 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 07:41:48 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:41:49 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:41:49 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:49 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 5
-2025-08-10 07:41:51 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:51 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 6
-2025-08-10 07:41:51 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:41:52 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:41:53 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 7
-2025-08-10 07:41:53 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:54 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:41:55 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 8
-2025-08-10 07:41:55 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:55 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 2 processed. Remaining pages to process: 13
-2025-08-10 07:41:56 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 1 processed. Remaining pages to process: 12
-2025-08-10 07:41:56 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 3 processed. Remaining pages to process: 11
-2025-08-10 07:41:58 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:41:58 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:41:58 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 9
-2025-08-10 07:41:58 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 4 processed. Remaining pages to process: 10
-2025-08-10 07:42:00 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:42:00 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:42:00 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 10
-2025-08-10 07:42:01 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 5 processed. Remaining pages to process: 9
-2025-08-10 07:42:01 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 7 processed. Remaining pages to process: 8
-2025-08-10 07:42:03 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 07:42:03 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 11
-2025-08-10 07:42:03 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:42:03 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 6 processed. Remaining pages to process: 7
-2025-08-10 07:42:04 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:42:04 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 12
-2025-08-10 07:42:04 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 07:42:05 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 07:42:07 - INFO - [19623] - [worker_logger:process_img:114] - a29448e5e07a46da9048a9d24632cf9c Start processing task 
-2025-08-10 07:42:07 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 13
-2025-08-10 07:42:08 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task a29448e5e07a46da9048a9d24632cf9c, page 14
-2025-08-10 07:42:08 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 07:42:08 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 8 processed. Remaining pages to process: 6
-2025-08-10 07:42:09 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 07:42:10 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 9 processed. Remaining pages to process: 5
-2025-08-10 07:42:10 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 12 processed. Remaining pages to process: 4
-2025-08-10 07:42:12 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 10 processed. Remaining pages to process: 3
-2025-08-10 07:42:14 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 11 processed. Remaining pages to process: 2
-2025-08-10 07:42:17 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 13 processed. Remaining pages to process: 1
-2025-08-10 07:42:19 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [a29448e5e07a46da9048a9d24632cf9c] page 14 processed. Remaining pages to process: 0
-2025-08-10 07:42:19 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [a29448e5e07a46da9048a9d24632cf9c] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 07:42:19 - INFO - [19623] - [worker_logger:extractDocumentImage:156] - [a29448e5e07a46da9048a9d24632cf9c] Successfully wrote final result for task 
-2025-08-10 08:11:57 - INFO - [27062] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:12:14 - INFO - [27137] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:12:17 - INFO - [27157] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:12:23 - INFO - [27206] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:13:34 - INFO - [27565] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:13:36 - INFO - [27585] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:14:18 - INFO - [27750] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:16:16 - INFO - [28286] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:16:47 - INFO - [28376] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:16:59 - INFO - [28425] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:17:32 - INFO - [28465] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:17:37 - INFO - [28486] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:17:55 - INFO - [28513] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:18:19 - INFO - [28540] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:19 - INFO - [28572] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:22 - INFO - [28586] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:24 - INFO - [28588] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:27 - INFO - [28603] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:30 - INFO - [28605] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:33 - INFO - [28619] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:49 - INFO - [28652] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:53 - INFO - [28666] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:57 - INFO - [28680] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:19:59 - INFO - [28682] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:20:13 - INFO - [28708] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:20:22 - INFO - [28736] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
-2025-08-10 08:20:23 - INFO - [19623] - [worker_logger:process_pdf:16] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84
-2025-08-10 08:20:24 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:28 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 0
-2025-08-10 08:20:28 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:29 - INFO - [19623] - [worker_logger:process_pdf:41] - [21f4b5ebb04b4dd296f9c4101aaddc84] Enqueued 15 pages for task 
-2025-08-10 08:20:29 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 08:20:30 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 1
-2025-08-10 08:20:30 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:30 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 2
-2025-08-10 08:20:30 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:31 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 08:20:31 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 08:20:33 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:33 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 3
-2025-08-10 08:20:34 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 08:20:34 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 4
-2025-08-10 08:20:34 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:35 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 0 processed. Remaining pages to process: 14
-2025-08-10 08:20:37 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 08:20:37 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:37 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 5
-2025-08-10 08:20:39 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 08:20:39 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 6
-2025-08-10 08:20:39 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:39 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 08:20:39 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 1 processed. Remaining pages to process: 13
-2025-08-10 08:20:39 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 08:20:40 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 7
-2025-08-10 08:20:40 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:41 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 08:20:42 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 08:20:43 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 8
-2025-08-10 08:20:43 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:45 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 08:20:45 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:45 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 9
-2025-08-10 08:20:45 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 3 processed. Remaining pages to process: 12
-2025-08-10 08:20:45 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 2 processed. Remaining pages to process: 11
-2025-08-10 08:20:46 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 4 processed. Remaining pages to process: 10
-2025-08-10 08:20:48 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:48 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 08:20:48 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 10
-2025-08-10 08:20:48 - WARNING - [19623] - [worker_logger:call_gemini_with_retry:41] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
-2025-08-10 08:20:48 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 08:20:48 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 5 processed. Remaining pages to process: 9
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 11
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 6 processed. Remaining pages to process: 8
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:50 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 12
-2025-08-10 08:20:51 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 3 has been selected
-2025-08-10 08:20:53 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 0 has been selected
-2025-08-10 08:20:53 - INFO - [19623] - [worker_logger:process_img:114] - 21f4b5ebb04b4dd296f9c4101aaddc84 Start processing task 
-2025-08-10 08:20:53 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 13
-2025-08-10 08:20:55 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
-2025-08-10 08:20:55 - INFO - [19623] - [worker_logger:extractDocumentImage:67] - Start processing task 21f4b5ebb04b4dd296f9c4101aaddc84, page 14
-2025-08-10 08:20:55 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 7 processed. Remaining pages to process: 7
-2025-08-10 08:20:57 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 8 processed. Remaining pages to process: 6
-2025-08-10 08:20:57 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
-2025-08-10 08:20:57 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 9 processed. Remaining pages to process: 5
-2025-08-10 08:20:57 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 12 processed. Remaining pages to process: 4
-2025-08-10 08:20:59 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 11 processed. Remaining pages to process: 3
-2025-08-10 08:21:00 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 10 processed. Remaining pages to process: 2
-2025-08-10 08:21:05 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 13 processed. Remaining pages to process: 1
-2025-08-10 08:21:06 - INFO - [19623] - [worker_logger:extractDocumentImage:129] - [21f4b5ebb04b4dd296f9c4101aaddc84] page 14 processed. Remaining pages to process: 0
-2025-08-10 08:21:06 - INFO - [19623] - [worker_logger:extractDocumentImage:133] - [21f4b5ebb04b4dd296f9c4101aaddc84] All pages processed or last page. Attempting to aggregate results.
-2025-08-10 08:21:06 - INFO - [19623] - [worker_logger:extractDocumentImage:156] - [21f4b5ebb04b4dd296f9c4101aaddc84] Successfully wrote final result for task 
-2025-08-10 08:21:25 - INFO - [19623] - [worker_logger:parse_document:99] - Parsing document b8b853d827ab4dee87fb9e56d7c80be0
-2025-08-10 08:21:25 - INFO - [19623] - [worker_logger:get_lru_api_key:42] - Key 1 has been selected
-2025-08-10 08:22:22 - INFO - [19623] - [worker_logger:parse_document:111] - [b8b853d827ab4dee87fb9e56d7c80be0] Task completed successfully.
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 121, in process_img
+    processed_img_url , cropped_objects_urls = await annotate_img(img_np=img_np_bgr)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 95, in annotate_img
+    processed_img_np, cropped_objects_np = get_annotated_images(img_np, threshold=0.5)
+  File "/teamspace/studios/this_studio/docscanner/app/worker/tasks/process_img.py", line 46, in get_annotated_images
+    print("Model detected ", len(cropped_objects_np), "objects (before drew)")
+UnboundLocalError: local variable 'cropped_objects_np' referenced before assignment
+2025-08-11 13:55:23 - INFO - [29751] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:55:26 - INFO - [29929] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:55:27 - INFO - [29936] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:55:30 - INFO - [29936] - [worker_logger:process_pdf:16] - Start processing task 9813d4b19fb546aa8ae4c85c29d9eee7
+2025-08-11 13:55:30 - INFO - [29936] - [worker_logger:process_pdf:41] - [9813d4b19fb546aa8ae4c85c29d9eee7] Enqueued 1 pages for task 
+2025-08-11 13:55:30 - INFO - [29936] - [worker_logger:process_img:115] - 9813d4b19fb546aa8ae4c85c29d9eee7 Start processing task 
+2025-08-11 13:55:31 - INFO - [29936] - [worker_logger:extractDocumentImage:174] - Start processing task 9813d4b19fb546aa8ae4c85c29d9eee7, page 0
+2025-08-11 13:55:32 - INFO - [29936] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:55:39 - INFO - [29936] - [worker_logger:extractDocumentImage:236] - [9813d4b19fb546aa8ae4c85c29d9eee7] Successfully processed page 0
+2025-08-11 13:55:39 - INFO - [29936] - [worker_logger:extractDocumentImage:247] - [9813d4b19fb546aa8ae4c85c29d9eee7] Page 0 finished. Remaining pages: 0
+2025-08-11 13:55:39 - INFO - [29936] - [worker_logger:extractDocumentImage:251] - [9813d4b19fb546aa8ae4c85c29d9eee7] All pages processed. Starting result aggregation.
+2025-08-11 13:55:39 - INFO - [29936] - [worker_logger:aggregate_results:153] - [9813d4b19fb546aa8ae4c85c29d9eee7] Task completed successfully
+2025-08-11 13:57:48 - INFO - [29936] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:57:50 - INFO - [30664] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:57:52 - INFO - [30702] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:57:56 - INFO - [30702] - [worker_logger:process_pdf:16] - Start processing task 686245d700a6408cac69738fe93cac72
+2025-08-11 13:57:56 - INFO - [30702] - [worker_logger:process_pdf:41] - [686245d700a6408cac69738fe93cac72] Enqueued 1 pages for task 
+2025-08-11 13:57:56 - INFO - [30702] - [worker_logger:process_img:115] - 686245d700a6408cac69738fe93cac72 Start processing task 
+2025-08-11 13:57:57 - INFO - [30702] - [worker_logger:extractDocumentImage:174] - Start processing task 686245d700a6408cac69738fe93cac72, page 0
+2025-08-11 13:57:58 - INFO - [30702] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:58:05 - INFO - [30702] - [worker_logger:extractDocumentImage:236] - [686245d700a6408cac69738fe93cac72] Successfully processed page 0
+2025-08-11 13:58:05 - INFO - [30702] - [worker_logger:extractDocumentImage:247] - [686245d700a6408cac69738fe93cac72] Page 0 finished. Remaining pages: 0
+2025-08-11 13:58:05 - INFO - [30702] - [worker_logger:extractDocumentImage:251] - [686245d700a6408cac69738fe93cac72] All pages processed. Starting result aggregation.
+2025-08-11 13:58:05 - INFO - [30702] - [worker_logger:aggregate_results:153] - [686245d700a6408cac69738fe93cac72] Task completed successfully
+2025-08-11 13:58:13 - INFO - [30866] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:27 - INFO - [30904] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:31 - INFO - [30918] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:41 - INFO - [30956] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:44 - INFO - [30967] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:48 - INFO - [30981] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 13:58:49 - INFO - [30702] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 13:58:52 - INFO - [30993] - [worker_logger:main:16] - Starting worker...
+2025-08-11 13:58:55 - INFO - [30993] - [worker_logger:process_pdf:16] - Start processing task 3778c760717d4474b8eb167e3f75bfa3
+2025-08-11 13:58:56 - INFO - [30993] - [worker_logger:process_pdf:41] - [3778c760717d4474b8eb167e3f75bfa3] Enqueued 1 pages for task 
+2025-08-11 13:58:56 - INFO - [30993] - [worker_logger:process_img:115] - 3778c760717d4474b8eb167e3f75bfa3 Start processing task 
+2025-08-11 13:58:57 - INFO - [30993] - [worker_logger:extractDocumentImage:174] - Start processing task 3778c760717d4474b8eb167e3f75bfa3, page 0
+2025-08-11 13:58:57 - INFO - [30993] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 13:59:49 - WARNING - [30993] - [worker_logger:call_gemini_with_retry:47] - Attempt 1/2 missing </AssessmentMarkupLanguage>, retrying...
+2025-08-11 13:59:49 - INFO - [30993] - [worker_logger:get_lru_api_key:42] - Key 2 has been selected
+2025-08-11 13:59:56 - INFO - [30993] - [worker_logger:extractDocumentImage:236] - [3778c760717d4474b8eb167e3f75bfa3] Successfully processed page 0
+2025-08-11 13:59:56 - INFO - [30993] - [worker_logger:extractDocumentImage:247] - [3778c760717d4474b8eb167e3f75bfa3] Page 0 finished. Remaining pages: 0
+2025-08-11 13:59:56 - INFO - [30993] - [worker_logger:extractDocumentImage:251] - [3778c760717d4474b8eb167e3f75bfa3] All pages processed. Starting result aggregation.
+2025-08-11 13:59:56 - INFO - [30993] - [worker_logger:aggregate_results:153] - [3778c760717d4474b8eb167e3f75bfa3] Task completed successfully
+2025-08-11 14:01:17 - INFO - [31559] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:01:17 - INFO - [30993] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 14:01:20 - INFO - [31579] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:01:21 - INFO - [31587] - [worker_logger:main:16] - Starting worker...
+2025-08-11 14:01:24 - INFO - [31587] - [worker_logger:process_pdf:16] - Start processing task fcd2f3bb44c34db4bf3cf394049d99e0
+2025-08-11 14:01:25 - INFO - [31587] - [worker_logger:process_pdf:41] - [fcd2f3bb44c34db4bf3cf394049d99e0] Enqueued 1 pages for task 
+2025-08-11 14:01:25 - INFO - [31587] - [worker_logger:process_img:115] - fcd2f3bb44c34db4bf3cf394049d99e0 Start processing task 
+2025-08-11 14:01:26 - INFO - [31587] - [worker_logger:extractDocumentImage:174] - Start processing task fcd2f3bb44c34db4bf3cf394049d99e0, page 0
+2025-08-11 14:01:26 - INFO - [31587] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 14:01:35 - INFO - [31587] - [worker_logger:extractDocumentImage:236] - [fcd2f3bb44c34db4bf3cf394049d99e0] Successfully processed page 0
+2025-08-11 14:01:35 - INFO - [31587] - [worker_logger:extractDocumentImage:247] - [fcd2f3bb44c34db4bf3cf394049d99e0] Page 0 finished. Remaining pages: 0
+2025-08-11 14:01:35 - INFO - [31587] - [worker_logger:extractDocumentImage:251] - [fcd2f3bb44c34db4bf3cf394049d99e0] All pages processed. Starting result aggregation.
+2025-08-11 14:01:35 - INFO - [31587] - [worker_logger:aggregate_results:153] - [fcd2f3bb44c34db4bf3cf394049d99e0] Task completed successfully
+2025-08-11 14:02:52 - INFO - [31833] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:02:54 - INFO - [31853] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:03:15 - INFO - [31867] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:03:34 - INFO - [31587] - [worker_logger:<module>:23] - Worker stopped by user.
+2025-08-11 14:03:34 - INFO - [31907] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:03:37 - INFO - [31928] - [worker_logger:main:16] - Starting worker...
+2025-08-11 14:03:40 - INFO - [31928] - [worker_logger:process_pdf:16] - Start processing task 65307e8d63bb4f178e9d50aea5b08fa3
+2025-08-11 14:03:40 - INFO - [31928] - [worker_logger:process_img:115] - 65307e8d63bb4f178e9d50aea5b08fa3 Start processing task 
+2025-08-11 14:03:40 - INFO - [31928] - [worker_logger:process_pdf:41] - [65307e8d63bb4f178e9d50aea5b08fa3] Enqueued 1 pages for task 
+2025-08-11 14:03:42 - INFO - [31928] - [worker_logger:extractDocumentImage:174] - Start processing task 65307e8d63bb4f178e9d50aea5b08fa3, page 0
+2025-08-11 14:03:42 - INFO - [31928] - [worker_logger:get_lru_api_key:42] - Key 4 has been selected
+2025-08-11 14:03:49 - INFO - [31928] - [worker_logger:extractDocumentImage:236] - [65307e8d63bb4f178e9d50aea5b08fa3] Successfully processed page 0
+2025-08-11 14:03:49 - INFO - [31928] - [worker_logger:extractDocumentImage:247] - [65307e8d63bb4f178e9d50aea5b08fa3] Page 0 finished. Remaining pages: 0
+2025-08-11 14:03:49 - INFO - [31928] - [worker_logger:extractDocumentImage:251] - [65307e8d63bb4f178e9d50aea5b08fa3] All pages processed. Starting result aggregation.
+2025-08-11 14:03:49 - INFO - [31928] - [worker_logger:aggregate_results:153] - [65307e8d63bb4f178e9d50aea5b08fa3] Task completed successfully
+2025-08-11 14:04:52 - INFO - [32152] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:06:29 - INFO - [32338] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:06:42 - INFO - [32382] - [worker_logger:init_api_key_zset:19] - Successed in initializing api keys set
+2025-08-11 14:06:44 - INFO - [31928] - [worker_logger:<module>:23] - Worker stopped by user.

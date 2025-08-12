@@ -27,30 +27,36 @@ async def uploadImageFromUrls(ImageUrls) -> List[str]:
     image_bytes = await asyncio.gather(*(get_file_bytes(img) for img in ImageUrls))
     image_urls = await upload_multiple_images(image_bytes, concurrency_limit=10)
     return image_urls
+import copy
 
 async def call_gemini_with_retry(contents, config, max_retries=2) -> types.GenerateContentResponse:
     llmResponse = None
     last_response_text = ""
 
     for attempt in range(max_retries):
-        llmResponse = await GeminiAgent(model="gemini-2.0-flash-001", contents=contents, config=config)
-        if llmResponse and llmResponse.text:
+        try:
+            llmResponse = await GeminiAgent(model="gemini-2.0-flash-001", contents=contents, config=config)
+        except Exception as e:
+            logger.warning(f"Attempt {attempt + 1}/{max_retries} failed with exception: {e}")
+            continue
+
+        if llmResponse and getattr(llmResponse, 'text', None):
             last_response_text = llmResponse.text
             if AML_CLOSE_TAG.search(last_response_text):
                 return llmResponse
-        logger.warning(f"Attempt {attempt+1}/{max_retries} missing </AssessmentMarkupLanguage>, retrying...")
+        logger.warning(f"Attempt {attempt + 1}/{max_retries} missing </AssessmentMarkupLanguage>, retrying...")
 
-    # Fallback: thêm thẻ đóng vào cuối nếu chưa có
-    if last_response_text and not AML_CLOSE_TAG.search(last_response_text):
+    # Fallback if we got some text but no closing tag
+    if llmResponse and last_response_text and not AML_CLOSE_TAG.search(last_response_text):
         logger.info("Fallback: appending </AssessmentMarkupLanguage> at the end")
-        last_response_text = last_response_text.rstrip() + "\n</AssessmentMarkupLanguage>"
-        if llmResponse:
-            llmResponse.text = last_response_text
-        else:
-            llmResponse = types.GenerateContentResponse(text=last_response_text)
+        modified = copy.deepcopy(llmResponse)
+        modified_text = modified.candidates[0].content.parts[0].text.rstrip() + "</AssessmentMarkupLanguage>"
+        modified.candidates[0].content.parts[0].text = modified_text
+        return modified
 
-    return llmResponse
-
+    # No valid response obtained
+    logger.error("Failed to get a valid response with closing tag from GeminiAgent")
+    return None
 
 async def convert_to_webp_base64(img_bytes: bytes, quality: int = 80) -> str:
     with Image.open(BytesIO(img_bytes)) as img:
@@ -70,9 +76,7 @@ def create_error_log(task_id: str, page_order: int, error_message: str, img_url:
                 objectKeys=[],
                 objectUrls=[],
                 requestId=task_id,
-                num_input_token=0,
-                num_output_token=0,
-                rawOutput=None,  # None để đánh dấu trang lỗi
+                rawOutput="",
                 page_order=page_order,
                 error=error_message,  # Thêm trường error vào create_log function
                 session=session
@@ -174,7 +178,6 @@ async def extractDocumentImage(task_id: str, img_url: str, page_order: int, crop
 
         object_urls = [url for key, url in cropped_objects_urls]
         object_keys = [key for key, url in cropped_objects_urls]
-
         user_parts = [
             types.Part.from_bytes(
                 mime_type="image/webp",
@@ -211,7 +214,7 @@ async def extractDocumentImage(task_id: str, img_url: str, page_order: int, crop
             contents = [types.Content(role="user", parts=user_parts)]
             llmResponse = await call_gemini_with_retry(contents=contents, config=generate_content_config)
 
-        if not llmResponse or not llmResponse.text:
+        if not llmResponse or not llmResponse.candidates[0].content.parts[0].text:
             raise ValueError("LLM response is invalid or empty!")
 
         # Tạo log entry cho trang thành công
@@ -223,7 +226,7 @@ async def extractDocumentImage(task_id: str, img_url: str, page_order: int, crop
                 requestId=task_id,
                 num_input_token=llmResponse.usage_metadata.prompt_token_count or 0,
                 num_output_token=llmResponse.usage_metadata.candidates_token_count or 0,
-                rawOutput=llmResponse.text,
+                rawOutput=llmResponse.candidates[0].content.parts[0].text,
                 page_order=page_order,
                 error=None,  # Không có lỗi
                 session=session

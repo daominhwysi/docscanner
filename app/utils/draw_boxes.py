@@ -69,7 +69,7 @@ def draw_boxes(
 ):
     if boxes is None or len(boxes) == 0:
         return img.copy(), {}
-
+    print("Reciving ",len(boxes), " while drawing")
     h_img, w_img = img.shape[:2]
     box_thickness = max(1, int(base_box_thickness * min(w_img, h_img) / 1000))
     out = img.copy()
@@ -77,6 +77,10 @@ def draw_boxes(
     skip_names = set(skip_class_names or [])
 
     bboxes = boxes.astype(np.int32)
+    bboxes[:, 0] = np.clip(bboxes[:, 0], 0, w_img - 1)  # x1
+    bboxes[:, 2] = np.clip(bboxes[:, 2], 0, w_img - 1)  # x2
+    bboxes[:, 1] = np.clip(bboxes[:, 1], 0, h_img - 1)  # y1
+    bboxes[:, 3] = np.clip(bboxes[:, 3], 0, h_img - 1)  # y2
     valid_indices = []
     for i, bbox in enumerate(bboxes):
         cls = int(labels[i])
@@ -86,8 +90,6 @@ def draw_boxes(
         if name in skip_names:
             continue
         x1, y1, x2, y2 = bbox
-        if (x2 - x1) < 10 or (y2 - y1) < 10:
-            continue
         valid_indices.append(i)
 
     # Sort theo y-then-x
@@ -150,9 +152,10 @@ def draw_boxes(
             cv2.addWeighted(text_overlay, alpha_text, out, 1 - alpha_text, 0, out)
 
 
+        if x2 > x1 and y2 > y1:
+            roi = img[y1:y2, x1:x2]
+            if roi.size > 0:
+                cropped_objects_np[key] = roi.copy()
 
-        roi = img[y1:y2, x1:x2]
-        if roi.size > 0:
-            cropped_objects_np[key] = roi.copy()
 
     return out, cropped_objects_np

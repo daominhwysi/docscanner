@@ -16,16 +16,18 @@ def create_task(task_type: TaskType, session: Session) -> Task:
     session.refresh(new_task)
     return new_task
 
-def create_log(imageUrls : str,
-            objectKeys : List[str],
-            objectUrls : List[str],
-            requestId : str,
-            num_input_token : int,
-            num_output_token : int,
-            rawOutput : str,
-            page_order : int,
-            error: str,
-            session : Session):
+def create_log(
+    imageUrls: str,
+    objectKeys: List[str],
+    objectUrls: List[str],
+    requestId: str,
+    page_order: int,       # Giá trị mặc định
+    num_input_token: int = 0,
+    num_output_token: int = 0,
+    rawOutput: str = "",
+    error: str = "",           # Giá trị mặc định
+    session: Session = None    # Có thể mặc định None
+):
     new_log = InferenceLog(
         imageUrls=imageUrls,
         objectKeys=objectKeys,
@@ -41,6 +43,7 @@ def create_log(imageUrls : str,
     session.commit()
     session.refresh(new_log)
     return new_log
+
 
 def get_task_by_id(session : Session, task_id: str):
     return session.query(Task).filter(Task.id == task_id).first()

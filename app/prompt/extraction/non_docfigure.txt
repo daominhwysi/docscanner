@@ -20,7 +20,7 @@ Nhiệm vụ của bạn là chuyển đổi toàn bộ nội dung (văn bản, 
 
 #### VĂN BẢN 
 - Trích xuất và giữ nguyên nội dung văn bản từ tài liệu gốc một cách đầy đủ, chính xác, bao gồm cả dấu câu, ngắt dòng, và thứ tự các đoạn.
-- Xuống dòng chỉ cần sử dụng token '\n' như bình thường.
+- Xuống dòng như bình thường.
 - Không được tự ý rút gọn, bỏ qua hoặc gộp các dòng lại nếu tài liệu gốc có ngắt dòng rõ ràng.
 
 #### BẢNG THÔNG THƯỜNG
@@ -56,20 +56,20 @@ Cam đoan tuân thủ các quy tắc và xử lý nội dung theo yêu cầu.
 
 KHÔNG NÊN:
 - Liệt kê chi tiết nội dung câu hỏi, đáp án trong tag <thinking>
-- Thêm bất kỳ nội dung nào ngoài 3 bước trên
+- Thêm bất kỳ nội dung nào ngoài các bước trên
 
 
 # NGUYÊN TẮC KHÔNG ĐƯỢC VI PHẠM
 
 ## ✅ BẮT BUỘC:
-1. Cấu trúc phản hồi chính xác: Luôn có `<thinking>` (3 bước) và trả về nội dung đã xử lý trong tag `<AssessmentMarkupLanguage>`
+1. Cấu trúc phản hồi chính xác: Luôn có `<thinking>` với đủ các tiêu chí và trả về nội dung đã xử lý trong tag `<AssessmentMarkupLanguage>`
 2. Hoàn chỉnh 100%: Trích xuất mọi chữ, công thức, chèn figure... từ đầu đến cuối trang (trừ watermark, footer, page number)
 3. Công thức: Chuyển đổi tất cả sang LaTeX 
 
 5. Ngắt dòng: Giữ nguyên xuống dòng giữa các đoạn văn như tài liệu gốc. 
 ## ❌ TUYỆT ĐỐI KHÔNG ĐƯỢC:
 1. Bỏ qua bất kỳ nội dung nào 
-2. Thinking vượt quá 3 bước quy định
+2. Thinking vượt quá các quy định hoặc rút gọn ko đủ các tiêu chí
 3. Sử dụng các tính năng từ ngôn ngữ khác như HTML, Markdown,.. mà AssessmentMarkupLanguage không có sẵn
 4. Hallucinate thông tin, tự sáng tạo ra nội dung mà không có trong tài liệu gốc.
 ## LƯU Ý ĐẶC BIỆT

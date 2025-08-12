@@ -43,7 +43,6 @@ def get_annotated_images(image: np.ndarray,  threshold: float = 0.5):
     cropped_image = remove_white_padding(image)
     pil_image = Image.fromarray(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
     scores, labels, boxes = rtdetr_model.run_inference(pil_image, confidence_threshold=threshold)
-    
     # draw_boxes giờ sẽ trả về `OrderedDict` của các numpy array
     out_np, cropped_objects_np = draw_boxes(
         cropped_image.copy(), scores, labels, boxes,
@@ -75,7 +74,7 @@ async def save_cropped_objects_to_urls(
         # Trả lại URL đầy đủ
         return key, f"{BASE_URL}{relative_path.as_posix()}"
 
-    # Chạy đồng thời tất cả encode + save
+    # Chạy đồng thời tất cả encode + save 
     tasks = [encode_and_save(key, img) for key, img in cropped_objects_np.items()]
     results = await asyncio.gather(*tasks)
 
@@ -92,7 +91,6 @@ async def annotate_img(img_np: np.ndarray):
 
     if pred_idx == 1:
         processed_img_np, cropped_objects_np = get_annotated_images(img_np, threshold=0.5)
-
     # Lưu các object được crop
     cropped_objects_urls = await save_cropped_objects_to_urls(cropped_objects_np)
 
